@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Fitto V2",
+    "slug": "consultoria-fitto-v2",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "fittov2",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

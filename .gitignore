@@ -1,0 +1,17 @@
+node_modules/
+.expo/
+dist/
+web-build/
+.env
+.env*.local
+*.log
+*.keystore
+*.jks
+.DS_Store
+supabase/.temp/
+.vercel
+expo-env.d.ts
+*.tsbuildinfo
+/android
+/ios
+.vscode/
