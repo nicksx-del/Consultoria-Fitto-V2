@@ -13,7 +13,8 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "output": "static"
+      "output": "single",
+      "bundler": "metro"
     },
     "plugins": ["expo-router", "expo-font"],
     "experiments": {
