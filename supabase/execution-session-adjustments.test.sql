@@ -1,0 +1,81 @@
+begin;
+do $$
+declare tu uuid:=gen_random_uuid();su uuid;ou uuid:=gen_random_uuid();nu uuid:=gen_random_uuid();tp uuid:=gen_random_uuid();sp uuid:=gen_random_uuid();op uuid:=gen_random_uuid();np uuid:=gen_random_uuid();extra_student uuid:=gen_random_uuid();l uuid:=gen_random_uuid();nl uuid:=gen_random_uuid();w jsonb;r jsonb;v int;denied boolean;doc jsonb:='{"title":"Ficha teste","notes":"Orientações de teste","sessions":[{"name":"Treino A","exercises":[]}]}';
+begin
+ su:=tu;
+ insert into auth.users(id) values(tu),(ou),(nu);
+ insert into public.profiles(id,user_id,role,display_name,username,specialties) values
+ (tp,tu,'professional','Test Trainer','t_'||substr(replace(tp::text,'-',''),1,12),array['Treinador']),
+ (sp,su,'student','Test Student','t_'||substr(replace(sp::text,'-',''),1,12),'{}'),
+ (op,ou,'professional','Other Trainer','t_'||substr(replace(op::text,'-',''),1,12),array['Treinador']),
+ (np,nu,'professional','Nutrition','t_'||substr(replace(np::text,'-',''),1,12),array['Nutricionista']);
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ w:=public.relationship_api('invite',jsonb_build_object('profile_id',tp));
+ perform public.relationship_api('preview',jsonb_build_object('profile_id',sp,'credential',w->>'token'));
+ perform public.relationship_api('request',jsonb_build_object('profile_id',sp,'credential',w->>'token'));
+ select id into l from fitto_private.links where professional_id=tp and student_id=sp;
+ insert into public.profiles(id,user_id,role,display_name,username,specialties) values(extra_student,ou,'student','Other Student','t_'||substr(replace(extra_student::text,'-',''),1,12),'{}');
+ insert into fitto_private.links(professional_id,student_id,status) values(tp,extra_student,'active');
+ perform public.relationship_api('approve',jsonb_build_object('profile_id',tp,'link_id',l));
+ if not exists(select 1 from jsonb_array_elements(public.relationship_api('dashboard',jsonb_build_object('profile_id',tp))->'links') item where (item->>'id')::uuid=l and (item->>'is_self')::boolean) then raise exception 'Self label missing'; end if;
+ insert into fitto_private.links(id,professional_id,student_id,status) values(nl,np,sp,'active');
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ w:=public.workout_api('save',tp,l,jsonb_build_object('content',doc));
+ denied:=false;begin perform public.workout_api('publish',tp,l,jsonb_build_object('id',w->>'id','version',w->'version'));exception when others then denied:=true;end;
+ if not denied then raise exception 'Published empty session';end if;
+
+ doc:=jsonb_set(doc,'{sessions,0,exercises}','[{"name":"Exercício teste","sets":3,"reps":"10 a 12","rest_seconds":60,"notes":"Execução de teste"}]');
+ w:=public.workout_api('save',tp,l,jsonb_build_object('id',w->>'id','version',w->'version','content',doc));
+ perform set_config('request.jwt.claim.sub',su::text,true);
+ if public.workout_api('list',sp,l)<>'[]'::jsonb then raise exception 'Draft leaked';end if;
+ denied:=false;begin perform public.workout_api('save',sp,l,jsonb_build_object('content',doc));exception when others then denied:=true;end;
+ if not denied then raise exception 'Student modified prescription';end if;
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ w:=public.workout_api('publish',tp,l,jsonb_build_object('id',w->>'id','version',w->'version'));
+ perform set_config('request.jwt.claim.sub',su::text,true);
+ r:=public.workout_api('list',sp,l);
+ if r->0->'content'->>'title'<>'Ficha teste' or r->0 ? 'draft' then raise exception 'Published read/privacy failed';end if;
+ r:=public.execution_api('start',sp,l,jsonb_build_object('plan',w->>'id','division',0));
+ if jsonb_array_length(r->'progress'->0)<>3 then raise exception 'Wrong initial sets';end if;
+ if public.execution_api('start',sp,l,jsonb_build_object('plan',w->>'id','division',0))->>'id'<>r->>'id' then raise exception 'Duplicate active';end if;
+ denied:=false;begin perform public.execution_api('finish',sp,l,r);exception when others then denied:=true;end;
+ if not denied then raise exception 'Empty completion';end if;
+ r:=jsonb_set(r,'{progress,0,0}','{"weight":20,"reps":12,"done":true,"actual_effort":{"mode":"rir","min":2,"max":2}}');
+ r:=jsonb_set(r,'{rest_until}',to_jsonb(now()+interval '60 seconds'));
+ r:=public.execution_api('save',sp,l,r);
+ denied:=false;begin perform public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',0,'operation','remove'));exception when others then denied:=true;end;if not denied then raise exception 'Removed recorded set';end if;
+ r:=public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',0,'operation','add','prescription','{"target":"8","load":"5","rest":"30","kind":"warmup"}'::jsonb));
+ if jsonb_array_length(r->'progress'->0)<>4 or r->'progress'->0->1->>'weight'<>'20' or r->'progress'->0->1->>'done'<>'true' then raise exception 'Insertion lost log or ordering';end if;
+ if r->'original_snapshot'->'session'->'exercises'->0->>'sets'<>'3' or r->'snapshot'->'session'->'exercises'->0->'prescribed_sets'->0->>'kind'<>'warmup' then raise exception 'Original snapshot or warmup missing';end if;
+ r:=public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',2,'operation','replace','prescription','{"target":"6","load":"20 kg","rest":"60","kind":"work","technique":{"type":"cluster","steps":[{"target":"3","load":"20 kg","rest":"15"},{"target":"3","load":"20 kg","rest":"0"}]}}'::jsonb));
+ if r->'snapshot'->'session'->'exercises'->0->'prescribed_sets'->2->'technique'->>'type'<>'cluster' then raise exception 'Cluster missing';end if;
+ r:=public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',3,'operation','remove'));
+ if jsonb_array_length(r->'progress'->0)<>3 or jsonb_array_length(r->'adjustments')<>3 then raise exception 'Removal or audit failed';end if;
+ if public.workout_api('list',sp,l)->0->'content'->'sessions'->0->'exercises'->0->>'sets'<>'3' or public.workout_api('list',sp,l)->0->'content'->'sessions'->0->'exercises'->0 ? 'prescribed_sets' then raise exception 'Prescription changed';end if;
+ denied:=false;begin perform public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',0,'exercise_index',0,'set_index',0,'operation','remove'));exception when others then denied:=true;end;if not denied then raise exception 'Stale adjustment accepted';end if;
+ denied:=false;begin perform public.execution_adjust(tp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',0,'operation','remove'));exception when others then denied:=true;end;if not denied then raise exception 'Professional adjusted student';end if;
+ denied:=false;begin perform public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',0,'operation','replace','prescription','{"target":"1","load":"","rest":"60","kind":"invalid"}'::jsonb));exception when others then denied:=true;end;if not denied then raise exception 'Invalid prescription accepted';end if;
+ r:=public.execution_api('save',sp,l,r);
+ r:=public.execution_api('finish',sp,l,r);
+ denied:=false;begin perform public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',0,'operation','remove'));exception when others then denied:=true;end;if not denied then raise exception 'Finished execution changed';end if;
+ r:=public.execution_api('start',sp,l,jsonb_build_object('plan',w->>'id','division',0));
+ if r->'snapshot'->'session'->'exercises'->0 ? 'prescribed_sets' or jsonb_array_length(r->'progress'->0)<>3 or r->'original_snapshot'<>'null'::jsonb then raise exception 'Next session inherited adjustments';end if;
+ r:=public.execution_api('cancel',sp,l,r);
+ doc:=jsonb_set(doc,'{sessions,0,exercises}','[{"name":"Group A","sets":3,"reps":"10","rest_seconds":60,"notes":"","group_rule":{"id":"g","type":"biset","rounds":3,"rest_seconds":60}},{"name":"Group B","sets":3,"reps":"10","rest_seconds":60,"notes":"","group_rule":{"id":"g","type":"biset","rounds":3,"rest_seconds":60}},{"name":"Separate","sets":3,"reps":"10","rest_seconds":60,"notes":""}]'::jsonb);
+ w:=public.workout_api('save',tp,l,jsonb_build_object('id',w->>'id','version',w->'version','content',doc));
+ w:=public.workout_api('publish',tp,l,jsonb_build_object('id',w->>'id','version',w->'version'));
+ r:=public.execution_api('start',sp,l,jsonb_build_object('plan',w->>'id','division',0));
+ r:=public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',3,'operation','add','prescription','{"target":"8","load":"","rest":"60","kind":"work"}'::jsonb));
+ if jsonb_array_length(r->'progress'->0)<>4 or jsonb_array_length(r->'progress'->1)<>4 or jsonb_array_length(r->'progress'->2)<>3 then raise exception 'Group add affected wrong members';end if;
+ r:=public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',1,'set_index',3,'operation','remove'));
+ if jsonb_array_length(r->'progress'->0)<>3 or r->'snapshot'->'session'->'exercises'->0->'group_rule'->>'rounds'<>'3' then raise exception 'Group removal corrupted rounds';end if;
+ r:=jsonb_set(r,'{progress,1,0,weight}','5'::jsonb);r:=public.execution_api('save',sp,l,r);
+ denied:=false;begin perform public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',0,'operation','remove'));exception when others then denied:=true;end;if not denied then raise exception 'Group member record lost';end if;
+ perform set_config('request.jwt.claim.sub',ou::text,true);
+ denied:=false;begin perform public.execution_adjust(sp,l,jsonb_build_object('id',r->>'id','version',r->'version','exercise_index',0,'set_index',0,'operation','remove'));exception when others then denied:=true;end;if not denied then raise exception 'Other user adjusted execution';end if;
+ perform set_config('request.jwt.claim.sub','',true);
+ denied:=false;begin perform public.execution_adjust(sp,l,'{}');exception when others then denied:=true;end;if not denied then raise exception 'Anonymous adjustment';end if;
+ if has_function_privilege('anon','public.execution_adjust(uuid,uuid,jsonb)','execute') then raise exception 'Anonymous grant';end if;
+end $$;
+select 'PASS: temporary series add/remove/type/cluster, records preserved, original prescription unchanged, audit, groups, stale versions and ownership' result;
+rollback;

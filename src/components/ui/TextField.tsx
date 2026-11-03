@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   StyleProp,
   StyleSheet,
@@ -7,6 +8,7 @@ import {
   TextStyle,
   View,
   ViewStyle,
+  Pressable,
 } from 'react-native';
 
 import { useTheme } from '@/theme';
@@ -34,6 +36,7 @@ export function TextField({
 }: TextFieldProps) {
   const { theme } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const getBorderColor = (): string => {
     if (error) {
@@ -63,6 +66,7 @@ export function TextField({
       <View
         style={[
           styles.inputWrapper,
+          restProps.multiline && { height: 110 },
           {
             backgroundColor: theme.colors.surface,
             borderColor: getBorderColor(),
@@ -92,7 +96,24 @@ export function TextField({
             inputStyle,
           ]}
           {...restProps}
+          secureTextEntry={!!restProps.secureTextEntry && !passwordVisible}
         />
+        {restProps.secureTextEntry ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${passwordVisible ? 'Ocultar' : 'Mostrar'} senha${label ? `: ${label}` : ''}`}
+            accessibilityState={{ disabled: restProps.editable === false }}
+            disabled={restProps.editable === false}
+            onPress={() => setPasswordVisible((current) => !current)}
+            style={{ width: 44, height: 48, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Ionicons
+              name={passwordVisible ? 'eye-off-outline' : 'eye-outline'}
+              size={22}
+              color={theme.colors.textMuted}
+            />
+          </Pressable>
+        ) : null}
       </View>
 
       {error ? (
@@ -117,6 +138,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 52,
     borderWidth: 1,
     justifyContent: 'center',

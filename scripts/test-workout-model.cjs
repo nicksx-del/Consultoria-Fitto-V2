@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript');
+const source=fs.readFileSync('src/features/relationships/workoutModel.ts','utf8');
+const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+const mod={exports:{}};new Function('require','module','exports',code)(require('./load-feature.cjs'),mod,mod.exports);
+const {toDraft,toContent,emptyExercise,issues}=mod.exports;
+let d=toDraft();assert(issues(d,true).length>=2);d.title='Ciclo teste';assert.equal(issues(d,false).length,0);
+d.sessions[0].exercises.push({...emptyExercise(),name:'Supino',metric:'seconds',prescribed_sets:[{kind:'warmup',target:'30',load:'livre',rest:'20'},{kind:'work',target:'40',load:'20kg',rest:'60'},{kind:'work',target:'40',load:'20kg',rest:'60'}]});
+assert.equal(issues(d,true).length,0);const content=toContent(d);assert.equal(content.sessions[0].exercises[0].sets,3);assert(!('key' in content.sessions[0]));assert(!('key' in content.sessions[0].exercises[0]));assert.deepEqual(toContent(toDraft(content)),content);
+d.sessions[0].exercises[0].sets='2';assert(issues(d,true).some(x=>x.includes('série')));
+d.sessions[0].exercises[0].sets='3';d.sessions[0].exercises[0].method='Supersérie';d.sessions[0].exercises[0].group='S1';assert(issues(d,true).some(x=>x.includes('combinado')));
+d.sessions[0].exercises.push({...emptyExercise(),name:'Remada',method:'Supersérie',group:'S1'});assert.equal(issues(d,true).length,0);
+d.starts='2026-12-01';d.review='2026-11-01';assert(issues(d,true).some(x=>x.includes('revisão')));
+console.log('PASS: editor validation, round-trip, key removal, warmup/sets, combined groups, review dates');

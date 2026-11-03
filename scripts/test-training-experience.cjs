@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict'),load=require('./load-feature.cjs'),x=load('./trainingExperience');
+const e={name:'Supino',sets:2,reps:'10',rest_seconds:60,notes:'',prescribed_sets:[{kind:'warmup',target:'10',load:'10',rest:'30'},{kind:'work',target:'10',load:'20',rest:'60'}]};
+const old={id:'old',status:'completed',started_at:'2026-11-01T12:00:00Z',finished_at:'2026-11-01T12:40:00Z',snapshot:{plan:'p',title:'Ficha',session:{name:'A',exercises:[e]}},progress:[[{weight:10,reps:10,done:true},{weight:20,reps:10,done:true,actual_effort:{mode:'rir',min:2,max:2}}]]};
+const current={...structuredClone(old),id:'now',status:'active',started_at:'2026-11-02T12:00:00Z',finished_at:null};
+const plan={id:'p',content:{title:'Ficha',notes:'',sessions:[old.snapshot.session,{name:'B',exercises:[{...e,name:'Remada'}]}]}};
+assert.equal(x.suggestedWorkout([plan],[old]).division,1);assert.equal(x.suggestedWorkout([plan],[]).division,0);assert.equal(x.suggestedWorkout([],[current]).active.id,'now');assert.equal(x.suggestedWorkout([],[]),null);
+assert.equal(x.previousSets([e],[old],current,[])[0][1].log.weight,20);
+assert.equal(x.previousSets([{...e,metric:'seconds'}],[old],current,[])[0].length,0);
+assert(!x.sameExercise({...e,catalog:{id:'one'}},{...e,catalog:{id:'two'}}));
+const incomplete=structuredClone(old);incomplete.id='recent';incomplete.started_at='2026-11-01T15:00:00Z';incomplete.progress[0][1].done=false;assert.equal(x.previousSets([e],[old,incomplete],current,[])[0][1],undefined);
+const changed=structuredClone(e);changed.prescribed_sets[1].kind='top';assert.equal(x.previousSets([changed],[old],current,[])[0][1],undefined);
+const alt=structuredClone(old);alt.snapshot.session.exercises[0].approved_alternatives=[{name:'Máquina'}];const feedback=[{execution_id:'old',exercise_index:0,alternative:'Máquina'}];assert.equal(x.previousSets([e],[alt],current,feedback)[0].length,0);assert(x.previousSets([{...e,name:'Máquina'}],[alt],current,feedback)[0][1]);
+const duplicate=structuredClone(old);duplicate.snapshot.session.exercises.push(e);duplicate.progress.push([{weight:5,reps:10,done:true},{weight:30,reps:10,done:true}]);assert.equal(x.previousSets([e,e],[duplicate],current,[])[1][1].log.weight,30);
+assert.equal(x.previousSets([e],[{...old,started_at:'2026-11-03T12:00:00Z'}],current,[])[0].length,0);
+assert.deepEqual(x.executionTotals(old),{total:2,done:2,work:1,preparation:1,exercises:1,exerciseTotal:1,minutes:40});assert.equal(x.executionTotals(current).minutes,null);assert.equal(x.previousSession(current,[old]).id,'old');assert(!x.previousSession(current,[{...old,snapshot:{...old.snapshot,plan:'other'}}]));assert(x.estimatedMinutes([e])>0);
+console.log('PASS: rotation/resume priority, identity and units, alternatives, duplicate movements, missing/incomplete and incompatible sets, completion totals and comparable sessions');

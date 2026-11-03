@@ -1,127 +1,67 @@
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
-
-import { Button, Screen, Text, TextField } from '@/components/ui';
-import { useTheme } from '@/theme';
+import { Button, Text, TextField } from '@/components/ui';
+import { useAuth } from '@/features/auth/AuthContext';
+import { FormScreen } from '@/features/auth/FormScreen';
+import { authError, supabase } from '@/lib/supabase';
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { theme } = useTheme();
-
+  const { session, loading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleBack = () => {
-    router.back();
-  };
-
-  const handleForgotPassword = () => {
-    // TODO: Implementar recuperação de senha nas próximas branches
-  };
-
-  const handleLogin = () => {
-    // TODO: Implementar autenticação via Supabase nas próximas branches
-  };
-
-  const handleNavigateToRegister = () => {
-    router.replace('/');
-  };
-
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  if (!loading && session) return <Redirect href="/contas" />;
+  async function login() {
+    if (busy) return;
+    if (!/^\S+@\S+\.\S+$/.test(email.trim()) || !password) {
+      setError('Informe um e-mail válido e sua senha.');
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      if (error) throw error;
+      router.replace('/contas');
+    } catch (e) {
+      setError(authError(e));
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
-    <Screen scrollable contentContainerStyle={styles.screenContent}>
-      <View>
-        <Pressable
-          onPress={handleBack}
-          accessibilityRole="button"
-          accessibilityLabel="Voltar para tela inicial"
-          style={[
-            styles.backButton,
-            {
-              paddingVertical: theme.spacing.sm,
-              marginBottom: theme.spacing.md,
-            },
-          ]}
-        >
-          <Text variant="caption">← Voltar</Text>
-        </Pressable>
-
-        <View style={{ marginBottom: theme.spacing.xl }}>
-          <Text variant="heading" style={{ marginBottom: theme.spacing.xs }}>
-            Entrar
-          </Text>
-          <Text variant="bodyMuted">Acesse sua conta para continuar no Fitto.</Text>
-        </View>
-
-        <View style={{ rowGap: theme.spacing.md }}>
-          <TextField
-            label="E-mail"
-            placeholder="seu@email.com"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            accessibilityLabel="Campo de e-mail"
-          />
-
-          <TextField
-            label="Senha"
-            placeholder="Digite sua senha"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            accessibilityLabel="Campo de senha"
-          />
-
-          <Pressable
-            onPress={handleForgotPassword}
-            accessibilityRole="button"
-            accessibilityLabel="Esqueci minha senha"
-            style={[styles.forgotPasswordButton, { marginTop: theme.spacing.xs }]}
-          >
-            <Text variant="link">Esqueci minha senha</Text>
-          </Pressable>
-        </View>
-
-        <View style={{ marginTop: theme.spacing.xl }}>
-          <Button title="Entrar" onPress={handleLogin} accessibilityLabel="Entrar no aplicativo" />
-        </View>
-      </View>
-
-      <View
-        style={[styles.footer, { marginTop: theme.spacing.xl, marginBottom: theme.spacing.md }]}
-      >
-        <Pressable
-          onPress={handleNavigateToRegister}
-          accessibilityRole="button"
-          accessibilityLabel="Não tem uma conta? Criar conta"
-          style={{
-            paddingVertical: theme.spacing.sm,
-            paddingHorizontal: theme.spacing.md,
-          }}
-        >
-          <Text variant="bodyMuted">
-            Não tem uma conta? · <Text variant="link">Criar conta</Text>
-          </Text>
-        </Pressable>
-      </View>
-    </Screen>
+    <FormScreen title="Bem-vindo de volta" subtitle="Entre para acessar seus perfis no Fitto.">
+      <TextField
+        label="E-mail"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        autoComplete="email"
+        keyboardType="email-address"
+        maxLength={254}
+      />
+      <TextField
+        label="Senha"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        autoComplete="current-password"
+        onSubmitEditing={login}
+      />
+      {error ? (
+        <Text accessibilityRole="alert" color="#FF6B5A">
+          {error}
+        </Text>
+      ) : null}
+      <Button title="Entrar" loading={busy || loading} onPress={login} />
+      <Button
+        title="Esqueci minha senha"
+        variant="ghost"
+        onPress={() => router.push('/recuperar')}
+      />
+      <Button title="Criar uma conta" variant="outline" onPress={() => router.push('/cadastro')} />
+    </FormScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  screenContent: {
-    justifyContent: 'space-between',
-  },
-  backButton: {
-    alignSelf: 'flex-start',
-  },
-  forgotPasswordButton: {
-    alignSelf: 'flex-end',
-  },
-  footer: {
-    width: '100%',
-    alignItems: 'center',
-  },
-});

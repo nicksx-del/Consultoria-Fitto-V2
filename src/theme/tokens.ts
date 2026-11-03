@@ -41,9 +41,9 @@ export interface ThemeColors {
 export const darkColors: ThemeColors = {
   bg: '#0E0F0C',
   surface: '#171814',
-  border: '#26281F',
+  border: '#35402D',
   text: '#F2F3EE',
-  textMuted: '#8A8D80',
+  textMuted: '#A5AE9B',
   accent: '#B7F34A',
   onAccent: '#0E0F0C',
   danger: '#FF6B5A',

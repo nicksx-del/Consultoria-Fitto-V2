@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),fs=require('fs'),ts=require('typescript');
+const mod={exports:{}};new Function('module','exports',ts.transpileModule(fs.readFileSync('src/features/auth/registration.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText)(mod,mod.exports);
+const {registrationErrors:errors,suggestedUsername:username}=mod.exports;
+assert(Object.values(errors('','','')).every(Boolean));
+assert(errors('invalid','12345678','12345678').email);
+assert(errors('aluno@example.com','1234567','1234567').password);
+assert(errors('aluno@example.com','12345678','12345679').confirmation);
+assert(Object.values(errors(' aluno@example.com ','12345678','12345678')).every(x=>!x));
+assert.equal(username(' João da Silva '),'joao_da_silva');assert.equal(username('Ana-Maria!'),'ana_maria');assert(username('Nome muito longo para o perfil do aplicativo').length<=24);assert.equal(username('   '),'');
+console.log('PASS: registration field validation, email trimming, password equality and accented username suggestions');
