@@ -1,0 +1,75 @@
+begin;
+do $$
+declare tu uuid:=gen_random_uuid();su uuid:=gen_random_uuid();ou uuid:=gen_random_uuid();nu uuid:=gen_random_uuid();tp uuid:=gen_random_uuid();sp uuid:=gen_random_uuid();op uuid:=gen_random_uuid();np uuid:=gen_random_uuid();l uuid:=gen_random_uuid();nl uuid:=gen_random_uuid();w jsonb;r jsonb;v int;denied boolean;doc jsonb:='{"title":"Ficha teste","notes":"Orientações de teste","sessions":[{"name":"Treino A","exercises":[]}]}';
+begin
+ insert into auth.users(id) values(tu),(su),(ou),(nu);
+ insert into public.profiles(id,user_id,role,display_name,username,specialties) values
+ (tp,tu,'professional','Test Trainer','t_'||substr(replace(tp::text,'-',''),1,12),array['Treinador']),
+ (sp,su,'student','Test Student','t_'||substr(replace(sp::text,'-',''),1,12),'{}'),
+ (op,ou,'professional','Other Trainer','t_'||substr(replace(op::text,'-',''),1,12),array['Treinador']),
+ (np,nu,'professional','Nutrition','t_'||substr(replace(np::text,'-',''),1,12),array['Nutricionista']);
+ insert into fitto_private.links(id,professional_id,student_id,status) values(l,tp,sp,'active'),(nl,np,sp,'active');
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ w:=public.workout_api('save',tp,l,jsonb_build_object('content',doc));
+ denied:=false;begin perform public.workout_api('publish',tp,l,jsonb_build_object('id',w->>'id','version',w->'version'));exception when others then denied:=true;end;
+ if not denied then raise exception 'Published empty session';end if;
+ doc:=jsonb_set(doc,'{sessions,0,exercises}','[{"name":"Exercício teste","sets":3,"reps":"10 a 12","rest_seconds":60,"notes":"Execução de teste"}]');
+ w:=public.workout_api('save',tp,l,jsonb_build_object('id',w->>'id','version',w->'version','content',doc));
+ perform set_config('request.jwt.claim.sub',su::text,true);
+ if public.workout_api('list',sp,l)<>'[]'::jsonb then raise exception 'Draft leaked';end if;
+ denied:=false;begin perform public.workout_api('save',sp,l,jsonb_build_object('content',doc));exception when others then denied:=true;end;
+ if not denied then raise exception 'Student modified prescription';end if;
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ w:=public.workout_api('publish',tp,l,jsonb_build_object('id',w->>'id','version',w->'version'));
+ perform set_config('request.jwt.claim.sub',su::text,true);
+ r:=public.workout_api('list',sp,l);
+ if r->0->'content'->>'title'<>'Ficha teste' or r->0 ? 'draft' then raise exception 'Published read/privacy failed';end if;
+ r:=public.execution_api('start',sp,l,jsonb_build_object('plan',w->>'id','division',0));
+ if jsonb_array_length(r->'progress'->0)<>3 then raise exception 'Wrong initial sets';end if;
+ if public.execution_api('start',sp,l,jsonb_build_object('plan',w->>'id','division',0))->>'id'<>r->>'id' then raise exception 'Duplicate active';end if;
+ denied:=false;begin perform public.execution_api('finish',sp,l,r);exception when others then denied:=true;end;
+ if not denied then raise exception 'Empty completion';end if;
+ r:=jsonb_set(r,'{progress,0,0}','{"weight":20,"reps":12,"done":true}');
+ r:=public.execution_api('save',sp,l,r);
+ denied:=false;begin perform public.execution_api('save',sp,l,jsonb_set(r,'{version}','0'));exception when others then denied:=true;end;
+ if not denied then raise exception 'Stale execution';end if;
+ r:=public.execution_api('finish',sp,l,r);
+ if r->>'status'<>'completed' then raise exception 'Completion failed';end if;
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ if jsonb_array_length(public.execution_api('list',tp,l))<>1 then raise exception 'Trainer history';end if;
+ denied:=false;begin perform public.execution_api('save',tp,l,r);exception when others then denied:=true;end;
+ if not denied then raise exception 'Trainer modified execution';end if;
+ perform set_config('request.jwt.claim.sub',ou::text,true);
+ denied:=false;begin perform public.execution_api('list',op,l);exception when others then denied:=true;end;
+ if not denied then raise exception 'Execution history leaked';end if;
+ denied:=false;begin perform public.workout_api('list',op,l);exception when others then denied:=true;end;
+ if not denied then raise exception 'Other trainer read allowed';end if;
+ perform set_config('request.jwt.claim.sub',nu::text,true);
+ denied:=false;begin perform public.workout_api('save',np,nl,jsonb_build_object('content',doc));exception when others then denied:=true;end;
+ if not denied then raise exception 'Nutrition prescribed workouts';end if;
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ v:=(w->>'version')::int;doc:=jsonb_set(doc,'{title}','"Nova versão"');
+ w:=public.workout_api('save',tp,l,jsonb_build_object('id',w->>'id','version',v,'content',doc));
+ denied:=false;begin perform public.workout_api('save',tp,l,jsonb_build_object('id',w->>'id','version',v,'content',doc));exception when others then denied:=true;end;
+ if not denied then raise exception 'Stale write allowed';end if;
+ perform set_config('request.jwt.claim.sub',su::text,true);
+ r:=public.workout_api('list',sp,l);if r->0->'content'->>'title'<>'Ficha teste' then raise exception 'Unpublished change leaked';end if;
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ w:=public.workout_api('publish',tp,l,jsonb_build_object('id',w->>'id','version',w->'version'));
+ perform set_config('request.jwt.claim.sub',su::text,true);
+ r:=public.workout_api('list',sp,l);if r->0->'content'->>'title'<>'Nova versão' then raise exception 'Republish failed';end if;
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ w:=public.workout_api('archive',tp,l,jsonb_build_object('id',w->>'id','version',w->'version'));
+ perform set_config('request.jwt.claim.sub',su::text,true);
+ if public.workout_api('list',sp,l)<>'[]'::jsonb then raise exception 'Archived plan visible';end if;
+ perform set_config('request.jwt.claim.sub',tu::text,true);
+ doc:=jsonb_set(doc,'{sessions,0,exercises,0,sets}','0');denied:=false;
+ begin perform public.workout_api('save',tp,l,jsonb_build_object('content',doc));exception when others then denied:=true;end;
+ if not denied then raise exception 'Invalid sets accepted';end if;
+ update fitto_private.links set status='ended' where id=l;
+ denied:=false;begin perform public.workout_api('list',tp,l);exception when others then denied:=true;end;
+ if not denied then raise exception 'Ended relationship allowed';end if;
+ if has_table_privilege('authenticated','fitto_private.workout_plans','select') or has_function_privilege('anon','public.workout_api(text,uuid,uuid,jsonb)','execute') then raise exception 'Workouts exposed';end if;
+end $$;
+rollback;
+select 'PASS: execution start/resume/save/finish, stale writes, trainer read-only and privacy;  draft/save/publish, published snapshot, student read-only, trainer ownership, specialty restrictions, stale edits, republish, archive, validation, ended links, privileges' as result;

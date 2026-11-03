@@ -1,0 +1,16 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
+const out={};new Function('exports','require',ts.transpileModule(fs.readFileSync('src/features/nutrition/foodCatalog.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText)(out,()=>require('../src/features/nutrition/taco-foods.json'));
+assert.equal(out.tacoFoods.length,597);
+assert.equal(new Set(out.tacoFoods.map(f=>f.id)).size,597);
+assert(out.searchFoods('FEIJAO').length>0);
+assert(out.searchFoods('arroz cozido').every(f=>out.normalizeFoodSearch(f.name).includes('cozido')));
+const rice=out.tacoFoods.find(f=>f.id===1);
+const food={id:'f',name:rice.name,quantity:'150 g',grams:'150',tacoId:1,substitution:''};
+assert.equal(out.foodNutrients(food).carbs,rice.carbs*1.5);
+assert.equal(out.foodNutrients({...food,grams:'0'}),null);
+assert.equal(out.foodNutrients({...food,name:'Outro'}),null);
+const totals=out.nutrientTotals([food,{id:'m',name:'Manual',quantity:'1 unidade'}]);
+assert(totals.every(t=>t.missing===1));
+assert.equal(out.foodNutrients({...food,grams:'12,5'}).protein,rice.protein/8);
+assert(out.tacoFoods.some(f=>f.kcal===null));
+console.log('PASS: 597 unique foods, accent-insensitive search, portions, decimal comma, partial totals, missing data and name mismatch.');

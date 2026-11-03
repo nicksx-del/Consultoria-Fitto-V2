@@ -15,3 +15,14 @@ expo-env.d.ts
 /android
 /ios
 .vscode/
+release-site/
+fitto-deploy.tar.gz
+
+# Local environment and agent/browser artifacts
+.env.*
+!.env.example
+.openai/
+.playwright-cli/
+artifacts/
+output/
+scripts/package*release.cjs

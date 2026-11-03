@@ -1,0 +1,2 @@
+const fs=require('fs'),path=require('path'),ts=require('typescript'),cache=new Map();
+module.exports=function load(request){const name=path.basename(request).replace(/\.ts$/,'');if(cache.has(name))return cache.get(name).exports;const mod={exports:{}};cache.set(name,mod);const code=ts.transpileModule(fs.readFileSync(path.join(__dirname,'../src/features/relationships',name+'.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;new Function('require','module','exports',code)(load,mod,mod.exports);return mod.exports;};

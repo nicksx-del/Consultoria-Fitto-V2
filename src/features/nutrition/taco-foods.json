@@ -1,0 +1,5375 @@
+[
+  {
+    "id": 1,
+    "name": "Arroz, integral, cozido",
+    "category": "Cereais e derivados",
+    "kcal": 123.53489,
+    "protein": 2.58825,
+    "carbs": 25.80975,
+    "fat": 1.00033
+  },
+  {
+    "id": 2,
+    "name": "Arroz, integral, cru",
+    "category": "Cereais e derivados",
+    "kcal": 359.678,
+    "protein": 7.32329,
+    "carbs": 77.45071,
+    "fat": 1.86483
+  },
+  {
+    "id": 3,
+    "name": "Arroz, tipo 1, cozido",
+    "category": "Cereais e derivados",
+    "kcal": 128.25849,
+    "protein": 2.52082,
+    "carbs": 28.05985,
+    "fat": 0.227
+  },
+  {
+    "id": 4,
+    "name": "Arroz, tipo 1, cru",
+    "category": "Cereais e derivados",
+    "kcal": 357.78927,
+    "protein": 7.15854,
+    "carbs": 78.75954,
+    "fat": 0.335
+  },
+  {
+    "id": 5,
+    "name": "Arroz, tipo 2, cozido",
+    "category": "Cereais e derivados",
+    "kcal": 130.11965,
+    "protein": 2.56842,
+    "carbs": 28.19258,
+    "fat": 0.36167
+  },
+  {
+    "id": 6,
+    "name": "Arroz, tipo 2, cru",
+    "category": "Cereais e derivados",
+    "kcal": 358.11676,
+    "protein": 7.24188,
+    "carbs": 78.88145,
+    "fat": 0.2755
+  },
+  {
+    "id": 7,
+    "name": "Aveia, flocos, crua",
+    "category": "Cereais e derivados",
+    "kcal": 393.82269,
+    "protein": 13.92103,
+    "carbs": 66.63564,
+    "fat": 8.49667
+  },
+  {
+    "id": 8,
+    "name": "Biscoito, doce, maisena",
+    "category": "Cereais e derivados",
+    "kcal": 442.81939,
+    "protein": 8.07252,
+    "carbs": 75.23414,
+    "fat": 11.96667
+  },
+  {
+    "id": 9,
+    "name": "Biscoito, doce, recheado com chocolate",
+    "category": "Cereais e derivados",
+    "kcal": 471.82478,
+    "protein": 6.39722,
+    "carbs": 70.54945,
+    "fat": 19.58333
+  },
+  {
+    "id": 10,
+    "name": "Biscoito, doce, recheado com morango",
+    "category": "Cereais e derivados",
+    "kcal": 471.17474,
+    "protein": 5.71983,
+    "carbs": 71.01351,
+    "fat": 19.57333
+  },
+  {
+    "id": 11,
+    "name": "Biscoito, doce, wafer, recheado de chocolate",
+    "category": "Cereais e derivados",
+    "kcal": 502.45686,
+    "protein": 5.56452,
+    "carbs": 67.53548,
+    "fat": 24.67333
+  },
+  {
+    "id": 12,
+    "name": "Biscoito, doce, wafer, recheado de morango",
+    "category": "Cereais e derivados",
+    "kcal": 513.44618,
+    "protein": 4.51704,
+    "carbs": 67.35296,
+    "fat": 26.4
+  },
+  {
+    "id": 13,
+    "name": "Biscoito, salgado, cream cracker",
+    "category": "Cereais e derivados",
+    "kcal": 431.73228,
+    "protein": 10.05513,
+    "carbs": 68.73154,
+    "fat": 14.43667
+  },
+  {
+    "id": 14,
+    "name": "Bolo, mistura para",
+    "category": "Cereais e derivados",
+    "kcal": 418.63333,
+    "protein": 6.15942,
+    "carbs": 84.71391,
+    "fat": 6.12667
+  },
+  {
+    "id": 15,
+    "name": "Bolo, pronto, aipim",
+    "category": "Cereais e derivados",
+    "kcal": 323.85167,
+    "protein": 4.41667,
+    "carbs": 47.864,
+    "fat": 12.74767
+  },
+  {
+    "id": 16,
+    "name": "Bolo, pronto, chocolate",
+    "category": "Cereais e derivados",
+    "kcal": 410.01367,
+    "protein": 6.22292,
+    "carbs": 54.71775,
+    "fat": 18.47233
+  },
+  {
+    "id": 17,
+    "name": "Bolo, pronto, coco",
+    "category": "Cereais e derivados",
+    "kcal": 333.43767,
+    "protein": 5.66667,
+    "carbs": 52.276,
+    "fat": 11.29633
+  },
+  {
+    "id": 18,
+    "name": "Bolo, pronto, milho",
+    "category": "Cereais e derivados",
+    "kcal": 311.387,
+    "protein": 4.80417,
+    "carbs": 45.10883,
+    "fat": 12.415
+  },
+  {
+    "id": 19,
+    "name": "Canjica, branca, crua",
+    "category": "Cereais e derivados",
+    "kcal": 357.60259,
+    "protein": 7.2,
+    "carbs": 78.061,
+    "fat": 0.971
+  },
+  {
+    "id": 20,
+    "name": "Canjica, com leite integral",
+    "category": "Cereais e derivados",
+    "kcal": 112.45678,
+    "protein": 2.3606,
+    "carbs": 23.62773,
+    "fat": 1.24433
+  },
+  {
+    "id": 21,
+    "name": "Cereais, milho, flocos, com sal",
+    "category": "Cereais e derivados",
+    "kcal": 369.59975,
+    "protein": 7.29167,
+    "carbs": 80.835,
+    "fat": 1.60333
+  },
+  {
+    "id": 22,
+    "name": "Cereais, milho, flocos, sem sal",
+    "category": "Cereais e derivados",
+    "kcal": 363.33832,
+    "protein": 6.875,
+    "carbs": 80.44833,
+    "fat": 1.18333
+  },
+  {
+    "id": 23,
+    "name": "Cereais, mingau, milho, infantil",
+    "category": "Cereais e derivados",
+    "kcal": 394.42752,
+    "protein": 6.43116,
+    "carbs": 87.26551,
+    "fat": 1.09333
+  },
+  {
+    "id": 24,
+    "name": "Cereais, mistura para vitamina, trigo, cevada e aveia",
+    "category": "Cereais e derivados",
+    "kcal": 381.13333,
+    "protein": 8.89583,
+    "carbs": 81.6175,
+    "fat": 2.12
+  },
+  {
+    "id": 25,
+    "name": "Cereal matinal, milho",
+    "category": "Cereais e derivados",
+    "kcal": 365.35416,
+    "protein": 7.1558,
+    "carbs": 83.8242,
+    "fat": 0.95667
+  },
+  {
+    "id": 26,
+    "name": "Cereal matinal, milho, açúcar",
+    "category": "Cereais e derivados",
+    "kcal": 376.55525,
+    "protein": 4.74275,
+    "carbs": 88.84058,
+    "fat": 0.66667
+  },
+  {
+    "id": 27,
+    "name": "Creme de arroz, pó",
+    "category": "Cereais e derivados",
+    "kcal": 386.00119,
+    "protein": 7.02695,
+    "carbs": 83.86938,
+    "fat": 1.226
+  },
+  {
+    "id": 28,
+    "name": "Creme de milho, pó",
+    "category": "Cereais e derivados",
+    "kcal": 333.03419,
+    "protein": 4.82083,
+    "carbs": 86.1485,
+    "fat": 1.63933
+  },
+  {
+    "id": 29,
+    "name": "Curau, milho verde",
+    "category": "Cereais e derivados",
+    "kcal": 78.43382,
+    "protein": 2.3606,
+    "carbs": 13.9444,
+    "fat": 1.637
+  },
+  {
+    "id": 30,
+    "name": "Curau, milho verde, mistura para",
+    "category": "Cereais e derivados",
+    "kcal": 402.28658,
+    "protein": 2.22292,
+    "carbs": 79.81642,
+    "fat": 13.37133
+  },
+  {
+    "id": 31,
+    "name": "Farinha, de arroz, enriquecida",
+    "category": "Cereais e derivados",
+    "kcal": 363.05648,
+    "protein": 1.26933,
+    "carbs": 85.504,
+    "fat": 0.3
+  },
+  {
+    "id": 32,
+    "name": "Farinha, de centeio, integral",
+    "category": "Cereais e derivados",
+    "kcal": 335.77766,
+    "protein": 12.51507,
+    "carbs": 73.29827,
+    "fat": 1.75333
+  },
+  {
+    "id": 33,
+    "name": "Farinha, de milho, amarela",
+    "category": "Cereais e derivados",
+    "kcal": 350.58693,
+    "protein": 7.1875,
+    "carbs": 79.07917,
+    "fat": 1.46667
+  },
+  {
+    "id": 34,
+    "name": "Farinha, de rosca",
+    "category": "Cereais e derivados",
+    "kcal": 370.5781,
+    "protein": 11.381,
+    "carbs": 75.78567,
+    "fat": 1.46333
+  },
+  {
+    "id": 35,
+    "name": "Farinha, de trigo",
+    "category": "Cereais e derivados",
+    "kcal": 360.47298,
+    "protein": 9.79078,
+    "carbs": 75.09255,
+    "fat": 1.36667
+  },
+  {
+    "id": 36,
+    "name": "Farinha, láctea, de cereais",
+    "category": "Cereais e derivados",
+    "kcal": 414.85052,
+    "protein": 11.87913,
+    "carbs": 77.77087,
+    "fat": 5.79
+  },
+  {
+    "id": 37,
+    "name": "Lasanha, massa fresca, cozida",
+    "category": "Cereais e derivados",
+    "kcal": 163.76367,
+    "protein": 5.8125,
+    "carbs": 32.52217,
+    "fat": 1.15833
+  },
+  {
+    "id": 38,
+    "name": "Lasanha, massa fresca, crua",
+    "category": "Cereais e derivados",
+    "kcal": 220.30567,
+    "protein": 7.00833,
+    "carbs": 45.05833,
+    "fat": 1.33767
+  },
+  {
+    "id": 39,
+    "name": "Macarrão, instantâneo",
+    "category": "Cereais e derivados",
+    "kcal": 435.86478,
+    "protein": 8.79168,
+    "carbs": 62.43165,
+    "fat": 17.23667
+  },
+  {
+    "id": 40,
+    "name": "Macarrão, trigo, cru",
+    "category": "Cereais e derivados",
+    "kcal": 371.12261,
+    "protein": 9.99565,
+    "carbs": 77.94435,
+    "fat": 1.30333
+  },
+  {
+    "id": 41,
+    "name": "Macarrão, trigo, cru, com ovos",
+    "category": "Cereais e derivados",
+    "kcal": 370.56711,
+    "protein": 10.3208,
+    "carbs": 76.62253,
+    "fat": 1.97
+  },
+  {
+    "id": 42,
+    "name": "Milho, amido, cru",
+    "category": "Cereais e derivados",
+    "kcal": 361.36682,
+    "protein": 0.59783,
+    "carbs": 87.14884,
+    "fat": 0.00001
+  },
+  {
+    "id": 43,
+    "name": "Milho, fubá, cru",
+    "category": "Cereais e derivados",
+    "kcal": 353.48227,
+    "protein": 7.21377,
+    "carbs": 78.8729,
+    "fat": 1.90333
+  },
+  {
+    "id": 44,
+    "name": "Milho, verde, cru",
+    "category": "Cereais e derivados",
+    "kcal": 138.16656,
+    "protein": 6.58958,
+    "carbs": 28.55575,
+    "fat": 0.609
+  },
+  {
+    "id": 45,
+    "name": "Milho, verde, enlatado, drenado",
+    "category": "Cereais e derivados",
+    "kcal": 97.56489,
+    "protein": 3.22826,
+    "carbs": 17.13507,
+    "fat": 2.35333
+  },
+  {
+    "id": 46,
+    "name": "Mingau tradicional, pó",
+    "category": "Cereais e derivados",
+    "kcal": 373.42147,
+    "protein": 0.58333,
+    "carbs": 89.33667,
+    "fat": 0.37
+  },
+  {
+    "id": 47,
+    "name": "Pamonha, barra para cozimento, pré-cozida",
+    "category": "Cereais e derivados",
+    "kcal": 171.21911,
+    "protein": 2.55208,
+    "carbs": 30.68492,
+    "fat": 4.84967
+  },
+  {
+    "id": 48,
+    "name": "Pão, aveia, forma",
+    "category": "Cereais e derivados",
+    "kcal": 343.08537,
+    "protein": 12.35,
+    "carbs": 59.56667,
+    "fat": 5.69333
+  },
+  {
+    "id": 49,
+    "name": "Pão, de soja",
+    "category": "Cereais e derivados",
+    "kcal": 308.72632,
+    "protein": 11.343,
+    "carbs": 56.51033,
+    "fat": 3.58
+  },
+  {
+    "id": 50,
+    "name": "Pão, glúten, forma",
+    "category": "Cereais e derivados",
+    "kcal": 252.99403,
+    "protein": 11.951,
+    "carbs": 44.119,
+    "fat": 2.72667
+  },
+  {
+    "id": 51,
+    "name": "Pão, milho, forma",
+    "category": "Cereais e derivados",
+    "kcal": 292.01349,
+    "protein": 8.303,
+    "carbs": 56.397,
+    "fat": 3.11
+  },
+  {
+    "id": 52,
+    "name": "Pão, trigo, forma, integral",
+    "category": "Cereais e derivados",
+    "kcal": 253.19362,
+    "protein": 9.42517,
+    "carbs": 49.9415,
+    "fat": 3.65333
+  },
+  {
+    "id": 53,
+    "name": "Pão, trigo, francês",
+    "category": "Cereais e derivados",
+    "kcal": 299.81015,
+    "protein": 7.95357,
+    "carbs": 58.64643,
+    "fat": 3.10333
+  },
+  {
+    "id": 54,
+    "name": "Pão, trigo, sovado",
+    "category": "Cereais e derivados",
+    "kcal": 310.96494,
+    "protein": 8.398,
+    "carbs": 61.452,
+    "fat": 2.84
+  },
+  {
+    "id": 55,
+    "name": "Pastel, de carne, cru",
+    "category": "Cereais e derivados",
+    "kcal": 288.70207,
+    "protein": 10.7407,
+    "carbs": 42.01663,
+    "fat": 8.793
+  },
+  {
+    "id": 56,
+    "name": "Pastel, de carne, frito",
+    "category": "Cereais e derivados",
+    "kcal": 388.37465,
+    "protein": 10.1042,
+    "carbs": 43.7678,
+    "fat": 20.13667
+  },
+  {
+    "id": 57,
+    "name": "Pastel, de queijo, cru",
+    "category": "Cereais e derivados",
+    "kcal": 308.47443,
+    "protein": 9.8534,
+    "carbs": 45.94793,
+    "fat": 9.63467
+  },
+  {
+    "id": 58,
+    "name": "Pastel, de queijo, frito",
+    "category": "Cereais e derivados",
+    "kcal": 422.11208,
+    "protein": 8.7096,
+    "carbs": 48.13273,
+    "fat": 22.67033
+  },
+  {
+    "id": 59,
+    "name": "Pastel, massa, crua",
+    "category": "Cereais e derivados",
+    "kcal": 310.20251,
+    "protein": 6.9027,
+    "carbs": 57.37963,
+    "fat": 5.477
+  },
+  {
+    "id": 60,
+    "name": "Pastel, massa, frita",
+    "category": "Cereais e derivados",
+    "kcal": 569.67246,
+    "protein": 6.0192,
+    "carbs": 49.34313,
+    "fat": 40.86033
+  },
+  {
+    "id": 61,
+    "name": "Pipoca, com óleo de soja, sem sal",
+    "category": "Cereais e derivados",
+    "kcal": 448.33426,
+    "protein": 9.92708,
+    "carbs": 70.31258,
+    "fat": 15.941
+  },
+  {
+    "id": 62,
+    "name": "Polenta, pré-cozida",
+    "category": "Cereais e derivados",
+    "kcal": 102.74117,
+    "protein": 2.29167,
+    "carbs": 23.31167,
+    "fat": 0.30333
+  },
+  {
+    "id": 63,
+    "name": "Torrada, pão francês",
+    "category": "Cereais e derivados",
+    "kcal": 377.42228,
+    "protein": 10.5241,
+    "carbs": 74.5559,
+    "fat": 3.301
+  },
+  {
+    "id": 64,
+    "name": "Abóbora, cabotian, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 48.04374,
+    "protein": 1.44375,
+    "carbs": 10.76092,
+    "fat": 0.72933
+  },
+  {
+    "id": 65,
+    "name": "Abóbora, cabotian, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 38.59929,
+    "protein": 1.74638,
+    "carbs": 8.36029,
+    "fat": 0.53667
+  },
+  {
+    "id": 66,
+    "name": "Abóbora, menina brasileira, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 13.60567,
+    "protein": 0.6087,
+    "carbs": 3.3013,
+    "fat": 0.00001
+  },
+  {
+    "id": 67,
+    "name": "Abóbora, moranga, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 12.36444,
+    "protein": 0.96014,
+    "carbs": 2.66652,
+    "fat": 0.06
+  },
+  {
+    "id": 68,
+    "name": "Abóbora, moranga, refogada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 29.00382,
+    "protein": 0.39375,
+    "carbs": 5.98192,
+    "fat": 0.799
+  },
+  {
+    "id": 69,
+    "name": "Abóbora, pescoço, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 24.46627,
+    "protein": 0.67083,
+    "carbs": 6.12283,
+    "fat": 0.116
+  },
+  {
+    "id": 70,
+    "name": "Abobrinha, italiana, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 15.03852,
+    "protein": 1.125,
+    "carbs": 2.977,
+    "fat": 0.199
+  },
+  {
+    "id": 71,
+    "name": "Abobrinha, italiana, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 19.27913,
+    "protein": 1.1413,
+    "carbs": 4.29203,
+    "fat": 0.14
+  },
+  {
+    "id": 72,
+    "name": "Abobrinha, italiana, refogada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 24.4296,
+    "protein": 1.06875,
+    "carbs": 4.18692,
+    "fat": 0.82133
+  },
+  {
+    "id": 73,
+    "name": "Abobrinha, paulista, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 30.8107,
+    "protein": 0.63958,
+    "carbs": 7.86742,
+    "fat": 0.139
+  },
+  {
+    "id": 74,
+    "name": "Acelga, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 20.94234,
+    "protein": 1.44375,
+    "carbs": 4.63092,
+    "fat": 0.106
+  },
+  {
+    "id": 75,
+    "name": "Agrião, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 16.5788,
+    "protein": 2.68841,
+    "carbs": 2.25159,
+    "fat": 0.23667
+  },
+  {
+    "id": 76,
+    "name": "Aipo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 19.09146,
+    "protein": 0.75833,
+    "carbs": 4.27233,
+    "fat": 0.069
+  },
+  {
+    "id": 77,
+    "name": "Alface, americana, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 8.7949,
+    "protein": 0.60833,
+    "carbs": 1.74533,
+    "fat": 0.129
+  },
+  {
+    "id": 78,
+    "name": "Alface, crespa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 10.68086,
+    "protein": 1.34783,
+    "carbs": 1.69551,
+    "fat": 0.16
+  },
+  {
+    "id": 79,
+    "name": "Alface, lisa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 13.8209,
+    "protein": 1.68841,
+    "carbs": 2.42826,
+    "fat": 0.12333
+  },
+  {
+    "id": 80,
+    "name": "Alface, roxa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 12.717,
+    "protein": 0.90625,
+    "carbs": 2.49342,
+    "fat": 0.19167
+  },
+  {
+    "id": 81,
+    "name": "Alfavaca, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 29.18361,
+    "protein": 2.65833,
+    "carbs": 5.241,
+    "fat": 0.47633
+  },
+  {
+    "id": 82,
+    "name": "Alho, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 113.12988,
+    "protein": 7.01087,
+    "carbs": 23.9058,
+    "fat": 0.22
+  },
+  {
+    "id": 83,
+    "name": "Alho-poró, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 31.50792,
+    "protein": 1.4125,
+    "carbs": 6.87817,
+    "fat": 0.13967
+  },
+  {
+    "id": 84,
+    "name": "Almeirão, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 18.03443,
+    "protein": 1.76812,
+    "carbs": 3.33522,
+    "fat": 0.21667
+  },
+  {
+    "id": 85,
+    "name": "Almeirão, refogado",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 65.08191,
+    "protein": 1.70417,
+    "carbs": 5.7015,
+    "fat": 4.847
+  },
+  {
+    "id": 86,
+    "name": "Batata, baroa, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 80.11976,
+    "protein": 0.85208,
+    "carbs": 18.94758,
+    "fat": 0.16633
+  },
+  {
+    "id": 87,
+    "name": "Batata, baroa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 100.98492,
+    "protein": 1.0471,
+    "carbs": 23.9829,
+    "fat": 0.17
+  },
+  {
+    "id": 88,
+    "name": "Batata, doce, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 76.75961,
+    "protein": 0.64167,
+    "carbs": 18.42233,
+    "fat": 0.08767
+  },
+  {
+    "id": 89,
+    "name": "Batata, doce, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 118.24138,
+    "protein": 1.25725,
+    "carbs": 28.19609,
+    "fat": 0.13333
+  },
+  {
+    "id": 90,
+    "name": "Batata, frita, tipo chips, industrializada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 542.73467,
+    "protein": 5.58333,
+    "carbs": 51.22233,
+    "fat": 36.615
+  },
+  {
+    "id": 91,
+    "name": "Batata, inglesa, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 51.58848,
+    "protein": 1.16458,
+    "carbs": 11.94375,
+    "fat": 0.00001
+  },
+  {
+    "id": 92,
+    "name": "Batata, inglesa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 64.37023,
+    "protein": 1.77174,
+    "carbs": 14.68826,
+    "fat": 0.00001
+  },
+  {
+    "id": 93,
+    "name": "Batata, inglesa, frita",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 267.15742,
+    "protein": 4.96667,
+    "carbs": 35.64033,
+    "fat": 13.10867
+  },
+  {
+    "id": 94,
+    "name": "Batata, inglesa, sauté",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 67.88794,
+    "protein": 1.29167,
+    "carbs": 14.093,
+    "fat": 0.89633
+  },
+  {
+    "id": 95,
+    "name": "Berinjela, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 18.84529,
+    "protein": 0.67708,
+    "carbs": 4.46825,
+    "fat": 0.14833
+  },
+  {
+    "id": 96,
+    "name": "Berinjela, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 19.62775,
+    "protein": 1.22101,
+    "carbs": 4.42899,
+    "fat": 0.1
+  },
+  {
+    "id": 97,
+    "name": "Beterraba, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 32.15432,
+    "protein": 1.29375,
+    "carbs": 7.23492,
+    "fat": 0.09267
+  },
+  {
+    "id": 98,
+    "name": "Beterraba, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 48.82851,
+    "protein": 1.94565,
+    "carbs": 11.11101,
+    "fat": 0.09
+  },
+  {
+    "id": 99,
+    "name": "Biscoito, polvilho doce",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 437.549,
+    "protein": 1.29167,
+    "carbs": 80.53533,
+    "fat": 12.249
+  },
+  {
+    "id": 100,
+    "name": "Brócolis, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 24.63616,
+    "protein": 2.13333,
+    "carbs": 4.36667,
+    "fat": 0.459
+  },
+  {
+    "id": 101,
+    "name": "Brócolis, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 25.49513,
+    "protein": 3.64493,
+    "carbs": 4.02507,
+    "fat": 0.26667
+  },
+  {
+    "id": 102,
+    "name": "Cará, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 77.58491,
+    "protein": 1.52917,
+    "carbs": 18.8525,
+    "fat": 0.11233
+  },
+  {
+    "id": 103,
+    "name": "Cará, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 95.63313,
+    "protein": 2.28261,
+    "carbs": 22.95406,
+    "fat": 0.13667
+  },
+  {
+    "id": 104,
+    "name": "Caruru, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 34.03163,
+    "protein": 3.2,
+    "carbs": 5.974,
+    "fat": 0.585
+  },
+  {
+    "id": 105,
+    "name": "Catalonha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 23.88841,
+    "protein": 1.86875,
+    "carbs": 4.75225,
+    "fat": 0.28233
+  },
+  {
+    "id": 106,
+    "name": "Catalonha, refogada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 63.44927,
+    "protein": 1.95,
+    "carbs": 4.80933,
+    "fat": 4.80567
+  },
+  {
+    "id": 107,
+    "name": "Cebola, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 39.42005,
+    "protein": 1.71014,
+    "carbs": 8.85319,
+    "fat": 0.08
+  },
+  {
+    "id": 108,
+    "name": "Cebolinha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 19.51589,
+    "protein": 1.86594,
+    "carbs": 3.37072,
+    "fat": 0.35
+  },
+  {
+    "id": 109,
+    "name": "Cenoura, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 29.86178,
+    "protein": 0.84792,
+    "carbs": 6.68675,
+    "fat": 0.21833
+  },
+  {
+    "id": 110,
+    "name": "Cenoura, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 34.13539,
+    "protein": 1.32246,
+    "carbs": 7.66,
+    "fat": 0.17333
+  },
+  {
+    "id": 111,
+    "name": "Chicória, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 13.83712,
+    "protein": 1.13768,
+    "carbs": 2.85333,
+    "fat": 0.14333
+  },
+  {
+    "id": 112,
+    "name": "Chuchu, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 18.53979,
+    "protein": 0.41458,
+    "carbs": 4.79342,
+    "fat": 0.00001
+  },
+  {
+    "id": 113,
+    "name": "Chuchu, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 16.97892,
+    "protein": 0.69928,
+    "carbs": 4.13739,
+    "fat": 0.06
+  },
+  {
+    "id": 114,
+    "name": "Coentro, folhas desidratadas",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 309.07075,
+    "protein": 20.875,
+    "carbs": 47.955,
+    "fat": 10.38667
+  },
+  {
+    "id": 115,
+    "name": "Couve, manteiga, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 27.0567,
+    "protein": 2.87319,
+    "carbs": 4.33348,
+    "fat": 0.54667
+  },
+  {
+    "id": 116,
+    "name": "Couve, manteiga, refogada ",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 90.34482,
+    "protein": 1.66667,
+    "carbs": 8.70767,
+    "fat": 6.594
+  },
+  {
+    "id": 117,
+    "name": "Couve-flor, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 22.56335,
+    "protein": 1.9058,
+    "carbs": 4.51754,
+    "fat": 0.21333
+  },
+  {
+    "id": 118,
+    "name": "Couve-flor, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 19.11414,
+    "protein": 1.23958,
+    "carbs": 3.87542,
+    "fat": 0.26933
+  },
+  {
+    "id": 119,
+    "name": "Espinafre, Nova Zelândia, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 16.09569,
+    "protein": 1.99638,
+    "carbs": 2.57362,
+    "fat": 0.24333
+  },
+  {
+    "id": 120,
+    "name": "Espinafre, Nova Zelândia, refogado",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 67.25365,
+    "protein": 2.71875,
+    "carbs": 4.23858,
+    "fat": 5.43467
+  },
+  {
+    "id": 121,
+    "name": "Farinha, de mandioca, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 360.8697,
+    "protein": 1.55435,
+    "carbs": 87.89899,
+    "fat": 0.27667
+  },
+  {
+    "id": 122,
+    "name": "Farinha, de mandioca, torrada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 365.26898,
+    "protein": 1.22917,
+    "carbs": 89.19417,
+    "fat": 0.28667
+  },
+  {
+    "id": 123,
+    "name": "Farinha, de puba",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 360.17977,
+    "protein": 1.61667,
+    "carbs": 87.28533,
+    "fat": 0.469
+  },
+  {
+    "id": 124,
+    "name": "Fécula, de mandioca",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 330.85056,
+    "protein": 0.52083,
+    "carbs": 81.14917,
+    "fat": 0.28333
+  },
+  {
+    "id": 125,
+    "name": "Feijão, broto, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 38.72324,
+    "protein": 4.16667,
+    "carbs": 7.75833,
+    "fat": 0.10267
+  },
+  {
+    "id": 126,
+    "name": "Inhame, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 96.69983,
+    "protein": 2.05072,
+    "carbs": 23.23261,
+    "fat": 0.21333
+  },
+  {
+    "id": 127,
+    "name": "Jiló, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 27.36514,
+    "protein": 1.40217,
+    "carbs": 6.19116,
+    "fat": 0.22
+  },
+  {
+    "id": 128,
+    "name": "Jurubeba, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 125.81163,
+    "protein": 4.4125,
+    "carbs": 23.05917,
+    "fat": 3.90967
+  },
+  {
+    "id": 129,
+    "name": "Mandioca, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 125.35825,
+    "protein": 0.575,
+    "carbs": 30.09,
+    "fat": 0.29833
+  },
+  {
+    "id": 130,
+    "name": "Mandioca, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 151.41696,
+    "protein": 1.13043,
+    "carbs": 36.16957,
+    "fat": 0.3
+  },
+  {
+    "id": 131,
+    "name": "Mandioca, farofa, temperada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 405.69394,
+    "protein": 2.0625,
+    "carbs": 80.30417,
+    "fat": 9.12
+  },
+  {
+    "id": 132,
+    "name": "Mandioca, frita",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 300.05524,
+    "protein": 1.38125,
+    "carbs": 50.25142,
+    "fat": 11.195
+  },
+  {
+    "id": 133,
+    "name": "Manjericão, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 21.14768,
+    "protein": 1.98551,
+    "carbs": 3.64449,
+    "fat": 0.39333
+  },
+  {
+    "id": 134,
+    "name": "Maxixe, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 13.74724,
+    "protein": 1.3913,
+    "carbs": 2.7287,
+    "fat": 0.073
+  },
+  {
+    "id": 135,
+    "name": "Mostarda, folha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 18.10739,
+    "protein": 2.11042,
+    "carbs": 3.23658,
+    "fat": 0.16767
+  },
+  {
+    "id": 136,
+    "name": "Nhoque, batata, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 180.77527,
+    "protein": 5.85833,
+    "carbs": 36.78,
+    "fat": 1.94333
+  },
+  {
+    "id": 137,
+    "name": "Nabo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 18.18662,
+    "protein": 1.2029,
+    "carbs": 4.1471,
+    "fat": 0.05333
+  },
+  {
+    "id": 138,
+    "name": "Palmito, juçara, em conserva",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 23.19972,
+    "protein": 1.79167,
+    "carbs": 4.32833,
+    "fat": 0.40333
+  },
+  {
+    "id": 139,
+    "name": "Palmito, pupunha, em conserva",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 29.43196,
+    "protein": 2.45833,
+    "carbs": 5.509,
+    "fat": 0.45
+  },
+  {
+    "id": 140,
+    "name": "Pão, de queijo, assado",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 363.07791,
+    "protein": 5.12083,
+    "carbs": 34.2415,
+    "fat": 24.56733
+  },
+  {
+    "id": 141,
+    "name": "Pão, de queijo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 294.538,
+    "protein": 3.648,
+    "carbs": 38.512,
+    "fat": 13.98867
+  },
+  {
+    "id": 142,
+    "name": "Pepino, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 9.53369,
+    "protein": 0.86957,
+    "carbs": 2.0371,
+    "fat": 0.00001
+  },
+  {
+    "id": 143,
+    "name": "Pimentão, amarelo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 27.92746,
+    "protein": 1.22464,
+    "carbs": 5.96203,
+    "fat": 0.43667
+  },
+  {
+    "id": 144,
+    "name": "Pimentão, verde, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 21.28588,
+    "protein": 1.05072,
+    "carbs": 4.89261,
+    "fat": 0.15
+  },
+  {
+    "id": 145,
+    "name": "Pimentão, vermelho, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 23.28136,
+    "protein": 1.03986,
+    "carbs": 5.46681,
+    "fat": 0.14667
+  },
+  {
+    "id": 146,
+    "name": "Polvilho, doce",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 351.22673,
+    "protein": 0.43,
+    "carbs": 86.77333,
+    "fat": 0.00001
+  },
+  {
+    "id": 147,
+    "name": "Quiabo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 29.93926,
+    "protein": 1.91875,
+    "carbs": 6.37392,
+    "fat": 0.299
+  },
+  {
+    "id": 148,
+    "name": "Rabanete, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 13.73813,
+    "protein": 1.3913,
+    "carbs": 2.72536,
+    "fat": 0.07333
+  },
+  {
+    "id": 149,
+    "name": "Repolho, branco, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 17.1188,
+    "protein": 0.87681,
+    "carbs": 3.85986,
+    "fat": 0.14333
+  },
+  {
+    "id": 150,
+    "name": "Repolho, roxo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 30.9075,
+    "protein": 1.90833,
+    "carbs": 7.204,
+    "fat": 0.06367
+  },
+  {
+    "id": 151,
+    "name": "Repolho, roxo, refogado",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 41.77353,
+    "protein": 1.80208,
+    "carbs": 7.56158,
+    "fat": 1.24033
+  },
+  {
+    "id": 152,
+    "name": "Rúcula, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 13.13326,
+    "protein": 1.76667,
+    "carbs": 2.21967,
+    "fat": 0.10733
+  },
+  {
+    "id": 153,
+    "name": "Salsa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 33.42411,
+    "protein": 3.25725,
+    "carbs": 5.70609,
+    "fat": 0.61
+  },
+  {
+    "id": 154,
+    "name": "Seleta de legumes, enlatada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 56.53377,
+    "protein": 3.42029,
+    "carbs": 12.66971,
+    "fat": 0.35333
+  },
+  {
+    "id": 155,
+    "name": "Serralha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 30.39793,
+    "protein": 2.67292,
+    "carbs": 4.94675,
+    "fat": 0.74267
+  },
+  {
+    "id": 156,
+    "name": "Taioba, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 34.20892,
+    "protein": 2.89583,
+    "carbs": 5.4305,
+    "fat": 0.92667
+  },
+  {
+    "id": 157,
+    "name": "Tomate, com semente, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 15.33516,
+    "protein": 1.09783,
+    "carbs": 3.13884,
+    "fat": 0.17333
+  },
+  {
+    "id": 158,
+    "name": "Tomate, extrato",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 60.93343,
+    "protein": 2.43478,
+    "carbs": 14.95862,
+    "fat": 0.19
+  },
+  {
+    "id": 159,
+    "name": "Tomate, molho industrializado",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 38.44655,
+    "protein": 1.375,
+    "carbs": 7.71167,
+    "fat": 0.90333
+  },
+  {
+    "id": 160,
+    "name": "Tomate, purê",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 27.93688,
+    "protein": 1.36232,
+    "carbs": 6.89435,
+    "fat": 0.00001
+  },
+  {
+    "id": 161,
+    "name": "Tomate, salada",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 20.54691,
+    "protein": 0.81042,
+    "carbs": 5.11792,
+    "fat": 0.00001
+  },
+  {
+    "id": 162,
+    "name": "Vagem, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "kcal": 24.89836,
+    "protein": 1.78623,
+    "carbs": 5.3471,
+    "fat": 0.17333
+  },
+  {
+    "id": 163,
+    "name": "Abacate, cru",
+    "category": "Frutas e derivados",
+    "kcal": 96.15471,
+    "protein": 1.23913,
+    "carbs": 6.03087,
+    "fat": 8.39667
+  },
+  {
+    "id": 164,
+    "name": "Abacaxi, cru",
+    "category": "Frutas e derivados",
+    "kcal": 48.32221,
+    "protein": 0.8587,
+    "carbs": 12.33464,
+    "fat": 0.12333
+  },
+  {
+    "id": 165,
+    "name": "Abacaxi, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 30.5918,
+    "protein": 0.46667,
+    "carbs": 7.79867,
+    "fat": 0.11333
+  },
+  {
+    "id": 166,
+    "name": "Abiu, cru",
+    "category": "Frutas e derivados",
+    "kcal": 62.4241,
+    "protein": 0.83333,
+    "carbs": 14.927,
+    "fat": 0.70333
+  },
+  {
+    "id": 167,
+    "name": "Açaí, polpa, com xarope de guaraná e glucose",
+    "category": "Frutas e derivados",
+    "kcal": 110.29759,
+    "protein": 0.72083,
+    "carbs": 21.45517,
+    "fat": 3.66033
+  },
+  {
+    "id": 168,
+    "name": "Açaí, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 58.04537,
+    "protein": 0.79792,
+    "carbs": 6.20842,
+    "fat": 3.94433
+  },
+  {
+    "id": 169,
+    "name": "Acerola, crua",
+    "category": "Frutas e derivados",
+    "kcal": 33.46227,
+    "protein": 0.90625,
+    "carbs": 7.96642,
+    "fat": 0.20767
+  },
+  {
+    "id": 170,
+    "name": "Acerola, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 21.9368,
+    "protein": 0.59167,
+    "carbs": 5.54133,
+    "fat": 0.00001
+  },
+  {
+    "id": 171,
+    "name": "Ameixa, calda, enlatada ",
+    "category": "Frutas e derivados",
+    "kcal": 182.84662,
+    "protein": 0.40833,
+    "carbs": 46.89267,
+    "fat": 0.00001
+  },
+  {
+    "id": 172,
+    "name": "Ameixa, crua",
+    "category": "Frutas e derivados",
+    "kcal": 52.54248,
+    "protein": 0.77174,
+    "carbs": 13.85159,
+    "fat": 0.00001
+  },
+  {
+    "id": 173,
+    "name": "Ameixa, em calda, enlatada, drenada ",
+    "category": "Frutas e derivados",
+    "kcal": 177.35919,
+    "protein": 1.025,
+    "carbs": 47.658,
+    "fat": 0.28033
+  },
+  {
+    "id": 174,
+    "name": "Atemóia, crua",
+    "category": "Frutas e derivados",
+    "kcal": 96.97159,
+    "protein": 0.97083,
+    "carbs": 25.33217,
+    "fat": 0.30033
+  },
+  {
+    "id": 175,
+    "name": "Banana, da terra, crua",
+    "category": "Frutas e derivados",
+    "kcal": 128.02445,
+    "protein": 1.43478,
+    "carbs": 33.66522,
+    "fat": 0.24
+  },
+  {
+    "id": 176,
+    "name": "Banana, doce em barra",
+    "category": "Frutas e derivados",
+    "kcal": 280.10519,
+    "protein": 2.16875,
+    "carbs": 75.66658,
+    "fat": 0.05
+  },
+  {
+    "id": 177,
+    "name": "Banana, figo, crua",
+    "category": "Frutas e derivados",
+    "kcal": 105.08265,
+    "protein": 1.13125,
+    "carbs": 27.80442,
+    "fat": 0.14167
+  },
+  {
+    "id": 178,
+    "name": "Banana, maçã, crua",
+    "category": "Frutas e derivados",
+    "kcal": 86.80533,
+    "protein": 1.75362,
+    "carbs": 22.33638,
+    "fat": 0.06
+  },
+  {
+    "id": 179,
+    "name": "Banana, nanica, crua",
+    "category": "Frutas e derivados",
+    "kcal": 91.52885,
+    "protein": 1.39855,
+    "carbs": 23.84812,
+    "fat": 0.11667
+  },
+  {
+    "id": 180,
+    "name": "Banana, ouro, crua",
+    "category": "Frutas e derivados",
+    "kcal": 112.36605,
+    "protein": 1.48188,
+    "carbs": 29.34145,
+    "fat": 0.21
+  },
+  {
+    "id": 181,
+    "name": "Banana, pacova, crua",
+    "category": "Frutas e derivados",
+    "kcal": 77.90953,
+    "protein": 1.22708,
+    "carbs": 20.31258,
+    "fat": 0.079
+  },
+  {
+    "id": 182,
+    "name": "Banana, prata, crua",
+    "category": "Frutas e derivados",
+    "kcal": 98.2497,
+    "protein": 1.26812,
+    "carbs": 25.95688,
+    "fat": 0.065
+  },
+  {
+    "id": 183,
+    "name": "Cacau, cru",
+    "category": "Frutas e derivados",
+    "kcal": 74.29148,
+    "protein": 0.95417,
+    "carbs": 19.41117,
+    "fat": 0.144
+  },
+  {
+    "id": 184,
+    "name": "Cajá-Manga, cru",
+    "category": "Frutas e derivados",
+    "kcal": 45.58097,
+    "protein": 1.27917,
+    "carbs": 11.43417,
+    "fat": 0.00001
+  },
+  {
+    "id": 185,
+    "name": "Cajá, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 26.33227,
+    "protein": 0.58958,
+    "carbs": 6.37442,
+    "fat": 0.16767
+  },
+  {
+    "id": 186,
+    "name": "Caju, cru",
+    "category": "Frutas e derivados",
+    "kcal": 43.06507,
+    "protein": 0.97101,
+    "carbs": 10.28899,
+    "fat": 0.33
+  },
+  {
+    "id": 187,
+    "name": "Caju, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 36.56868,
+    "protein": 0.48125,
+    "carbs": 9.35075,
+    "fat": 0.154
+  },
+  {
+    "id": 188,
+    "name": "Caju, suco concentrado, envasado",
+    "category": "Frutas e derivados",
+    "kcal": 45.10863,
+    "protein": 0.40417,
+    "carbs": 10.73383,
+    "fat": 0.2
+  },
+  {
+    "id": 189,
+    "name": "Caqui, chocolate, cru",
+    "category": "Frutas e derivados",
+    "kcal": 71.35002,
+    "protein": 0.35625,
+    "carbs": 19.32575,
+    "fat": 0.06933
+  },
+  {
+    "id": 190,
+    "name": "Carambola, crua",
+    "category": "Frutas e derivados",
+    "kcal": 45.74089,
+    "protein": 0.87083,
+    "carbs": 11.4815,
+    "fat": 0.177
+  },
+  {
+    "id": 191,
+    "name": "Ciriguela, crua",
+    "category": "Frutas e derivados",
+    "kcal": 75.59411,
+    "protein": 1.39792,
+    "carbs": 18.85742,
+    "fat": 0.35967
+  },
+  {
+    "id": 192,
+    "name": "Cupuaçu, cru",
+    "category": "Frutas e derivados",
+    "kcal": 49.42256,
+    "protein": 1.16042,
+    "carbs": 10.43358,
+    "fat": 0.95133
+  },
+  {
+    "id": 193,
+    "name": "Cupuaçu, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 48.79689,
+    "protein": 0.84375,
+    "carbs": 11.38692,
+    "fat": 0.59367
+  },
+  {
+    "id": 194,
+    "name": "Figo, cru",
+    "category": "Frutas e derivados",
+    "kcal": 41.44713,
+    "protein": 0.96739,
+    "carbs": 10.24594,
+    "fat": 0.15667
+  },
+  {
+    "id": 195,
+    "name": "Figo, enlatado, em calda",
+    "category": "Frutas e derivados",
+    "kcal": 184.36072,
+    "protein": 0.56159,
+    "carbs": 50.33841,
+    "fat": 0.15
+  },
+  {
+    "id": 196,
+    "name": "Fruta-pão, crua",
+    "category": "Frutas e derivados",
+    "kcal": 67.04562,
+    "protein": 1.08125,
+    "carbs": 17.17442,
+    "fat": 0.18933
+  },
+  {
+    "id": 197,
+    "name": "Goiaba, branca, com casca, crua",
+    "category": "Frutas e derivados",
+    "kcal": 51.73775,
+    "protein": 0.89855,
+    "carbs": 12.40145,
+    "fat": 0.48667
+  },
+  {
+    "id": 198,
+    "name": "Goiaba, doce em pasta",
+    "category": "Frutas e derivados",
+    "kcal": 268.95983,
+    "protein": 0.57971,
+    "carbs": 74.12362,
+    "fat": 0
+  },
+  {
+    "id": 199,
+    "name": "Goiaba, doce, cascão",
+    "category": "Frutas e derivados",
+    "kcal": 285.58779,
+    "protein": 0.41458,
+    "carbs": 78.70275,
+    "fat": 0.10333
+  },
+  {
+    "id": 200,
+    "name": "Goiaba, vermelha, com casca, crua",
+    "category": "Frutas e derivados",
+    "kcal": 54.16993,
+    "protein": 1.08696,
+    "carbs": 13.00971,
+    "fat": 0.44
+  },
+  {
+    "id": 201,
+    "name": "Graviola, crua",
+    "category": "Frutas e derivados",
+    "kcal": 61.6219,
+    "protein": 0.84583,
+    "carbs": 15.8395,
+    "fat": 0.21
+  },
+  {
+    "id": 202,
+    "name": "Graviola, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 38.27387,
+    "protein": 0.56667,
+    "carbs": 9.78267,
+    "fat": 0.13767
+  },
+  {
+    "id": 203,
+    "name": "Jabuticaba, crua",
+    "category": "Frutas e derivados",
+    "kcal": 58.05315,
+    "protein": 0.6125,
+    "carbs": 15.25583,
+    "fat": 0.12833
+  },
+  {
+    "id": 204,
+    "name": "Jaca, crua",
+    "category": "Frutas e derivados",
+    "kcal": 87.92035,
+    "protein": 1.40208,
+    "carbs": 22.49758,
+    "fat": 0.265
+  },
+  {
+    "id": 205,
+    "name": "Jambo, cru",
+    "category": "Frutas e derivados",
+    "kcal": 26.9123,
+    "protein": 0.88542,
+    "carbs": 6.49425,
+    "fat": 0.06667
+  },
+  {
+    "id": 206,
+    "name": "Jamelão, cru",
+    "category": "Frutas e derivados",
+    "kcal": 41.00971,
+    "protein": 0.54583,
+    "carbs": 10.62717,
+    "fat": 0.10967
+  },
+  {
+    "id": 207,
+    "name": "Kiwi, cru",
+    "category": "Frutas e derivados",
+    "kcal": 51.13633,
+    "protein": 1.33696,
+    "carbs": 11.49971,
+    "fat": 0.62667
+  },
+  {
+    "id": 208,
+    "name": "Laranja, baía, crua",
+    "category": "Frutas e derivados",
+    "kcal": 45.43812,
+    "protein": 0.97826,
+    "carbs": 11.46841,
+    "fat": 0.10333
+  },
+  {
+    "id": 209,
+    "name": "Laranja, baía, suco",
+    "category": "Frutas e derivados",
+    "kcal": 36.64948,
+    "protein": 0.65217,
+    "carbs": 8.69783,
+    "fat": 0.00001
+  },
+  {
+    "id": 210,
+    "name": "Laranja, da terra, crua",
+    "category": "Frutas e derivados",
+    "kcal": 51.47113,
+    "protein": 1.07708,
+    "carbs": 12.86058,
+    "fat": 0.18567
+  },
+  {
+    "id": 211,
+    "name": "Laranja, da terra, suco",
+    "category": "Frutas e derivados",
+    "kcal": 40.95601,
+    "protein": 0.66667,
+    "carbs": 9.57333,
+    "fat": 0.142
+  },
+  {
+    "id": 212,
+    "name": "Laranja, lima, crua",
+    "category": "Frutas e derivados",
+    "kcal": 45.70104,
+    "protein": 1.05625,
+    "carbs": 11.53375,
+    "fat": 0.07533
+  },
+  {
+    "id": 213,
+    "name": "Laranja, lima, suco",
+    "category": "Frutas e derivados",
+    "kcal": 39.33609,
+    "protein": 0.71458,
+    "carbs": 9.16742,
+    "fat": 0.11933
+  },
+  {
+    "id": 214,
+    "name": "Laranja, pêra, crua",
+    "category": "Frutas e derivados",
+    "kcal": 36.77377,
+    "protein": 1.04348,
+    "carbs": 8.94652,
+    "fat": 0.12667
+  },
+  {
+    "id": 215,
+    "name": "Laranja, pêra, suco",
+    "category": "Frutas e derivados",
+    "kcal": 32.70975,
+    "protein": 0.73913,
+    "carbs": 7.5542,
+    "fat": 0.07333
+  },
+  {
+    "id": 216,
+    "name": "Laranja, valência, crua",
+    "category": "Frutas e derivados",
+    "kcal": 46.10963,
+    "protein": 0.76667,
+    "carbs": 11.723,
+    "fat": 0.159
+  },
+  {
+    "id": 217,
+    "name": "Laranja, valência, suco",
+    "category": "Frutas e derivados",
+    "kcal": 36.19635,
+    "protein": 0.48333,
+    "carbs": 8.554,
+    "fat": 0.12433
+  },
+  {
+    "id": 218,
+    "name": "Limão, cravo, suco",
+    "category": "Frutas e derivados",
+    "kcal": 14.10373,
+    "protein": 0.325,
+    "carbs": 5.24667,
+    "fat": 0.00001
+  },
+  {
+    "id": 219,
+    "name": "Limão, galego, suco",
+    "category": "Frutas e derivados",
+    "kcal": 22.22504,
+    "protein": 0.56522,
+    "carbs": 7.32145,
+    "fat": 0.06667
+  },
+  {
+    "id": 220,
+    "name": "Limão, tahiti, cru",
+    "category": "Frutas e derivados",
+    "kcal": 31.81815,
+    "protein": 0.93958,
+    "carbs": 11.08442,
+    "fat": 0.14
+  },
+  {
+    "id": 221,
+    "name": "Maçã, Argentina, com casca, crua",
+    "category": "Frutas e derivados",
+    "kcal": 62.53182,
+    "protein": 0.225,
+    "carbs": 16.588,
+    "fat": 0.246
+  },
+  {
+    "id": 222,
+    "name": "Maçã, Fuji, com casca, crua",
+    "category": "Frutas e derivados",
+    "kcal": 55.5152,
+    "protein": 0.28667,
+    "carbs": 15.15333,
+    "fat": 0.00001
+  },
+  {
+    "id": 223,
+    "name": "Macaúba, crua",
+    "category": "Frutas e derivados",
+    "kcal": 404.28188,
+    "protein": 2.0829,
+    "carbs": 13.94543,
+    "fat": 40.65667
+  },
+  {
+    "id": 224,
+    "name": " Mamão, doce em calda, drenado",
+    "category": "Frutas e derivados",
+    "kcal": 195.62747,
+    "protein": 0.19375,
+    "carbs": 54.00358,
+    "fat": 0.06733
+  },
+  {
+    "id": 225,
+    "name": "Mamão, Formosa, cru",
+    "category": "Frutas e derivados",
+    "kcal": 45.34075,
+    "protein": 0.81522,
+    "carbs": 11.55478,
+    "fat": 0.12
+  },
+  {
+    "id": 226,
+    "name": "Mamão, Papaia, cru",
+    "category": "Frutas e derivados",
+    "kcal": 40.15677,
+    "protein": 0.45625,
+    "carbs": 10.43975,
+    "fat": 0.12433
+  },
+  {
+    "id": 227,
+    "name": " Mamão verde, doce em calda, drenado",
+    "category": "Frutas e derivados",
+    "kcal": 209.37625,
+    "protein": 0.31667,
+    "carbs": 57.63667,
+    "fat": 0.098
+  },
+  {
+    "id": 228,
+    "name": "Manga, Haden, crua",
+    "category": "Frutas e derivados",
+    "kcal": 63.50032,
+    "protein": 0.40833,
+    "carbs": 16.66267,
+    "fat": 0.256
+  },
+  {
+    "id": 229,
+    "name": "Manga, Palmer, crua",
+    "category": "Frutas e derivados",
+    "kcal": 72.48674,
+    "protein": 0.41042,
+    "carbs": 19.35225,
+    "fat": 0.172
+  },
+  {
+    "id": 230,
+    "name": "Manga, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 48.30588,
+    "protein": 0.38125,
+    "carbs": 12.51842,
+    "fat": 0.234
+  },
+  {
+    "id": 231,
+    "name": "Manga, Tommy Atkins, crua",
+    "category": "Frutas e derivados",
+    "kcal": 50.69218,
+    "protein": 0.85507,
+    "carbs": 12.77159,
+    "fat": 0.22
+  },
+  {
+    "id": 232,
+    "name": "Maracujá, cru",
+    "category": "Frutas e derivados",
+    "kcal": 68.43951,
+    "protein": 1.98913,
+    "carbs": 12.2642,
+    "fat": 2.10333
+  },
+  {
+    "id": 233,
+    "name": "Maracujá, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 38.7597,
+    "protein": 0.8125,
+    "carbs": 9.5975,
+    "fat": 0.17667
+  },
+  {
+    "id": 234,
+    "name": "Maracujá, suco concentrado, envasado",
+    "category": "Frutas e derivados",
+    "kcal": 41.96732,
+    "protein": 0.76667,
+    "carbs": 9.636,
+    "fat": 0.19333
+  },
+  {
+    "id": 235,
+    "name": "Melancia, crua",
+    "category": "Frutas e derivados",
+    "kcal": 32.60663,
+    "protein": 0.88406,
+    "carbs": 8.13928,
+    "fat": 0.00001
+  },
+  {
+    "id": 236,
+    "name": "Melão, cru",
+    "category": "Frutas e derivados",
+    "kcal": 29.36939,
+    "protein": 0.67754,
+    "carbs": 7.5258,
+    "fat": 0.00001
+  },
+  {
+    "id": 237,
+    "name": "Mexerica, Murcote, crua",
+    "category": "Frutas e derivados",
+    "kcal": 57.59278,
+    "protein": 0.88333,
+    "carbs": 14.862,
+    "fat": 0.134
+  },
+  {
+    "id": 238,
+    "name": "Mexerica, Rio, crua",
+    "category": "Frutas e derivados",
+    "kcal": 36.87135,
+    "protein": 0.65,
+    "carbs": 9.337,
+    "fat": 0.12833
+  },
+  {
+    "id": 239,
+    "name": "Morango, cru",
+    "category": "Frutas e derivados",
+    "kcal": 30.14792,
+    "protein": 0.89493,
+    "carbs": 6.81841,
+    "fat": 0.31
+  },
+  {
+    "id": 240,
+    "name": "Nêspera, crua",
+    "category": "Frutas e derivados",
+    "kcal": 42.5392,
+    "protein": 0.30833,
+    "carbs": 11.52867,
+    "fat": 0.00001
+  },
+  {
+    "id": 241,
+    "name": "Pequi, cru",
+    "category": "Frutas e derivados",
+    "kcal": 204.96677,
+    "protein": 2.33542,
+    "carbs": 12.97292,
+    "fat": 17.971
+  },
+  {
+    "id": 242,
+    "name": "Pêra, Park, crua",
+    "category": "Frutas e derivados",
+    "kcal": 60.58859,
+    "protein": 0.23542,
+    "carbs": 16.07492,
+    "fat": 0.23033
+  },
+  {
+    "id": 243,
+    "name": "Pêra, Williams, crua",
+    "category": "Frutas e derivados",
+    "kcal": 53.30905,
+    "protein": 0.56522,
+    "carbs": 14.02478,
+    "fat": 0.11
+  },
+  {
+    "id": 244,
+    "name": "Pêssego, Aurora, cru",
+    "category": "Frutas e derivados",
+    "kcal": 36.3276,
+    "protein": 0.825,
+    "carbs": 9.321,
+    "fat": 0.00001
+  },
+  {
+    "id": 245,
+    "name": "Pêssego, enlatado, em calda",
+    "category": "Frutas e derivados",
+    "kcal": 63.14243,
+    "protein": 0.70652,
+    "carbs": 16.88014,
+    "fat": 0.00001
+  },
+  {
+    "id": 246,
+    "name": "Pinha, crua",
+    "category": "Frutas e derivados",
+    "kcal": 88.47353,
+    "protein": 1.48542,
+    "carbs": 22.44792,
+    "fat": 0.319
+  },
+  {
+    "id": 247,
+    "name": "Pitanga, crua",
+    "category": "Frutas e derivados",
+    "kcal": 41.41553,
+    "protein": 0.92917,
+    "carbs": 10.24417,
+    "fat": 0.169
+  },
+  {
+    "id": 248,
+    "name": "Pitanga, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 19.10546,
+    "protein": 0.28542,
+    "carbs": 4.75858,
+    "fat": 0.12133
+  },
+  {
+    "id": 249,
+    "name": "Romã, crua",
+    "category": "Frutas e derivados",
+    "kcal": 55.739,
+    "protein": 0.40417,
+    "carbs": 15.10583,
+    "fat": 0.00001
+  },
+  {
+    "id": 250,
+    "name": "Tamarindo, cru",
+    "category": "Frutas e derivados",
+    "kcal": 275.69564,
+    "protein": 3.20625,
+    "carbs": 72.53175,
+    "fat": 0.455
+  },
+  {
+    "id": 251,
+    "name": "Tangerina, Poncã, crua",
+    "category": "Frutas e derivados",
+    "kcal": 37.8306,
+    "protein": 0.84783,
+    "carbs": 9.61,
+    "fat": 0.07333
+  },
+  {
+    "id": 252,
+    "name": "Tangerina, Poncã, suco",
+    "category": "Frutas e derivados",
+    "kcal": 36.1088,
+    "protein": 0.52174,
+    "carbs": 8.8,
+    "fat": 0.00001
+  },
+  {
+    "id": 253,
+    "name": "Tucumã, cru",
+    "category": "Frutas e derivados",
+    "kcal": 262.0152,
+    "protein": 2.09375,
+    "carbs": 26.47458,
+    "fat": 19.07667
+  },
+  {
+    "id": 254,
+    "name": "Umbu, cru",
+    "category": "Frutas e derivados",
+    "kcal": 37.01669,
+    "protein": 0.84167,
+    "carbs": 9.39533,
+    "fat": 0.00001
+  },
+  {
+    "id": 255,
+    "name": "Umbu, polpa, congelada",
+    "category": "Frutas e derivados",
+    "kcal": 33.94329,
+    "protein": 0.5125,
+    "carbs": 8.78683,
+    "fat": 0.07033
+  },
+  {
+    "id": 256,
+    "name": "Uva, Itália, crua",
+    "category": "Frutas e derivados",
+    "kcal": 52.8731,
+    "protein": 0.74638,
+    "carbs": 13.57333,
+    "fat": 0.20333
+  },
+  {
+    "id": 257,
+    "name": "Uva, Rubi, crua",
+    "category": "Frutas e derivados",
+    "kcal": 49.06129,
+    "protein": 0.60833,
+    "carbs": 12.69533,
+    "fat": 0.157
+  },
+  {
+    "id": 258,
+    "name": "Uva, suco concentrado, envasado",
+    "category": "Frutas e derivados",
+    "kcal": 57.65536,
+    "protein": 0.00001,
+    "carbs": 14.708,
+    "fat": 0.00001
+  },
+  {
+    "id": 259,
+    "name": "Azeite, de dendê",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 260,
+    "name": "Azeite, de oliva, extra virgem",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 261,
+    "name": "Manteiga, com sal",
+    "category": "Gorduras e óleos",
+    "kcal": 725.96893,
+    "protein": 0.4147,
+    "carbs": 0.0633,
+    "fat": 82.361
+  },
+  {
+    "id": 262,
+    "name": "Manteiga, sem sal",
+    "category": "Gorduras e óleos",
+    "kcal": 757.54046,
+    "protein": 0.39556,
+    "carbs": 0,
+    "fat": 86.03933
+  },
+  {
+    "id": 263,
+    "name": "Margarina, com óleo hidrogenado, com sal (65% de lipídeos)",
+    "category": "Gorduras e óleos",
+    "kcal": 596.11952,
+    "protein": 0.00001,
+    "carbs": 0,
+    "fat": 67.43433
+  },
+  {
+    "id": 264,
+    "name": "Margarina, com óleo hidrogenado, sem sal (80% de lipídeos)",
+    "category": "Gorduras e óleos",
+    "kcal": 722.52563,
+    "protein": 0.00001,
+    "carbs": 0,
+    "fat": 81.73367
+  },
+  {
+    "id": 265,
+    "name": "Margarina, com óleo interesterificado, com sal (65%de lipídeos)",
+    "category": "Gorduras e óleos",
+    "kcal": 594.45169,
+    "protein": 0.00001,
+    "carbs": 0,
+    "fat": 67.24567
+  },
+  {
+    "id": 266,
+    "name": "Margarina, com óleo interesterificado, sem sal (65% de lipídeos)",
+    "category": "Gorduras e óleos",
+    "kcal": 593.13749,
+    "protein": 0.00001,
+    "carbs": 0,
+    "fat": 67.097
+  },
+  {
+    "id": 267,
+    "name": "Óleo, de babaçu",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 268,
+    "name": "Óleo, de canola",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 269,
+    "name": "Óleo, de girassol",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 270,
+    "name": "Óleo, de milho",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 271,
+    "name": "Óleo, de pequi",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 272,
+    "name": "Óleo, de soja",
+    "category": "Gorduras e óleos",
+    "kcal": 884,
+    "protein": null,
+    "carbs": null,
+    "fat": 100
+  },
+  {
+    "id": 273,
+    "name": "Abadejo, filé, congelado, assado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 111.6155,
+    "protein": 23.525,
+    "carbs": 0,
+    "fat": 1.23767
+  },
+  {
+    "id": 274,
+    "name": "Abadejo, filé, congelado,cozido",
+    "category": "Pescados e frutos do mar",
+    "kcal": 91.10355,
+    "protein": 19.34583,
+    "carbs": 0,
+    "fat": 0.942
+  },
+  {
+    "id": 275,
+    "name": "Abadejo, filé, congelado, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 59.11303,
+    "protein": 13.08333,
+    "carbs": 0,
+    "fat": 0.36
+  },
+  {
+    "id": 276,
+    "name": "Abadejo, filé, congelado, grelhado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 129.64353,
+    "protein": 27.61042,
+    "carbs": 0,
+    "fat": 1.30233
+  },
+  {
+    "id": 277,
+    "name": "Atum, conserva em óleo",
+    "category": "Pescados e frutos do mar",
+    "kcal": 165.91056,
+    "protein": 26.1875,
+    "carbs": 0,
+    "fat": 5.99667
+  },
+  {
+    "id": 278,
+    "name": "Atum, fresco, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 117.501,
+    "protein": 25.68,
+    "carbs": 0,
+    "fat": 0.87
+  },
+  {
+    "id": 279,
+    "name": "Bacalhau, salgado, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 135.89297,
+    "protein": 29.03667,
+    "carbs": 0,
+    "fat": 1.32
+  },
+  {
+    "id": 280,
+    "name": "Bacalhau, salgado, refogado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 139.6607,
+    "protein": 23.97917,
+    "carbs": 1.22417,
+    "fat": 3.60667
+  },
+  {
+    "id": 281,
+    "name": "Cação, posta, com farinha de trigo, frita",
+    "category": "Pescados e frutos do mar",
+    "kcal": 208.33274,
+    "protein": 24.95208,
+    "carbs": 3.10058,
+    "fat": 9.95433
+  },
+  {
+    "id": 282,
+    "name": "Cação, posta, cozida",
+    "category": "Pescados e frutos do mar",
+    "kcal": 116.01448,
+    "protein": 25.58958,
+    "carbs": 0,
+    "fat": 0.748
+  },
+  {
+    "id": 283,
+    "name": "Cação, posta, crua",
+    "category": "Pescados e frutos do mar",
+    "kcal": 83.33303,
+    "protein": 17.85417,
+    "carbs": 0,
+    "fat": 0.78667
+  },
+  {
+    "id": 284,
+    "name": "Camarão, Rio Grande, grande, cozido",
+    "category": "Pescados e frutos do mar",
+    "kcal": 90.01368,
+    "protein": 18.96667,
+    "carbs": 0,
+    "fat": 1.00067
+  },
+  {
+    "id": 285,
+    "name": "Camarão, Rio Grande, grande, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 47.18344,
+    "protein": 9.99167,
+    "carbs": 0,
+    "fat": 0.501
+  },
+  {
+    "id": 286,
+    "name": "Camarão, Sete Barbas, sem cabeça, com casca, frito",
+    "category": "Pescados e frutos do mar",
+    "kcal": 231.24615,
+    "protein": 18.3875,
+    "carbs": 2.87983,
+    "fat": 15.62033
+  },
+  {
+    "id": 287,
+    "name": "Caranguejo, cozido",
+    "category": "Pescados e frutos do mar",
+    "kcal": 82.7215,
+    "protein": 18.47917,
+    "carbs": 0,
+    "fat": 0.423
+  },
+  {
+    "id": 288,
+    "name": "Corimba, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 128.1554,
+    "protein": 17.36667,
+    "carbs": -0.02667,
+    "fat": 5.98667
+  },
+  {
+    "id": 289,
+    "name": "Corimbatá, assado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 261.45244,
+    "protein": 19.89792,
+    "carbs": 0,
+    "fat": 19.56633
+  },
+  {
+    "id": 290,
+    "name": "Corimbatá, cozido",
+    "category": "Pescados e frutos do mar",
+    "kcal": 238.6961,
+    "protein": 20.13125,
+    "carbs": 0,
+    "fat": 16.933
+  },
+  {
+    "id": 291,
+    "name": "Corvina de água doce, crua",
+    "category": "Pescados e frutos do mar",
+    "kcal": 101.00903,
+    "protein": 18.91667,
+    "carbs": 0,
+    "fat": 2.24333
+  },
+  {
+    "id": 292,
+    "name": "Corvina do mar, crua",
+    "category": "Pescados e frutos do mar",
+    "kcal": 94,
+    "protein": 18.57,
+    "carbs": 0,
+    "fat": 1.58333
+  },
+  {
+    "id": 293,
+    "name": "Corvina grande, assada",
+    "category": "Pescados e frutos do mar",
+    "kcal": 146.52814,
+    "protein": 26.76667,
+    "carbs": 0,
+    "fat": 3.57367
+  },
+  {
+    "id": 294,
+    "name": "Corvina grande, cozida",
+    "category": "Pescados e frutos do mar",
+    "kcal": 100.07812,
+    "protein": 23.4375,
+    "carbs": 0,
+    "fat": 2.56267
+  },
+  {
+    "id": 295,
+    "name": "Dourada de água doce, fresca",
+    "category": "Pescados e frutos do mar",
+    "kcal": 131.20831,
+    "protein": 18.81042,
+    "carbs": 0,
+    "fat": 5.64167
+  },
+  {
+    "id": 296,
+    "name": "Lambari, congelado, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 130.84031,
+    "protein": 16.8125,
+    "carbs": 0,
+    "fat": 6.54667
+  },
+  {
+    "id": 297,
+    "name": "Lambari, congelado, frito",
+    "category": "Pescados e frutos do mar",
+    "kcal": 326.8684,
+    "protein": 28.425,
+    "carbs": 0,
+    "fat": 22.782
+  },
+  {
+    "id": 298,
+    "name": "Lambari, fresco, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 151.59835,
+    "protein": 15.65208,
+    "carbs": 0,
+    "fat": 9.39733
+  },
+  {
+    "id": 299,
+    "name": "Manjuba, com farinha de trigo, frita",
+    "category": "Pescados e frutos do mar",
+    "kcal": 343.55046,
+    "protein": 23.45,
+    "carbs": 10.24033,
+    "fat": 22.593
+  },
+  {
+    "id": 300,
+    "name": "Manjuba, frita",
+    "category": "Pescados e frutos do mar",
+    "kcal": 349.32523,
+    "protein": 30.13958,
+    "carbs": 0,
+    "fat": 24.46
+  },
+  {
+    "id": 301,
+    "name": "Merluza, filé, assado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 121.91022,
+    "protein": 26.60417,
+    "carbs": 0,
+    "fat": 0.92133
+  },
+  {
+    "id": 302,
+    "name": "Merluza, filé, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 89.13087,
+    "protein": 16.60667,
+    "carbs": 0,
+    "fat": 2.02
+  },
+  {
+    "id": 303,
+    "name": "Merluza, filé, frito",
+    "category": "Pescados e frutos do mar",
+    "kcal": 191.62748,
+    "protein": 26.92917,
+    "carbs": 0,
+    "fat": 8.49667
+  },
+  {
+    "id": 304,
+    "name": "Pescada, branca, crua",
+    "category": "Pescados e frutos do mar",
+    "kcal": 110.8763,
+    "protein": 16.26333,
+    "carbs": 0,
+    "fat": 4.59333
+  },
+  {
+    "id": 305,
+    "name": "Pescada, branca, frita",
+    "category": "Pescados e frutos do mar",
+    "kcal": 223.03973,
+    "protein": 27.35625,
+    "carbs": 0,
+    "fat": 11.777
+  },
+  {
+    "id": 306,
+    "name": "Pescada, filé, com farinha de trigo, frito",
+    "category": "Pescados e frutos do mar",
+    "kcal": 283.42521,
+    "protein": 21.43542,
+    "carbs": 5.03325,
+    "fat": 19.115
+  },
+  {
+    "id": 307,
+    "name": "Pescada, filé, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 107.20557,
+    "protein": 16.65,
+    "carbs": 0,
+    "fat": 4.00333
+  },
+  {
+    "id": 308,
+    "name": "Pescada, filé, frito",
+    "category": "Pescados e frutos do mar",
+    "kcal": 154.27003,
+    "protein": 28.5875,
+    "carbs": 0,
+    "fat": 3.57
+  },
+  {
+    "id": 309,
+    "name": "Pescada, filé, molho escabeche",
+    "category": "Pescados e frutos do mar",
+    "kcal": 141.95832,
+    "protein": 11.75,
+    "carbs": 5.01533,
+    "fat": 8.024
+  },
+  {
+    "id": 310,
+    "name": "Pescadinha, crua",
+    "category": "Pescados e frutos do mar",
+    "kcal": 76.40891,
+    "protein": 15.47917,
+    "carbs": 0,
+    "fat": 1.14333
+  },
+  {
+    "id": 311,
+    "name": "Pintado, assado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 191.55914,
+    "protein": 36.45,
+    "carbs": 0,
+    "fat": 3.982
+  },
+  {
+    "id": 312,
+    "name": "Pintado, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 91.08323,
+    "protein": 18.55667,
+    "carbs": 0,
+    "fat": 1.31333
+  },
+  {
+    "id": 313,
+    "name": "Pintado, grelhado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 152.19009,
+    "protein": 30.79583,
+    "carbs": 0,
+    "fat": 2.294
+  },
+  {
+    "id": 314,
+    "name": "Porquinho, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 93.02457,
+    "protein": 20.49,
+    "carbs": 0,
+    "fat": 0.61333
+  },
+  {
+    "id": 315,
+    "name": "Salmão, filé, com pele, fresco,  grelhado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 228.73178,
+    "protein": 23.91875,
+    "carbs": 0,
+    "fat": 14.03533
+  },
+  {
+    "id": 316,
+    "name": "Salmão, sem pele, fresco, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 169.78158,
+    "protein": 19.25208,
+    "carbs": 0,
+    "fat": 9.709
+  },
+  {
+    "id": 317,
+    "name": "Salmão, sem pele, fresco, grelhado",
+    "category": "Pescados e frutos do mar",
+    "kcal": 242.70657,
+    "protein": 26.14167,
+    "carbs": 0,
+    "fat": 14.53233
+  },
+  {
+    "id": 318,
+    "name": "Sardinha, assada",
+    "category": "Pescados e frutos do mar",
+    "kcal": 164.35079,
+    "protein": 32.17917,
+    "carbs": 0,
+    "fat": 2.98733
+  },
+  {
+    "id": 319,
+    "name": "Sardinha, conserva em óleo",
+    "category": "Pescados e frutos do mar",
+    "kcal": 284.981,
+    "protein": 15.93958,
+    "carbs": 0,
+    "fat": 24.04867
+  },
+  {
+    "id": 320,
+    "name": "Sardinha, frita",
+    "category": "Pescados e frutos do mar",
+    "kcal": 257.0407,
+    "protein": 33.38333,
+    "carbs": 0,
+    "fat": 12.69333
+  },
+  {
+    "id": 321,
+    "name": "Sardinha, inteira, crua",
+    "category": "Pescados e frutos do mar",
+    "kcal": 113.90037,
+    "protein": 21.07667,
+    "carbs": 0,
+    "fat": 2.65
+  },
+  {
+    "id": 322,
+    "name": "Tucunaré, filé, congelado, cru",
+    "category": "Pescados e frutos do mar",
+    "kcal": 87.68648,
+    "protein": 17.95833,
+    "carbs": -0.045,
+    "fat": 1.22
+  },
+  {
+    "id": 323,
+    "name": "Apresuntado",
+    "category": "Carnes e derivados",
+    "kcal": 128.85726,
+    "protein": 13.45,
+    "carbs": 2.862,
+    "fat": 6.69067
+  },
+  {
+    "id": 324,
+    "name": "Caldo de carne, tablete",
+    "category": "Carnes e derivados",
+    "kcal": 240.62333,
+    "protein": 7.82,
+    "carbs": 15.05333,
+    "fat": 16.57
+  },
+  {
+    "id": 325,
+    "name": "Caldo de galinha, tablete",
+    "category": "Carnes e derivados",
+    "kcal": 251.44567,
+    "protein": 6.27917,
+    "carbs": 10.6455,
+    "fat": 20.41633
+  },
+  {
+    "id": 326,
+    "name": "Carne, bovina, acém, moído, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 212.4204,
+    "protein": 26.68667,
+    "carbs": 0,
+    "fat": 10.91667
+  },
+  {
+    "id": 327,
+    "name": "Carne, bovina, acém, moído, cru",
+    "category": "Carnes e derivados",
+    "kcal": 136.56233,
+    "protein": 19.42,
+    "carbs": 0,
+    "fat": 5.94667
+  },
+  {
+    "id": 328,
+    "name": "Carne, bovina, acém, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 214.61057,
+    "protein": 27.27,
+    "carbs": 0,
+    "fat": 10.88333
+  },
+  {
+    "id": 329,
+    "name": "Carne, bovina, acém, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 144.02943,
+    "protein": 20.81667,
+    "carbs": 0,
+    "fat": 6.11333
+  },
+  {
+    "id": 330,
+    "name": "Carne, bovina, almôndegas, cruas",
+    "category": "Carnes e derivados",
+    "kcal": 189.25667,
+    "protein": 12.3125,
+    "carbs": 9.79417,
+    "fat": 11.20333
+  },
+  {
+    "id": 331,
+    "name": "Carne, bovina, almôndegas, fritas",
+    "category": "Carnes e derivados",
+    "kcal": 271.813,
+    "protein": 18.15625,
+    "carbs": 14.28675,
+    "fat": 15.78233
+  },
+  {
+    "id": 332,
+    "name": "Carne, bovina, bucho, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 133.02287,
+    "protein": 21.64,
+    "carbs": 0,
+    "fat": 4.50333
+  },
+  {
+    "id": 333,
+    "name": "Carne, bovina, bucho, cru",
+    "category": "Carnes e derivados",
+    "kcal": 137.30317,
+    "protein": 20.53,
+    "carbs": 0,
+    "fat": 5.50333
+  },
+  {
+    "id": 334,
+    "name": "Carne, bovina, capa de contra-filé, com gordura, crua",
+    "category": "Carnes e derivados",
+    "kcal": 216.90897,
+    "protein": 19.19667,
+    "carbs": 0,
+    "fat": 14.96
+  },
+  {
+    "id": 335,
+    "name": "Carne, bovina, capa de contra-filé, com gordura, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 311.70267,
+    "protein": 30.68667,
+    "carbs": 0,
+    "fat": 20.03
+  },
+  {
+    "id": 336,
+    "name": "Carne, bovina, capa de contra-filé, sem gordura, crua",
+    "category": "Carnes e derivados",
+    "kcal": 131.06247,
+    "protein": 21.54,
+    "carbs": 0,
+    "fat": 4.33333
+  },
+  {
+    "id": 337,
+    "name": "Carne, bovina, capa de contra-filé, sem gordura, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 239.44363,
+    "protein": 35.06333,
+    "carbs": -0.00667,
+    "fat": 9.95
+  },
+  {
+    "id": 338,
+    "name": "Carne, bovina, charque, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 262.78014,
+    "protein": 36.36458,
+    "carbs": 0,
+    "fat": 11.91833
+  },
+  {
+    "id": 339,
+    "name": "Carne, bovina, charque, cru",
+    "category": "Carnes e derivados",
+    "kcal": 248.86102,
+    "protein": 22.71458,
+    "carbs": 0,
+    "fat": 16.837
+  },
+  {
+    "id": 340,
+    "name": "Carne, bovina, contra-filé, à milanesa",
+    "category": "Carnes e derivados",
+    "kcal": 351.59266,
+    "protein": 20.6125,
+    "carbs": 12.1745,
+    "fat": 23.998
+  },
+  {
+    "id": 341,
+    "name": "Carne, bovina, contra-filé de costela, cru",
+    "category": "Carnes e derivados",
+    "kcal": 202.4374,
+    "protein": 19.8,
+    "carbs": 0,
+    "fat": 13.07
+  },
+  {
+    "id": 342,
+    "name": "Carne, bovina, contra-filé de costela, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 274.91427,
+    "protein": 29.88,
+    "carbs": 0,
+    "fat": 16.33333
+  },
+  {
+    "id": 343,
+    "name": "Carne, bovina, contra-filé, com gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 205.8567,
+    "protein": 21.15,
+    "carbs": 0,
+    "fat": 12.81
+  },
+  {
+    "id": 344,
+    "name": "Carne, bovina, contra-filé, com gordura, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 278.05357,
+    "protein": 32.39667,
+    "carbs": 0,
+    "fat": 15.49
+  },
+  {
+    "id": 345,
+    "name": "Carne, bovina, contra-filé, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 156.61583,
+    "protein": 23.99667,
+    "carbs": 0,
+    "fat": 6.00333
+  },
+  {
+    "id": 346,
+    "name": "Carne, bovina, contra-filé, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 193.69157,
+    "protein": 35.88333,
+    "carbs": 0,
+    "fat": 4.48667
+  },
+  {
+    "id": 347,
+    "name": "Carne, bovina, costela, assada",
+    "category": "Carnes e derivados",
+    "kcal": 373.03887,
+    "protein": 28.80667,
+    "carbs": 0,
+    "fat": 27.72
+  },
+  {
+    "id": 348,
+    "name": "Carne, bovina, costela, crua",
+    "category": "Carnes e derivados",
+    "kcal": 357.72247,
+    "protein": 16.70667,
+    "carbs": 0,
+    "fat": 31.75
+  },
+  {
+    "id": 349,
+    "name": "Carne, bovina, coxão duro, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 216.61607,
+    "protein": 31.88,
+    "carbs": 0,
+    "fat": 8.92333
+  },
+  {
+    "id": 350,
+    "name": "Carne, bovina, coxão duro, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 147.96633,
+    "protein": 21.51333,
+    "carbs": 0,
+    "fat": 6.22
+  },
+  {
+    "id": 351,
+    "name": "Carne, bovina, coxão mole, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 218.6751,
+    "protein": 32.38333,
+    "carbs": 0,
+    "fat": 8.91333
+  },
+  {
+    "id": 352,
+    "name": "Carne, bovina, coxão mole, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 169.06597,
+    "protein": 21.23,
+    "carbs": 0,
+    "fat": 8.69333
+  },
+  {
+    "id": 353,
+    "name": "Carne, bovina, cupim, assado",
+    "category": "Carnes e derivados",
+    "kcal": 330.10029,
+    "protein": 28.63125,
+    "carbs": 0,
+    "fat": 23.04267
+  },
+  {
+    "id": 354,
+    "name": "Carne, bovina, cupim, cru",
+    "category": "Carnes e derivados",
+    "kcal": 221.3975,
+    "protein": 19.53667,
+    "carbs": 0,
+    "fat": 15.29667
+  },
+  {
+    "id": 355,
+    "name": "Carne, bovina, fígado, cru",
+    "category": "Carnes e derivados",
+    "kcal": 141.04587,
+    "protein": 20.71333,
+    "carbs": 1.10667,
+    "fat": 5.35667
+  },
+  {
+    "id": 356,
+    "name": "Carne, bovina, fígado, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 225.0264,
+    "protein": 29.86,
+    "carbs": 4.2,
+    "fat": 9.01
+  },
+  {
+    "id": 357,
+    "name": "Carne, bovina, filé mingnon, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 142.86427,
+    "protein": 21.6,
+    "carbs": 0,
+    "fat": 5.61333
+  },
+  {
+    "id": 358,
+    "name": "Carne, bovina, filé mingnon, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 219.7026,
+    "protein": 32.8,
+    "carbs": 0,
+    "fat": 8.83
+  },
+  {
+    "id": 359,
+    "name": "Carne, bovina, flanco, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 195.57537,
+    "protein": 29.37667,
+    "carbs": 0,
+    "fat": 7.77
+  },
+  {
+    "id": 360,
+    "name": "Carne, bovina, flanco, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 141.4601,
+    "protein": 19.99667,
+    "carbs": 0,
+    "fat": 6.21667
+  },
+  {
+    "id": 361,
+    "name": "Carne, bovina, fraldinha, com gordura, cozida",
+    "category": "Carnes e derivados",
+    "kcal": 338.44573,
+    "protein": 24.24,
+    "carbs": 0,
+    "fat": 26.04667
+  },
+  {
+    "id": 362,
+    "name": "Carne, bovina, fraldinha, com gordura, crua",
+    "category": "Carnes e derivados",
+    "kcal": 220.72377,
+    "protein": 17.58333,
+    "carbs": 0,
+    "fat": 16.14667
+  },
+  {
+    "id": 363,
+    "name": "Carne, bovina, lagarto, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 222.46857,
+    "protein": 32.86333,
+    "carbs": 0,
+    "fat": 9.10667
+  },
+  {
+    "id": 364,
+    "name": "Carne, bovina, lagarto, cru",
+    "category": "Carnes e derivados",
+    "kcal": 134.86457,
+    "protein": 20.54333,
+    "carbs": 0,
+    "fat": 5.22667
+  },
+  {
+    "id": 365,
+    "name": "Carne, bovina, língua, cozida",
+    "category": "Carnes e derivados",
+    "kcal": 314.9016,
+    "protein": 21.36667,
+    "carbs": 0,
+    "fat": 24.79667
+  },
+  {
+    "id": 366,
+    "name": "Carne, bovina, língua, crua",
+    "category": "Carnes e derivados",
+    "kcal": 215.24977,
+    "protein": 17.09,
+    "carbs": 0,
+    "fat": 15.77333
+  },
+  {
+    "id": 367,
+    "name": "Carne, bovina, maminha, crua",
+    "category": "Carnes e derivados",
+    "kcal": 152.76587,
+    "protein": 20.93333,
+    "carbs": 0,
+    "fat": 7.02667
+  },
+  {
+    "id": 368,
+    "name": "Carne, bovina, maminha, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 153.08968,
+    "protein": 30.73542,
+    "carbs": 0,
+    "fat": 2.42233
+  },
+  {
+    "id": 369,
+    "name": "Carne, bovina, miolo de alcatra, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 162.87123,
+    "protein": 21.61,
+    "carbs": 0,
+    "fat": 7.82667
+  },
+  {
+    "id": 370,
+    "name": "Carne, bovina, miolo de alcatra, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 241.36397,
+    "protein": 31.93,
+    "carbs": 0,
+    "fat": 11.64333
+  },
+  {
+    "id": 371,
+    "name": "Carne, bovina, músculo, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 193.80033,
+    "protein": 31.23333,
+    "carbs": 0,
+    "fat": 6.7
+  },
+  {
+    "id": 372,
+    "name": "Carne, bovina, músculo, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 141.581,
+    "protein": 21.56,
+    "carbs": 0,
+    "fat": 5.49
+  },
+  {
+    "id": 373,
+    "name": "Carne, bovina, paleta, com gordura, crua",
+    "category": "Carnes e derivados",
+    "kcal": 158.7099,
+    "protein": 21.41,
+    "carbs": 0,
+    "fat": 7.46
+  },
+  {
+    "id": 374,
+    "name": "Carne, bovina, paleta, sem gordura, cozida",
+    "category": "Carnes e derivados",
+    "kcal": 193.6524,
+    "protein": 29.72,
+    "carbs": 0,
+    "fat": 7.4
+  },
+  {
+    "id": 375,
+    "name": "Carne, bovina, paleta, sem gordura, crua",
+    "category": "Carnes e derivados",
+    "kcal": 140.9415,
+    "protein": 21.03,
+    "carbs": 0,
+    "fat": 5.67
+  },
+  {
+    "id": 376,
+    "name": "Carne, bovina, patinho, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 133.4689,
+    "protein": 21.72333,
+    "carbs": 0,
+    "fat": 4.51333
+  },
+  {
+    "id": 377,
+    "name": "Carne, bovina, patinho, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 219.25927,
+    "protein": 35.9,
+    "carbs": 0,
+    "fat": 7.31333
+  },
+  {
+    "id": 378,
+    "name": "Carne, bovina, peito, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 338.47313,
+    "protein": 22.24667,
+    "carbs": 0,
+    "fat": 26.99333
+  },
+  {
+    "id": 379,
+    "name": "Carne, bovina, peito, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "kcal": 259.27563,
+    "protein": 17.55667,
+    "carbs": 0,
+    "fat": 20.43333
+  },
+  {
+    "id": 380,
+    "name": "Carne, bovina, picanha, com gordura, crua",
+    "category": "Carnes e derivados",
+    "kcal": 212.87943,
+    "protein": 18.82333,
+    "carbs": 0,
+    "fat": 14.69
+  },
+  {
+    "id": 381,
+    "name": "Carne, bovina, picanha, com gordura, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 288.76709,
+    "protein": 26.42083,
+    "carbs": 0,
+    "fat": 19.50667
+  },
+  {
+    "id": 382,
+    "name": "Carne, bovina, picanha, sem gordura, crua",
+    "category": "Carnes e derivados",
+    "kcal": 133.52237,
+    "protein": 21.25,
+    "carbs": 0,
+    "fat": 4.74333
+  },
+  {
+    "id": 383,
+    "name": "Carne, bovina, picanha, sem gordura, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 238.46813,
+    "protein": 31.90667,
+    "carbs": 0,
+    "fat": 11.33333
+  },
+  {
+    "id": 384,
+    "name": "Carne, bovina, seca, cozida",
+    "category": "Carnes e derivados",
+    "kcal": 312.79903,
+    "protein": 26.93125,
+    "carbs": 0,
+    "fat": 21.92933
+  },
+  {
+    "id": 385,
+    "name": "Carne, bovina, seca, crua",
+    "category": "Carnes e derivados",
+    "kcal": 312.74843,
+    "protein": 19.65833,
+    "carbs": 0,
+    "fat": 25.36667
+  },
+  {
+    "id": 386,
+    "name": "Coxinha de frango, frita",
+    "category": "Carnes e derivados",
+    "kcal": 283.048,
+    "protein": 9.61042,
+    "carbs": 34.52058,
+    "fat": 11.836
+  },
+  {
+    "id": 387,
+    "name": "Croquete, de carne, cru",
+    "category": "Carnes e derivados",
+    "kcal": 245.77193,
+    "protein": 12.04375,
+    "carbs": 13.94958,
+    "fat": 15.561
+  },
+  {
+    "id": 388,
+    "name": "Croquete, de carne, frito",
+    "category": "Carnes e derivados",
+    "kcal": 346.74201,
+    "protein": 16.8625,
+    "carbs": 18.14617,
+    "fat": 22.67333
+  },
+  {
+    "id": 389,
+    "name": "Empada de frango, pré-cozida, assada",
+    "category": "Carnes e derivados",
+    "kcal": 358.19167,
+    "protein": 6.94375,
+    "carbs": 47.49292,
+    "fat": 15.605
+  },
+  {
+    "id": 390,
+    "name": "Empada, de frango, pré-cozida",
+    "category": "Carnes e derivados",
+    "kcal": 377.47967,
+    "protein": 7.34375,
+    "carbs": 35.52892,
+    "fat": 22.88767
+  },
+  {
+    "id": 391,
+    "name": "Frango, asa, com pele, crua",
+    "category": "Carnes e derivados",
+    "kcal": 213.18833,
+    "protein": 18.1,
+    "carbs": 0,
+    "fat": 15.06667
+  },
+  {
+    "id": 392,
+    "name": "Frango, caipira, inteiro, com pele, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 242.88933,
+    "protein": 23.88333,
+    "carbs": 0,
+    "fat": 15.61567
+  },
+  {
+    "id": 393,
+    "name": "Frango, caipira, inteiro, sem pele, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 195.7603,
+    "protein": 29.575,
+    "carbs": 0,
+    "fat": 7.70233
+  },
+  {
+    "id": 394,
+    "name": "Frango, coração, cru",
+    "category": "Carnes e derivados",
+    "kcal": 221.50283,
+    "protein": 12.58333,
+    "carbs": 0,
+    "fat": 18.6
+  },
+  {
+    "id": 395,
+    "name": "Frango, coração, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 207.27364,
+    "protein": 22.43958,
+    "carbs": 0.60742,
+    "fat": 12.096
+  },
+  {
+    "id": 396,
+    "name": "Frango, coxa, com pele, assada",
+    "category": "Carnes e derivados",
+    "kcal": 215.11865,
+    "protein": 28.49167,
+    "carbs": 0.05833,
+    "fat": 10.36133
+  },
+  {
+    "id": 397,
+    "name": "Frango, coxa, com pele, crua",
+    "category": "Carnes e derivados",
+    "kcal": 161.47473,
+    "protein": 17.09333,
+    "carbs": 0,
+    "fat": 9.81
+  },
+  {
+    "id": 398,
+    "name": "Frango, coxa, sem pele, cozida",
+    "category": "Carnes e derivados",
+    "kcal": 167.42803,
+    "protein": 26.85833,
+    "carbs": 0,
+    "fat": 5.84733
+  },
+  {
+    "id": 399,
+    "name": "Frango, coxa, sem pele, crua",
+    "category": "Carnes e derivados",
+    "kcal": 119.94747,
+    "protein": 17.81333,
+    "carbs": 0.02,
+    "fat": 4.85667
+  },
+  {
+    "id": 400,
+    "name": "Frango, fígado, cru",
+    "category": "Carnes e derivados",
+    "kcal": 106.48457,
+    "protein": 17.58667,
+    "carbs": -0.02333,
+    "fat": 3.49
+  },
+  {
+    "id": 401,
+    "name": "Frango, filé, à milanesa",
+    "category": "Carnes e derivados",
+    "kcal": 220.87278,
+    "protein": 28.46042,
+    "carbs": 7.51292,
+    "fat": 7.79067
+  },
+  {
+    "id": 402,
+    "name": "Frango, inteiro, com pele, cru",
+    "category": "Carnes e derivados",
+    "kcal": 226.31917,
+    "protein": 16.44333,
+    "carbs": 0,
+    "fat": 17.30667
+  },
+  {
+    "id": 403,
+    "name": "Frango, inteiro, sem pele, assado",
+    "category": "Carnes e derivados",
+    "kcal": 187.3378,
+    "protein": 28.025,
+    "carbs": 0,
+    "fat": 7.50233
+  },
+  {
+    "id": 404,
+    "name": "Frango, inteiro, sem pele, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 170.38998,
+    "protein": 24.98542,
+    "carbs": 0,
+    "fat": 7.06233
+  },
+  {
+    "id": 405,
+    "name": "Frango, inteiro, sem pele, cru",
+    "category": "Carnes e derivados",
+    "kcal": 129.0964,
+    "protein": 20.58667,
+    "carbs": 0,
+    "fat": 4.56667
+  },
+  {
+    "id": 406,
+    "name": "Frango, peito, com pele, assado",
+    "category": "Carnes e derivados",
+    "kcal": 211.68315,
+    "protein": 33.41667,
+    "carbs": 0,
+    "fat": 7.649
+  },
+  {
+    "id": 407,
+    "name": "Frango, peito, com pele, cru",
+    "category": "Carnes e derivados",
+    "kcal": 149.46527,
+    "protein": 20.78,
+    "carbs": 0,
+    "fat": 6.73333
+  },
+  {
+    "id": 408,
+    "name": "Frango, peito, sem pele, cozido",
+    "category": "Carnes e derivados",
+    "kcal": 162.87476,
+    "protein": 31.46875,
+    "carbs": 0,
+    "fat": 3.16
+  },
+  {
+    "id": 409,
+    "name": "Frango, peito, sem pele, cru",
+    "category": "Carnes e derivados",
+    "kcal": 119.15927,
+    "protein": 21.52667,
+    "carbs": 0,
+    "fat": 3.02
+  },
+  {
+    "id": 410,
+    "name": "Frango, peito, sem pele, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 159.18501,
+    "protein": 32.03333,
+    "carbs": 0,
+    "fat": 2.48367
+  },
+  {
+    "id": 411,
+    "name": "Frango, sobrecoxa, com pele, assada",
+    "category": "Carnes e derivados",
+    "kcal": 259.60477,
+    "protein": 28.70208,
+    "carbs": 0,
+    "fat": 15.19367
+  },
+  {
+    "id": 412,
+    "name": "Frango, sobrecoxa, com pele, crua",
+    "category": "Carnes e derivados",
+    "kcal": 254.5322,
+    "protein": 15.46,
+    "carbs": 0,
+    "fat": 20.9
+  },
+  {
+    "id": 413,
+    "name": "Frango, sobrecoxa, sem pele, assada",
+    "category": "Carnes e derivados",
+    "kcal": 232.8834,
+    "protein": 29.175,
+    "carbs": 0,
+    "fat": 12.00733
+  },
+  {
+    "id": 414,
+    "name": "Frango, sobrecoxa, sem pele, crua",
+    "category": "Carnes e derivados",
+    "kcal": 161.7963,
+    "protein": 17.57,
+    "carbs": 0,
+    "fat": 9.62
+  },
+  {
+    "id": 415,
+    "name": "Hambúrguer, bovino, cru",
+    "category": "Carnes e derivados",
+    "kcal": 214.836,
+    "protein": 13.15625,
+    "carbs": 4.15375,
+    "fat": 16.17733
+  },
+  {
+    "id": 416,
+    "name": "Hambúrguer, bovino, frito",
+    "category": "Carnes e derivados",
+    "kcal": 258.283,
+    "protein": 19.97292,
+    "carbs": 6.32008,
+    "fat": 17.01233
+  },
+  {
+    "id": 417,
+    "name": "Hambúrguer, bovino, grelhado",
+    "category": "Carnes e derivados",
+    "kcal": 209.83167,
+    "protein": 13.15625,
+    "carbs": 11.33342,
+    "fat": 12.43033
+  },
+  {
+    "id": 418,
+    "name": "Lingüiça, frango, crua",
+    "category": "Carnes e derivados",
+    "kcal": 218.10881,
+    "protein": 14.23958,
+    "carbs": 0,
+    "fat": 17.43967
+  },
+  {
+    "id": 419,
+    "name": "Lingüiça, frango, frita",
+    "category": "Carnes e derivados",
+    "kcal": 245.46101,
+    "protein": 18.31667,
+    "carbs": 0,
+    "fat": 18.542
+  },
+  {
+    "id": 420,
+    "name": "Lingüiça, frango, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 243.65857,
+    "protein": 18.18958,
+    "carbs": 0,
+    "fat": 18.40233
+  },
+  {
+    "id": 421,
+    "name": "Lingüiça, porco, crua",
+    "category": "Carnes e derivados",
+    "kcal": 227.20345,
+    "protein": 16.06458,
+    "carbs": 0,
+    "fat": 17.584
+  },
+  {
+    "id": 422,
+    "name": "Lingüiça, porco, frita",
+    "category": "Carnes e derivados",
+    "kcal": 279.54359,
+    "protein": 20.45208,
+    "carbs": 0,
+    "fat": 21.30967
+  },
+  {
+    "id": 423,
+    "name": "Lingüiça, porco, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 296.48961,
+    "protein": 23.16875,
+    "carbs": 0,
+    "fat": 21.90233
+  },
+  {
+    "id": 424,
+    "name": "Mortadela",
+    "category": "Carnes e derivados",
+    "kcal": 268.81999,
+    "protein": 11.95208,
+    "carbs": 5.81592,
+    "fat": 21.64933
+  },
+  {
+    "id": 425,
+    "name": "Peru, congelado, assado",
+    "category": "Carnes e derivados",
+    "kcal": 163.0714,
+    "protein": 26.20208,
+    "carbs": 0,
+    "fat": 5.675
+  },
+  {
+    "id": 426,
+    "name": "Peru, congelado, cru",
+    "category": "Carnes e derivados",
+    "kcal": 93.72243,
+    "protein": 18.08333,
+    "carbs": 0,
+    "fat": 1.83
+  },
+  {
+    "id": 427,
+    "name": "Porco, bisteca, crua",
+    "category": "Carnes e derivados",
+    "kcal": 164.11534,
+    "protein": 21.5,
+    "carbs": 0,
+    "fat": 8.01667
+  },
+  {
+    "id": 428,
+    "name": "Porco, bisteca, frita",
+    "category": "Carnes e derivados",
+    "kcal": 311.16905,
+    "protein": 33.74792,
+    "carbs": 0,
+    "fat": 18.52167
+  },
+  {
+    "id": 429,
+    "name": "Porco, bisteca, grelhada",
+    "category": "Carnes e derivados",
+    "kcal": 280.08403,
+    "protein": 28.88958,
+    "carbs": 0,
+    "fat": 17.37533
+  },
+  {
+    "id": 430,
+    "name": "Porco, costela, assada",
+    "category": "Carnes e derivados",
+    "kcal": 402.16845,
+    "protein": 30.22292,
+    "carbs": 0,
+    "fat": 30.279
+  },
+  {
+    "id": 431,
+    "name": "Porco, costela, crua",
+    "category": "Carnes e derivados",
+    "kcal": 255.60634,
+    "protein": 18,
+    "carbs": 0,
+    "fat": 19.81667
+  },
+  {
+    "id": 432,
+    "name": "Porco, lombo, assado",
+    "category": "Carnes e derivados",
+    "kcal": 210.23467,
+    "protein": 35.725,
+    "carbs": 0,
+    "fat": 6.39567
+  },
+  {
+    "id": 433,
+    "name": "Porco, lombo, cru",
+    "category": "Carnes e derivados",
+    "kcal": 175.6252,
+    "protein": 22.60417,
+    "carbs": 0,
+    "fat": 8.77
+  },
+  {
+    "id": 434,
+    "name": "Porco, orelha, salgada, crua",
+    "category": "Carnes e derivados",
+    "kcal": 258.49176,
+    "protein": 18.52083,
+    "carbs": 0,
+    "fat": 19.89
+  },
+  {
+    "id": 435,
+    "name": "Porco, pernil, assado",
+    "category": "Carnes e derivados",
+    "kcal": 262.25961,
+    "protein": 32.13333,
+    "carbs": 0,
+    "fat": 13.86367
+  },
+  {
+    "id": 436,
+    "name": "Porco, pernil, cru",
+    "category": "Carnes e derivados",
+    "kcal": 186.05575,
+    "protein": 20.125,
+    "carbs": 0,
+    "fat": 11.1
+  },
+  {
+    "id": 437,
+    "name": "Porco, rabo, salgado, cru",
+    "category": "Carnes e derivados",
+    "kcal": 377.41526,
+    "protein": 15.58125,
+    "carbs": 0,
+    "fat": 34.466
+  },
+  {
+    "id": 438,
+    "name": "Presunto, com capa de gordura",
+    "category": "Carnes e derivados",
+    "kcal": 127.84921,
+    "protein": 14.37083,
+    "carbs": 1.3975,
+    "fat": 6.77133
+  },
+  {
+    "id": 439,
+    "name": "Presunto, sem capa de gordura",
+    "category": "Carnes e derivados",
+    "kcal": 93.74328,
+    "protein": 14.29167,
+    "carbs": 2.14567,
+    "fat": 2.70667
+  },
+  {
+    "id": 440,
+    "name": "Quibe, assado",
+    "category": "Carnes e derivados",
+    "kcal": 136.22888,
+    "protein": 14.59375,
+    "carbs": 12.86125,
+    "fat": 2.67633
+  },
+  {
+    "id": 441,
+    "name": "Quibe, cru",
+    "category": "Carnes e derivados",
+    "kcal": 109.49067,
+    "protein": 12.35417,
+    "carbs": 10.77417,
+    "fat": 1.66767
+  },
+  {
+    "id": 442,
+    "name": "Quibe, frito",
+    "category": "Carnes e derivados",
+    "kcal": 253.83131,
+    "protein": 14.88958,
+    "carbs": 12.33742,
+    "fat": 15.799
+  },
+  {
+    "id": 443,
+    "name": "Salame",
+    "category": "Carnes e derivados",
+    "kcal": 397.84251,
+    "protein": 25.81042,
+    "carbs": 2.90625,
+    "fat": 30.64133
+  },
+  {
+    "id": 444,
+    "name": "Toucinho, cru",
+    "category": "Carnes e derivados",
+    "kcal": 592.53117,
+    "protein": 11.47917,
+    "carbs": 0,
+    "fat": 60.25667
+  },
+  {
+    "id": 445,
+    "name": "Toucinho, frito",
+    "category": "Carnes e derivados",
+    "kcal": 696.56401,
+    "protein": 27.28333,
+    "carbs": 0,
+    "fat": 64.30867
+  },
+  {
+    "id": 446,
+    "name": "Bebida láctea, pêssego",
+    "category": "Leite e derivados",
+    "kcal": 55.16483,
+    "protein": 2.13333,
+    "carbs": 7.57,
+    "fat": 1.90667
+  },
+  {
+    "id": 447,
+    "name": "Creme de Leite",
+    "category": "Leite e derivados",
+    "kcal": 221.48354,
+    "protein": 1.50781,
+    "carbs": 4.50953,
+    "fat": 22.47933
+  },
+  {
+    "id": 448,
+    "name": "Iogurte, natural",
+    "category": "Leite e derivados",
+    "kcal": 51.48953,
+    "protein": 4.06333,
+    "carbs": 1.91667,
+    "fat": 3.04
+  },
+  {
+    "id": 449,
+    "name": "Iogurte, natural, desnatado",
+    "category": "Leite e derivados",
+    "kcal": 41.49271,
+    "protein": 3.83438,
+    "carbs": 5.77395,
+    "fat": 0.31567
+  },
+  {
+    "id": 450,
+    "name": "Iogurte, sabor abacaxi",
+    "category": "Leite e derivados",
+    "kcal": null,
+    "protein": null,
+    "carbs": null,
+    "fat": null
+  },
+  {
+    "id": 451,
+    "name": "Iogurte, sabor morango",
+    "category": "Leite e derivados",
+    "kcal": 69.5656,
+    "protein": 2.71,
+    "carbs": 9.69333,
+    "fat": 2.33
+  },
+  {
+    "id": 452,
+    "name": "Iogurte, sabor pêssego",
+    "category": "Leite e derivados",
+    "kcal": 67.8494,
+    "protein": 2.53,
+    "carbs": 9.43333,
+    "fat": 2.33667
+  },
+  {
+    "id": 453,
+    "name": "Leite, condensado",
+    "category": "Leite e derivados",
+    "kcal": 312.5726,
+    "protein": 7.67,
+    "carbs": 56.99667,
+    "fat": 6.74
+  },
+  {
+    "id": 454,
+    "name": "Leite, de cabra",
+    "category": "Leite e derivados",
+    "kcal": 66.41574,
+    "protein": 3.07091,
+    "carbs": 5.24609,
+    "fat": 3.75433
+  },
+  {
+    "id": 455,
+    "name": "Leite, de vaca, achocolatado",
+    "category": "Leite e derivados",
+    "kcal": 82.821,
+    "protein": 2.09902,
+    "carbs": 14.15831,
+    "fat": 2.169
+  },
+  {
+    "id": 456,
+    "name": "Leite, de vaca, desnatado, pó",
+    "category": "Leite e derivados",
+    "kcal": 361.608,
+    "protein": 34.69,
+    "carbs": 53.04333,
+    "fat": 0.93333
+  },
+  {
+    "id": 457,
+    "name": "Leite, de vaca, desnatado, UHT",
+    "category": "Leite e derivados",
+    "kcal": null,
+    "protein": null,
+    "carbs": null,
+    "fat": null
+  },
+  {
+    "id": 458,
+    "name": "Leite, de vaca, integral",
+    "category": "Leite e derivados",
+    "kcal": null,
+    "protein": null,
+    "carbs": null,
+    "fat": null
+  },
+  {
+    "id": 459,
+    "name": "Leite, de vaca, integral, pó",
+    "category": "Leite e derivados",
+    "kcal": 496.6503,
+    "protein": 25.42,
+    "carbs": 39.18,
+    "fat": 26.90333
+  },
+  {
+    "id": 460,
+    "name": "Leite, fermentado",
+    "category": "Leite e derivados",
+    "kcal": 69.62147,
+    "protein": 1.89486,
+    "carbs": 15.67447,
+    "fat": 0.099
+  },
+  {
+    "id": 461,
+    "name": "Queijo, minas, frescal",
+    "category": "Leite e derivados",
+    "kcal": 264.27313,
+    "protein": 17.41102,
+    "carbs": 3.24031,
+    "fat": 20.18067
+  },
+  {
+    "id": 462,
+    "name": "Queijo, minas, meia cura",
+    "category": "Leite e derivados",
+    "kcal": 320.72182,
+    "protein": 21.21137,
+    "carbs": 3.57296,
+    "fat": 24.61
+  },
+  {
+    "id": 463,
+    "name": "Queijo, mozarela",
+    "category": "Leite e derivados",
+    "kcal": 329.87072,
+    "protein": 22.649,
+    "carbs": 3.04933,
+    "fat": 25.183
+  },
+  {
+    "id": 464,
+    "name": "Queijo, parmesão",
+    "category": "Leite e derivados",
+    "kcal": 452.96376,
+    "protein": 35.55361,
+    "carbs": 1.66072,
+    "fat": 33.52933
+  },
+  {
+    "id": 465,
+    "name": "Queijo, pasteurizado",
+    "category": "Leite e derivados",
+    "kcal": 303.0798,
+    "protein": 9.35733,
+    "carbs": 5.67633,
+    "fat": 27.43533
+  },
+  {
+    "id": 466,
+    "name": "Queijo, petit suisse, morango",
+    "category": "Leite e derivados",
+    "kcal": 121.10595,
+    "protein": 5.78666,
+    "carbs": 18.46201,
+    "fat": 2.83833
+  },
+  {
+    "id": 467,
+    "name": "Queijo, prato",
+    "category": "Leite e derivados",
+    "kcal": 359.88046,
+    "protein": 22.66176,
+    "carbs": 1.87857,
+    "fat": 29.10633
+  },
+  {
+    "id": 468,
+    "name": "Queijo, requeijão, cremoso",
+    "category": "Leite e derivados",
+    "kcal": 256.57815,
+    "protein": 9.62955,
+    "carbs": 2.43245,
+    "fat": 23.441
+  },
+  {
+    "id": 469,
+    "name": "Queijo, ricota",
+    "category": "Leite e derivados",
+    "kcal": 139.73178,
+    "protein": 12.6005,
+    "carbs": 3.78617,
+    "fat": 8.10867
+  },
+  {
+    "id": 470,
+    "name": "Bebida isotônica, sabores variados",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 25.61333,
+    "protein": 0,
+    "carbs": 6.40333,
+    "fat": 0
+  },
+  {
+    "id": 471,
+    "name": "Café, infusão 10%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 9.07087,
+    "protein": 0.7125,
+    "carbs": 1.47867,
+    "fat": 0.06933
+  },
+  {
+    "id": 472,
+    "name": "Cana, aguardente 1",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 215.6616,
+    "protein": null,
+    "carbs": null,
+    "fat": null
+  },
+  {
+    "id": 473,
+    "name": "Cana, caldo de",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 65.3436,
+    "protein": 0.00001,
+    "carbs": 18.151,
+    "fat": 0.00001
+  },
+  {
+    "id": 474,
+    "name": "Cerveja, pilsen 2",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 40.72019,
+    "protein": 0.5625,
+    "carbs": 3.3175,
+    "fat": 0.00001
+  },
+  {
+    "id": 475,
+    "name": "Chá, erva-doce, infusão 5%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 1.39706,
+    "protein": 0,
+    "carbs": 0.39133,
+    "fat": 0
+  },
+  {
+    "id": 476,
+    "name": "Chá, mate, infusão 5%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 2.73075,
+    "protein": 0,
+    "carbs": 0.643,
+    "fat": 0.052
+  },
+  {
+    "id": 477,
+    "name": "Chá, preto, infusão 5%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 2.24791,
+    "protein": 0,
+    "carbs": 0.62967,
+    "fat": 0
+  },
+  {
+    "id": 478,
+    "name": "Coco, água de",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 21.50859,
+    "protein": 0,
+    "carbs": 5.28467,
+    "fat": 0
+  },
+  {
+    "id": 479,
+    "name": "Refrigerante, tipo água tônica",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 30.7794,
+    "protein": 0,
+    "carbs": 7.95333,
+    "fat": 0
+  },
+  {
+    "id": 480,
+    "name": "Refrigerante, tipo cola",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 33.5142,
+    "protein": 0,
+    "carbs": 8.66,
+    "fat": 0
+  },
+  {
+    "id": 481,
+    "name": "Refrigerante, tipo guaraná",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 38.7,
+    "protein": 0,
+    "carbs": 10,
+    "fat": 0
+  },
+  {
+    "id": 482,
+    "name": "Refrigerante, tipo laranja",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 45.6273,
+    "protein": 0,
+    "carbs": 11.79,
+    "fat": 0
+  },
+  {
+    "id": 483,
+    "name": "Refrigerante, tipo limão",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "kcal": 39.7191,
+    "protein": 0,
+    "carbs": 10.26333,
+    "fat": 0
+  },
+  {
+    "id": 484,
+    "name": "Omelete, de queijo",
+    "category": "Ovos e derivados",
+    "kcal": 268.00677,
+    "protein": 15.57083,
+    "carbs": 0.43717,
+    "fat": 22.00767
+  },
+  {
+    "id": 485,
+    "name": "Ovo, de codorna, inteiro, cru",
+    "category": "Ovos e derivados",
+    "kcal": 176.8939,
+    "protein": 13.6875,
+    "carbs": 0.7725,
+    "fat": 12.68
+  },
+  {
+    "id": 486,
+    "name": "Ovo, de galinha, clara, cozida/10minutos",
+    "category": "Ovos e derivados",
+    "kcal": 59.4357,
+    "protein": 13.44792,
+    "carbs": 0,
+    "fat": 0.089
+  },
+  {
+    "id": 487,
+    "name": "Ovo, de galinha, gema, cozida/10minutos",
+    "category": "Ovos e derivados",
+    "kcal": 352.67334,
+    "protein": 15.9,
+    "carbs": 1.56,
+    "fat": 30.777
+  },
+  {
+    "id": 488,
+    "name": "Ovo, de galinha, inteiro, cozido/10minutos",
+    "category": "Ovos e derivados",
+    "kcal": 145.70017,
+    "protein": 13.29375,
+    "carbs": 0.61492,
+    "fat": 9.47633
+  },
+  {
+    "id": 489,
+    "name": "Ovo, de galinha, inteiro, cru",
+    "category": "Ovos e derivados",
+    "kcal": 143.11173,
+    "protein": 13.03,
+    "carbs": 1.63667,
+    "fat": 8.9
+  },
+  {
+    "id": 490,
+    "name": "Ovo, de galinha, inteiro, frito",
+    "category": "Ovos e derivados",
+    "kcal": 240.18722,
+    "protein": 15.61667,
+    "carbs": 1.19367,
+    "fat": 18.59267
+  },
+  {
+    "id": 491,
+    "name": "Achocolatado, pó",
+    "category": "Produtos açucarados",
+    "kcal": 401.02,
+    "protein": 4.20333,
+    "carbs": 91.17667,
+    "fat": 2.16667
+  },
+  {
+    "id": 492,
+    "name": "Açúcar, cristal",
+    "category": "Produtos açucarados",
+    "kcal": 386.84572,
+    "protein": 0.32,
+    "carbs": 99.61,
+    "fat": 0.00001
+  },
+  {
+    "id": 493,
+    "name": "Açúcar, mascavo",
+    "category": "Produtos açucarados",
+    "kcal": 368.55482,
+    "protein": 0.75833,
+    "carbs": 94.45,
+    "fat": 0.092
+  },
+  {
+    "id": 494,
+    "name": "Açúcar, refinado",
+    "category": "Produtos açucarados",
+    "kcal": 386.57482,
+    "protein": 0.32,
+    "carbs": 99.54,
+    "fat": 0.00001
+  },
+  {
+    "id": 495,
+    "name": "Chocolate, ao leite",
+    "category": "Produtos açucarados",
+    "kcal": 539.58667,
+    "protein": 7.22,
+    "carbs": 59.57667,
+    "fat": 30.26667
+  },
+  {
+    "id": 496,
+    "name": "Chocolate, ao leite, com castanha do Pará",
+    "category": "Produtos açucarados",
+    "kcal": 558.87633,
+    "protein": 7.4125,
+    "carbs": 55.37683,
+    "fat": 34.191
+  },
+  {
+    "id": 497,
+    "name": "Chocolate, ao leite, dietético",
+    "category": "Produtos açucarados",
+    "kcal": 556.82433,
+    "protein": 6.89792,
+    "carbs": 56.32342,
+    "fat": 33.771
+  },
+  {
+    "id": 498,
+    "name": "Chocolate, meio amargo",
+    "category": "Produtos açucarados",
+    "kcal": 474.91777,
+    "protein": 4.86244,
+    "carbs": 62.42289,
+    "fat": 29.85667
+  },
+  {
+    "id": 499,
+    "name": "Cocada branca",
+    "category": "Produtos açucarados",
+    "kcal": 448.84545,
+    "protein": 1.12183,
+    "carbs": 81.38317,
+    "fat": 13.587
+  },
+  {
+    "id": 500,
+    "name": "Doce, de abóbora, cremoso",
+    "category": "Produtos açucarados",
+    "kcal": 198.93606,
+    "protein": 0.91667,
+    "carbs": 54.61333,
+    "fat": 0.20667
+  },
+  {
+    "id": 501,
+    "name": "Doce, de leite, cremoso",
+    "category": "Produtos açucarados",
+    "kcal": 306.31013,
+    "protein": 5.47829,
+    "carbs": 59.49337,
+    "fat": 5.993
+  },
+  {
+    "id": 502,
+    "name": "Geléia, mocotó, natural",
+    "category": "Produtos açucarados",
+    "kcal": 106.08667,
+    "protein": 2.125,
+    "carbs": 24.23167,
+    "fat": 0.07333
+  },
+  {
+    "id": 503,
+    "name": "Glicose de milho",
+    "category": "Produtos açucarados",
+    "kcal": 292.11841,
+    "protein": 0,
+    "carbs": 79.38,
+    "fat": 0
+  },
+  {
+    "id": 504,
+    "name": "Maria mole",
+    "category": "Produtos açucarados",
+    "kcal": 301.23589,
+    "protein": 3.81285,
+    "carbs": 73.55348,
+    "fat": 0.19
+  },
+  {
+    "id": 505,
+    "name": "Maria mole, coco queimado",
+    "category": "Produtos açucarados",
+    "kcal": 306.6319,
+    "protein": 3.93495,
+    "carbs": 75.05938,
+    "fat": 0.08933
+  },
+  {
+    "id": 506,
+    "name": "Marmelada",
+    "category": "Produtos açucarados",
+    "kcal": 257.24147,
+    "protein": 0.4,
+    "carbs": 70.76333,
+    "fat": 0.13733
+  },
+  {
+    "id": 507,
+    "name": "Mel, de abelha",
+    "category": "Produtos açucarados",
+    "kcal": 309.24267,
+    "protein": 0,
+    "carbs": 84.03333,
+    "fat": 0
+  },
+  {
+    "id": 508,
+    "name": "Melado",
+    "category": "Produtos açucarados",
+    "kcal": 296.50649,
+    "protein": 0,
+    "carbs": 76.61667,
+    "fat": 0
+  },
+  {
+    "id": 509,
+    "name": "Quindim",
+    "category": "Produtos açucarados",
+    "kcal": 411.34872,
+    "protein": 4.7375,
+    "carbs": 46.29883,
+    "fat": 24.425
+  },
+  {
+    "id": 510,
+    "name": "Rapadura",
+    "category": "Produtos açucarados",
+    "kcal": 351.95812,
+    "protein": 0.98958,
+    "carbs": 90.79242,
+    "fat": 0.07067
+  },
+  {
+    "id": 511,
+    "name": "Café, pó, torrado",
+    "category": "Miscelâneas",
+    "kcal": 418.61867,
+    "protein": 14.7,
+    "carbs": 65.75333,
+    "fat": 11.94667
+  },
+  {
+    "id": 512,
+    "name": "Capuccino, pó",
+    "category": "Miscelâneas",
+    "kcal": 417.40667,
+    "protein": 11.3125,
+    "carbs": 73.61417,
+    "fat": 8.63333
+  },
+  {
+    "id": 513,
+    "name": "Fermento em pó, químico",
+    "category": "Miscelâneas",
+    "kcal": 89.72207,
+    "protein": 0.47533,
+    "carbs": 43.91133,
+    "fat": 0.07333
+  },
+  {
+    "id": 514,
+    "name": "Fermento, biológico, levedura, tablete",
+    "category": "Miscelâneas",
+    "kcal": 89.79487,
+    "protein": 16.957,
+    "carbs": 7.69867,
+    "fat": 1.51767
+  },
+  {
+    "id": 515,
+    "name": "Gelatina, sabores variados, pó",
+    "category": "Miscelâneas",
+    "kcal": 380.2229,
+    "protein": 8.88667,
+    "carbs": 89.22333,
+    "fat": 0.00001
+  },
+  {
+    "id": 516,
+    "name": "Sal, dietético",
+    "category": "Miscelâneas",
+    "kcal": null,
+    "protein": null,
+    "carbs": null,
+    "fat": null
+  },
+  {
+    "id": 517,
+    "name": "Sal, grosso",
+    "category": "Miscelâneas",
+    "kcal": null,
+    "protein": null,
+    "carbs": null,
+    "fat": null
+  },
+  {
+    "id": 518,
+    "name": "Shoyu",
+    "category": "Miscelâneas",
+    "kcal": 60.92775,
+    "protein": 3.3125,
+    "carbs": 11.6475,
+    "fat": 0.32667
+  },
+  {
+    "id": 519,
+    "name": "Tempero a base de sal",
+    "category": "Miscelâneas",
+    "kcal": 21.33,
+    "protein": 2.66667,
+    "carbs": 2.07333,
+    "fat": 0.26333
+  },
+  {
+    "id": 520,
+    "name": "Azeitona, preta, conserva",
+    "category": "Outros alimentos industrializados",
+    "kcal": 194.15385,
+    "protein": 1.1625,
+    "carbs": 5.5445,
+    "fat": 20.345
+  },
+  {
+    "id": 521,
+    "name": "Azeitona, verde, conserva",
+    "category": "Outros alimentos industrializados",
+    "kcal": 136.93643,
+    "protein": 0.94792,
+    "carbs": 4.10175,
+    "fat": 14.21567
+  },
+  {
+    "id": 522,
+    "name": "Chantilly, spray, com gordura vegetal",
+    "category": "Outros alimentos industrializados",
+    "kcal": 314.956,
+    "protein": 0.525,
+    "carbs": 16.855,
+    "fat": 27.27067
+  },
+  {
+    "id": 523,
+    "name": "Leite, de coco",
+    "category": "Outros alimentos industrializados",
+    "kcal": 166.1603,
+    "protein": 1.01407,
+    "carbs": 2.1946,
+    "fat": 18.36433
+  },
+  {
+    "id": 524,
+    "name": "Maionese, tradicional com ovos",
+    "category": "Outros alimentos industrializados",
+    "kcal": 302.15268,
+    "protein": 0.58125,
+    "carbs": 7.89975,
+    "fat": 30.49767
+  },
+  {
+    "id": 525,
+    "name": "Acarajé",
+    "category": "Alimentos preparados",
+    "kcal": 289.21167,
+    "protein": 8.34583,
+    "carbs": 19.11383,
+    "fat": 19.93033
+  },
+  {
+    "id": 526,
+    "name": "Arroz carreteiro",
+    "category": "Alimentos preparados",
+    "kcal": 153.772,
+    "protein": 10.82917,
+    "carbs": 11.58483,
+    "fat": 7.124
+  },
+  {
+    "id": 527,
+    "name": "Baião de dois, arroz e feijão-de-corda",
+    "category": "Alimentos preparados",
+    "kcal": 135.68133,
+    "protein": 6.23958,
+    "carbs": 20.41775,
+    "fat": 3.228
+  },
+  {
+    "id": 528,
+    "name": "Barreado",
+    "category": "Alimentos preparados",
+    "kcal": 164.97523,
+    "protein": 18.26875,
+    "carbs": 0.23625,
+    "fat": 9.534
+  },
+  {
+    "id": 529,
+    "name": "Bife à cavalo, com contra filé",
+    "category": "Alimentos preparados",
+    "kcal": 291.22951,
+    "protein": 23.66042,
+    "carbs": 0,
+    "fat": 21.14667
+  },
+  {
+    "id": 530,
+    "name": "Bolinho de arroz",
+    "category": "Alimentos preparados",
+    "kcal": 273.51433,
+    "protein": 8.03958,
+    "carbs": 41.68275,
+    "fat": 8.29167
+  },
+  {
+    "id": 531,
+    "name": "Camarão à baiana",
+    "category": "Alimentos preparados",
+    "kcal": 100.78304,
+    "protein": 7.94167,
+    "carbs": 3.17367,
+    "fat": 5.96767
+  },
+  {
+    "id": 532,
+    "name": "Charuto, de repolho",
+    "category": "Alimentos preparados",
+    "kcal": 78.23473,
+    "protein": 6.77917,
+    "carbs": 10.13317,
+    "fat": 1.11667
+  },
+  {
+    "id": 533,
+    "name": "Cuscuz, de milho, cozido com sal",
+    "category": "Alimentos preparados",
+    "kcal": 113.45948,
+    "protein": 2.15625,
+    "carbs": 25.28142,
+    "fat": 0.67967
+  },
+  {
+    "id": 534,
+    "name": "Cuscuz, paulista",
+    "category": "Alimentos preparados",
+    "kcal": 142.123,
+    "protein": 2.55833,
+    "carbs": 22.51367,
+    "fat": 4.64833
+  },
+  {
+    "id": 535,
+    "name": "Cuxá, molho",
+    "category": "Alimentos preparados",
+    "kcal": 80.09162,
+    "protein": 5.64375,
+    "carbs": 5.73892,
+    "fat": 3.59267
+  },
+  {
+    "id": 536,
+    "name": "Dobradinha",
+    "category": "Alimentos preparados",
+    "kcal": 124.5002,
+    "protein": 19.77292,
+    "carbs": 0,
+    "fat": 4.44233
+  },
+  {
+    "id": 537,
+    "name": "Estrogonofe de carne",
+    "category": "Alimentos preparados",
+    "kcal": 173.14136,
+    "protein": 15.03125,
+    "carbs": 2.97542,
+    "fat": 10.803
+  },
+  {
+    "id": 538,
+    "name": "Estrogonofe de frango",
+    "category": "Alimentos preparados",
+    "kcal": 156.8061,
+    "protein": 17.55208,
+    "carbs": 2.59392,
+    "fat": 7.96233
+  },
+  {
+    "id": 539,
+    "name": "Feijão tropeiro mineiro",
+    "category": "Alimentos preparados",
+    "kcal": 151.56186,
+    "protein": 10.17083,
+    "carbs": 19.58183,
+    "fat": 6.79067
+  },
+  {
+    "id": 540,
+    "name": "Feijoada",
+    "category": "Alimentos preparados",
+    "kcal": 116.93346,
+    "protein": 8.67083,
+    "carbs": 11.64183,
+    "fat": 6.47733
+  },
+  {
+    "id": 541,
+    "name": "Frango, com açafrão",
+    "category": "Alimentos preparados",
+    "kcal": 112.78377,
+    "protein": 9.69792,
+    "carbs": 4.06208,
+    "fat": 6.17
+  },
+  {
+    "id": 542,
+    "name": "Macarrão, molho bolognesa",
+    "category": "Alimentos preparados",
+    "kcal": 119.53177,
+    "protein": 4.9343,
+    "carbs": 22.52237,
+    "fat": 0.88967
+  },
+  {
+    "id": 543,
+    "name": "Maniçoba",
+    "category": "Alimentos preparados",
+    "kcal": 134.22289,
+    "protein": 9.95833,
+    "carbs": 3.41933,
+    "fat": 8.69933
+  },
+  {
+    "id": 544,
+    "name": "Quibebe",
+    "category": "Alimentos preparados",
+    "kcal": 86.34923,
+    "protein": 8.55625,
+    "carbs": 6.64408,
+    "fat": 2.672
+  },
+  {
+    "id": 545,
+    "name": "Salada, de legumes, com maionese",
+    "category": "Alimentos preparados",
+    "kcal": 96.10359,
+    "protein": 1.05,
+    "carbs": 8.924,
+    "fat": 7.039
+  },
+  {
+    "id": 546,
+    "name": "Salada, de legumes, cozida no vapor",
+    "category": "Alimentos preparados",
+    "kcal": 35.4081,
+    "protein": 2.00625,
+    "carbs": 7.08908,
+    "fat": 0.31167
+  },
+  {
+    "id": 547,
+    "name": "Salpicão, de frango",
+    "category": "Alimentos preparados",
+    "kcal": 147.8646,
+    "protein": 13.925,
+    "carbs": 4.569,
+    "fat": 7.84067
+  },
+  {
+    "id": 548,
+    "name": "Sarapatel",
+    "category": "Alimentos preparados",
+    "kcal": 122.98186,
+    "protein": 18.47292,
+    "carbs": 1.09408,
+    "fat": 4.42
+  },
+  {
+    "id": 549,
+    "name": "Tabule",
+    "category": "Alimentos preparados",
+    "kcal": 57.45348,
+    "protein": 2.04633,
+    "carbs": 10.581,
+    "fat": 1.208
+  },
+  {
+    "id": 550,
+    "name": "Tacacá",
+    "category": "Alimentos preparados",
+    "kcal": 46.88918,
+    "protein": 6.95833,
+    "carbs": 3.39,
+    "fat": 0.35967
+  },
+  {
+    "id": 551,
+    "name": "Tapioca, com manteiga",
+    "category": "Alimentos preparados",
+    "kcal": 347.82656,
+    "protein": 0.08958,
+    "carbs": 63.59175,
+    "fat": 10.90833
+  },
+  {
+    "id": 552,
+    "name": "Tucupi, com pimenta-de-cheiro",
+    "category": "Alimentos preparados",
+    "kcal": 27.1838,
+    "protein": 2.05625,
+    "carbs": 4.73775,
+    "fat": 0.28367
+  },
+  {
+    "id": 553,
+    "name": "Vaca atolada",
+    "category": "Alimentos preparados",
+    "kcal": 144.89698,
+    "protein": 5.12292,
+    "carbs": 10.06142,
+    "fat": 9.322
+  },
+  {
+    "id": 554,
+    "name": "Vatapá",
+    "category": "Alimentos preparados",
+    "kcal": 254.89329,
+    "protein": 5.99783,
+    "carbs": 9.7485,
+    "fat": 23.22633
+  },
+  {
+    "id": 555,
+    "name": "Virado à paulista",
+    "category": "Alimentos preparados",
+    "kcal": 306.94679,
+    "protein": 10.18125,
+    "carbs": 14.10908,
+    "fat": 25.59067
+  },
+  {
+    "id": 556,
+    "name": "Yakisoba",
+    "category": "Alimentos preparados",
+    "kcal": 112.80204,
+    "protein": 7.51667,
+    "carbs": 18.25133,
+    "fat": 2.607
+  },
+  {
+    "id": 557,
+    "name": "Amendoim, grão, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 544.05266,
+    "protein": 27.1908,
+    "carbs": 20.31353,
+    "fat": 43.85
+  },
+  {
+    "id": 558,
+    "name": "Amendoim, torrado, salgado",
+    "category": "Leguminosas e derivados",
+    "kcal": 605.78109,
+    "protein": 22.47518,
+    "carbs": 18.70249,
+    "fat": 53.96333
+  },
+  {
+    "id": 559,
+    "name": "Ervilha, em vagem",
+    "category": "Leguminosas e derivados",
+    "kcal": 88.09358,
+    "protein": 7.45208,
+    "carbs": 14.22758,
+    "fat": 0.471
+  },
+  {
+    "id": 560,
+    "name": "Ervilha, enlatada, drenada",
+    "category": "Leguminosas e derivados",
+    "kcal": 73.8447,
+    "protein": 4.59783,
+    "carbs": 13.44217,
+    "fat": 0.38
+  },
+  {
+    "id": 561,
+    "name": "Feijão, carioca, cozido",
+    "category": "Leguminosas e derivados",
+    "kcal": 76.42409,
+    "protein": 4.775,
+    "carbs": 13.59103,
+    "fat": 0.54233
+  },
+  {
+    "id": 562,
+    "name": "Feijão, carioca, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 329.02674,
+    "protein": 19.98188,
+    "carbs": 61.22145,
+    "fat": 1.25667
+  },
+  {
+    "id": 563,
+    "name": "Feijão, fradinho, cozido",
+    "category": "Leguminosas e derivados",
+    "kcal": 78.0089,
+    "protein": 5.09375,
+    "carbs": 13.49958,
+    "fat": 0.644
+  },
+  {
+    "id": 564,
+    "name": "Feijão, fradinho, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 339.16477,
+    "protein": 20.20833,
+    "carbs": 61.24,
+    "fat": 2.365
+  },
+  {
+    "id": 565,
+    "name": "Feijão, jalo, cozido",
+    "category": "Leguminosas e derivados",
+    "kcal": 92.73992,
+    "protein": 6.14375,
+    "carbs": 16.49525,
+    "fat": 0.512
+  },
+  {
+    "id": 566,
+    "name": "Feijão, jalo, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 327.90527,
+    "protein": 20.10417,
+    "carbs": 61.47917,
+    "fat": 0.94667
+  },
+  {
+    "id": 567,
+    "name": "Feijão, preto, cozido",
+    "category": "Leguminosas e derivados",
+    "kcal": 77.02727,
+    "protein": 4.47917,
+    "carbs": 14.00517,
+    "fat": 0.53567
+  },
+  {
+    "id": 568,
+    "name": "Feijão, preto, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 323.56571,
+    "protein": 21.3442,
+    "carbs": 58.75246,
+    "fat": 1.24
+  },
+  {
+    "id": 569,
+    "name": "Feijão, rajado, cozido",
+    "category": "Leguminosas e derivados",
+    "kcal": 84.70185,
+    "protein": 5.5375,
+    "carbs": 15.2675,
+    "fat": 0.4
+  },
+  {
+    "id": 570,
+    "name": "Feijão, rajado, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 325.84441,
+    "protein": 17.27083,
+    "carbs": 62.92917,
+    "fat": 1.17
+  },
+  {
+    "id": 571,
+    "name": "Feijão, rosinha, cozido",
+    "category": "Leguminosas e derivados",
+    "kcal": 67.86623,
+    "protein": 4.53958,
+    "carbs": 11.82275,
+    "fat": 0.47733
+  },
+  {
+    "id": 572,
+    "name": "Feijão, rosinha, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 336.96191,
+    "protein": 20.91667,
+    "carbs": 62.22333,
+    "fat": 1.33
+  },
+  {
+    "id": 573,
+    "name": "Feijão, roxo, cozido",
+    "category": "Leguminosas e derivados",
+    "kcal": 76.89338,
+    "protein": 5.72083,
+    "carbs": 12.90817,
+    "fat": 0.53833
+  },
+  {
+    "id": 574,
+    "name": "Feijão, roxo, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 331.41498,
+    "protein": 22.16667,
+    "carbs": 59.98667,
+    "fat": 1.23667
+  },
+  {
+    "id": 575,
+    "name": "Grão-de-bico, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 354.70288,
+    "protein": 21.22917,
+    "carbs": 57.88417,
+    "fat": 5.43
+  },
+  {
+    "id": 576,
+    "name": "Guandu, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 344.13365,
+    "protein": 18.96458,
+    "carbs": 64.00042,
+    "fat": 2.132
+  },
+  {
+    "id": 577,
+    "name": "Lentilha, cozida",
+    "category": "Leguminosas e derivados",
+    "kcal": 92.63877,
+    "protein": 6.31042,
+    "carbs": 16.30225,
+    "fat": 0.52467
+  },
+  {
+    "id": 578,
+    "name": "Lentilha, crua",
+    "category": "Leguminosas e derivados",
+    "kcal": 339.14124,
+    "protein": 23.15217,
+    "carbs": 62.00449,
+    "fat": 0.77
+  },
+  {
+    "id": 579,
+    "name": "Paçoca, amendoim",
+    "category": "Leguminosas e derivados",
+    "kcal": 486.92709,
+    "protein": 15.99583,
+    "carbs": 52.37617,
+    "fat": 26.07533
+  },
+  {
+    "id": 580,
+    "name": "Pé-de-moleque, amendoim",
+    "category": "Leguminosas e derivados",
+    "kcal": 503.19037,
+    "protein": 13.16224,
+    "carbs": 54.73043,
+    "fat": 28.04833
+  },
+  {
+    "id": 581,
+    "name": "Soja, farinha",
+    "category": "Leguminosas e derivados",
+    "kcal": 403.95585,
+    "protein": 36.0301,
+    "carbs": 38.4399,
+    "fat": 14.63333
+  },
+  {
+    "id": 582,
+    "name": "Soja, extrato solúvel, natural, fluido",
+    "category": "Leguminosas e derivados",
+    "kcal": 39.10486,
+    "protein": 2.38107,
+    "carbs": 4.27526,
+    "fat": 1.606
+  },
+  {
+    "id": 583,
+    "name": "Soja, extrato solúvel, pó",
+    "category": "Leguminosas e derivados",
+    "kcal": 458.89573,
+    "protein": 35.6875,
+    "carbs": 28.48283,
+    "fat": 26.181
+  },
+  {
+    "id": 584,
+    "name": "Soja, queijo (tofu)",
+    "category": "Leguminosas e derivados",
+    "kcal": 64.48509,
+    "protein": 6.55318,
+    "carbs": 2.12682,
+    "fat": 3.95333
+  },
+  {
+    "id": 585,
+    "name": "Tremoço, cru",
+    "category": "Leguminosas e derivados",
+    "kcal": 381.27817,
+    "protein": 33.575,
+    "carbs": 43.78633,
+    "fat": 10.342
+  },
+  {
+    "id": 586,
+    "name": "Tremoço, em conserva",
+    "category": "Leguminosas e derivados",
+    "kcal": 120.64259,
+    "protein": 11.10833,
+    "carbs": 12.38933,
+    "fat": 3.784
+  },
+  {
+    "id": 587,
+    "name": "Amêndoa, torrada, salgada",
+    "category": "Nozes e sementes",
+    "kcal": 580.74695,
+    "protein": 18.55476,
+    "carbs": 29.54724,
+    "fat": 47.32433
+  },
+  {
+    "id": 588,
+    "name": "Castanha-de-caju, torrada, salgada",
+    "category": "Nozes e sementes",
+    "kcal": 570.16763,
+    "protein": 18.50937,
+    "carbs": 29.13497,
+    "fat": 46.27967
+  },
+  {
+    "id": 589,
+    "name": "Castanha-do-Brasil, crua",
+    "category": "Nozes e sementes",
+    "kcal": 642.96307,
+    "protein": 14.53634,
+    "carbs": 15.07866,
+    "fat": 63.459
+  },
+  {
+    "id": 590,
+    "name": "Coco, cru",
+    "category": "Nozes e sementes",
+    "kcal": 406.48735,
+    "protein": 3.69183,
+    "carbs": 10.40167,
+    "fat": 41.97633
+  },
+  {
+    "id": 591,
+    "name": "Coco,  verde, cru",
+    "category": "Nozes e sementes",
+    "kcal": null,
+    "protein": null,
+    "carbs": null,
+    "fat": null
+  },
+  {
+    "id": 592,
+    "name": "Farinha, de mesocarpo de babaçu, crua",
+    "category": "Nozes e sementes",
+    "kcal": 328.7714,
+    "protein": 1.40627,
+    "carbs": 79.17307,
+    "fat": 0.198
+  },
+  {
+    "id": 593,
+    "name": "Gergelim, semente",
+    "category": "Nozes e sementes",
+    "kcal": 583.54671,
+    "protein": 21.16467,
+    "carbs": 21.61767,
+    "fat": 50.43267
+  },
+  {
+    "id": 594,
+    "name": "Linhaça, semente",
+    "category": "Nozes e sementes",
+    "kcal": 495.09611,
+    "protein": 14.08387,
+    "carbs": 43.3122,
+    "fat": 32.25293
+  },
+  {
+    "id": 595,
+    "name": "Pinhão, cozido",
+    "category": "Nozes e sementes",
+    "kcal": 174.3699,
+    "protein": 2.98037,
+    "carbs": 43.91763,
+    "fat": 0.747
+  },
+  {
+    "id": 596,
+    "name": "Pupunha, cozida",
+    "category": "Nozes e sementes",
+    "kcal": 218.53388,
+    "protein": 2.52292,
+    "carbs": 29.56942,
+    "fat": 12.76167
+  },
+  {
+    "id": 597,
+    "name": "Noz, crua",
+    "category": "Nozes e sementes",
+    "kcal": 620.06002,
+    "protein": 13.9708,
+    "carbs": 18.36387,
+    "fat": 59.35967
+  }
+]

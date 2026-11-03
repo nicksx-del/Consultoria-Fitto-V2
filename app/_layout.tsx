@@ -9,6 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { ThemeProvider, defaultTheme } from '@/theme';
+import { AuthProvider } from '@/features/auth/AuthContext';
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -27,18 +28,21 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: defaultTheme.colors.bg,
-          },
-        }}
-      >
-        <Stack.Screen name="index" />
-        <Stack.Screen name="entrar" />
-      </Stack>
+      <AuthProvider>
+        <StatusBar style="light" />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: defaultTheme.colors.bg,
+            },
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="entrar" />
+          <Stack.Screen name="cadastro" />
+        </Stack>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
