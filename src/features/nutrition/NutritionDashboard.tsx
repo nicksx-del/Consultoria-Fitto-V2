@@ -142,8 +142,12 @@ export function NutritionDashboard({
               title={professional ? 'Abrir alimentação do aluno' : 'Ver refeições de hoje'}
               onPress={() =>
                 router.push({
-                  pathname: '/alimentacao',
-                  params: { profile: profile.id, link: link.id },
+                  pathname: professional ? '/aluno' : '/alimentacao',
+                  params: {
+                    profile: profile.id,
+                    link: link.id,
+                    ...(professional ? { section: 'nutrition' } : {}),
+                  },
                 })
               }
             />

@@ -13,8 +13,10 @@ export function WorkoutHub({
   onEditing,
   onNavigate,
   initialPlanId,
+  createNew,
 }: {
   initialPlanId?: string;
+  createNew?: boolean;
   profileId: string;
   linkId: string;
   onBusy: (v: boolean) => void;
@@ -25,7 +27,7 @@ export function WorkoutHub({
     [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
     [intent, setIntent] = useState<{ id?: string; create?: boolean } | null>(
-      initialPlanId ? { id: initialPlanId } : null,
+      initialPlanId ? { id: initialPlanId } : createNew ? { create: true } : null,
     ),
     [view, setView] = useState<string | null>(null),
     [revision, setRevision] = useState(0),

@@ -1,3 +1,4 @@
+import { ProfilePosts } from './ProfilePosts';
 import { SessionAdjuster, SessionAdjustmentsSummary } from './SessionAdjuster';
 import type { SessionAdjustment } from './sessionAdjustments';
 import { readRestAlerts, setRestAlerts } from './restAlerts';
@@ -14,7 +15,7 @@ import { trainingTools, TrainingFeedback } from './trainingToolsApi';
 import { Exercise, SetPrescription } from './workoutModel';
 import { WorkoutResultsSummary } from './WorkoutResultsSummary';
 import { WorkoutCompletion } from './WorkoutCompletion';
-import type { PublishedWorkout } from './trainingExperience';
+import { executionTotals, type PublishedWorkout } from './trainingExperience';
 import { DetailsPanel } from './DetailsPanel';
 
 export type Execution = {
@@ -288,7 +289,8 @@ export function Executions({
       </View>
     );
   }
-  if (finished)
+  if (finished) {
+    const totals = executionTotals(finished);
     return (
       <View style={{ gap: 16 }}>
         <WorkoutCompletion
@@ -299,6 +301,18 @@ export function Executions({
             (row) => row.id === finished.id && row.status === 'completed',
           )}
         />
+        {!trainer && finished.status === 'completed' ? (
+          <ProfilePosts
+            key={finished.id}
+            profileId={profileId}
+            workout={{
+              id: finished.id,
+              title: finished.snapshot.session.name,
+              minutes: totals.minutes ?? null,
+              exercises: totals.exercises,
+            }}
+          />
+        ) : null}
         {error ? (
           <Text accessibilityRole="alert" color="#FFB87A">
             {error}
@@ -316,6 +330,7 @@ export function Executions({
         />
       </View>
     );
+  }
   return (
     <View style={{ gap: 14 }}>
       <Text variant="title">

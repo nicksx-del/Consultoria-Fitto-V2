@@ -23,10 +23,12 @@ export function NutritionPanel({
   linkId,
   professional = false,
   onBusy,
+  startEditing = false,
 }: {
   profileId: string;
   linkId: string;
   professional?: boolean;
+  startEditing?: boolean;
   onBusy?: (busy: boolean) => void;
 }) {
   const [data, setData] = useState<NutritionData>({ plan: null, entries: [] }),
@@ -53,6 +55,7 @@ export function NutritionPanel({
       planRef.current = result.plan;
       setData(result);
       setLoading(false);
+      if (professional && startEditing) setEditing(true);
       setError('');
     }
   }

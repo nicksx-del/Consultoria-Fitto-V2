@@ -1,3 +1,4 @@
+import { ProfilePosts } from './ProfilePosts';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -575,6 +576,7 @@ export function ProfilePanel({
           aluno e profissional são independentes.
         </Text>
       </View>
+      {!professional ? <ProfilePosts key={profile.id} profileId={profile.id} /> : null}
       {!professional ? (
         <TrainingIntake profileId={profile.id} onBusy={onBusy} disabled={saving} />
       ) : null}

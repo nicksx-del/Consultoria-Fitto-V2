@@ -1,3 +1,5 @@
+import { nutritionApi } from '@/features/nutrition/nutritionApi';
+import type { NutritionData } from '@/features/nutrition/nutritionModel';
 import { NutritionPanel } from '@/features/nutrition/NutritionPanel';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -31,22 +33,27 @@ export function StudentWorkspace({
   onEditing: (v: boolean) => void;
   onNavigate?: () => void;
 }) {
+  const trainer = profile.specialties.includes('Treinador');
+  const nutritionist = profile.specialties.includes('Nutricionista');
   const [section, setSection] = useState<StudentSection>(
-      ['workouts', 'feedback', 'intake', 'history'].includes(initialSection || '')
-        ? (initialSection as StudentSection)
-        : 'overview',
+      initialSection === 'nutrition' && nutritionist
+        ? 'nutrition'
+        : trainer && ['workouts', 'feedback', 'intake', 'history'].includes(initialSection || '')
+          ? (initialSection as StudentSection)
+          : 'overview',
     ),
+    [fromOverview, setFromOverview] = useState(false),
     [editing, setEditing] = useState(false),
     [busy, setBusy] = useState(false),
     [data, setData] = useState<StudentOverviewData | null>(null),
+    [nutrition, setNutrition] = useState<NutritionData | null>(null),
+    [nutritionError, setNutritionError] = useState(false),
     [error, setError] = useState(''),
     [loading, setLoading] = useState(true),
     [revision, setRevision] = useState(0);
-  const trainer = profile.specialties.includes('Treinador');
-  const nutritionist = profile.specialties.includes('Nutricionista');
   useEffect(() => {
     let alive = true;
-    if (!trainer) return;
+    if (!trainer || section !== 'overview') return;
     async function read<T>(name: string): Promise<T> {
       const { data, error } = await supabase.rpc(name, {
         action: 'list',
@@ -68,8 +75,7 @@ export function StudentWorkspace({
           .filter((e) => e.status === 'completed')
           .sort((a, b) => b.started_at.localeCompare(a.started_at));
         setData({
-          plan: plans.find((p) => p.status === 'published')?.published?.title || null,
-          drafts: plans.filter((p) => p.status === 'draft').length,
+          plans: plans.filter((p) => p.status !== 'archived'),
           completed: completed.length,
           lastWorkout: completed[0]?.started_at || null,
           pendingFeedback: tools.feedback.filter((f) => !f.reviewed).length,
@@ -85,12 +91,30 @@ export function StudentWorkspace({
     return () => {
       alive = false;
     };
-  }, [profile.id, link.id, trainer, revision]);
+  }, [profile.id, link.id, trainer, revision, section]);
+  useEffect(() => {
+    if (!nutritionist || section !== 'overview') return;
+    let alive = true;
+    void nutritionApi<NutritionData>(profile.id, link.id, 'read')
+      .then((result) => {
+        if (alive) setNutrition(result);
+      })
+      .catch(() => {
+        if (alive) setNutritionError(true);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [profile.id, link.id, nutritionist, revision, section]);
   function navigate(next: StudentSection) {
     onNavigate?.();
+    setFromOverview(section === 'overview' && next !== 'overview');
     setSection(next);
     if (next === 'overview') {
-      setLoading(true);
+      setLoading(trainer);
+      setError('');
+      setNutrition(null);
+      setNutritionError(false);
       setRevision((n) => n + 1);
     }
   }
@@ -116,30 +140,44 @@ export function StudentWorkspace({
           }}
         >
           <Text variant="caption">PAINEL DO ALUNO</Text>
-          <Text variant={editing ? 'title' : 'heading'}>{link.name}</Text>
-          {!editing ? (
-            <>
-              <Text variant="bodyMuted">@{link.username}</Text>
-              <Text color="#B7F34A">● Acompanhamento ativo</Text>
-            </>
-          ) : null}
+          <Text variant="heading">{link.name}</Text>
+          <Text variant="bodyMuted">@{link.username}</Text>
+          <Text color="#B7F34A">● Acompanhamento ativo</Text>
         </View>
       ) : (
         <Text variant="caption">PRESCRIÇÃO · {link.name}</Text>
       )}
-      {nutritionist && section === 'overview' ? (
-        <Button
-          title="Plano alimentar do aluno"
-          variant="outline"
-          disabled={busy}
-          onPress={() => navigate('nutrition')}
-        />
-      ) : null}
-      {section === 'nutrition' && nutritionist ? (
+      {section === 'overview' ? (
+        <>
+          {error ? (
+            <View style={{ gap: 8 }}>
+              <Text accessibilityRole="alert" color="#FF6B5A">
+                {error}
+              </Text>
+              <Button
+                title="Atualizar resumo"
+                variant="outline"
+                onPress={() => navigate('overview')}
+              />
+            </View>
+          ) : null}
+          <StudentOverview
+            data={data}
+            nutrition={nutrition}
+            nutritionError={nutritionError}
+            workoutError={Boolean(error)}
+            loading={loading}
+            trainer={trainer}
+            nutritionist={nutritionist}
+            onSection={navigate}
+          />
+        </>
+      ) : section === 'nutrition' && nutritionist ? (
         <NutritionPanel
           profileId={profile.id}
           linkId={link.id}
           professional
+          startEditing={fromOverview}
           onBusy={(v) => {
             setBusy(v);
             onBusy(v);
@@ -147,27 +185,18 @@ export function StudentWorkspace({
         />
       ) : trainer ? (
         <>
-          {section === 'overview' ? (
-            <>
-              {error ? (
-                <View style={{ gap: 8 }}>
-                  <Text accessibilityRole="alert" color="#FF6B5A">
-                    {error}
-                  </Text>
-                  <Button
-                    title="Atualizar resumo"
-                    variant="outline"
-                    onPress={() => navigate('overview')}
-                  />
-                </View>
-              ) : null}
-              <StudentOverview data={data} loading={loading} onSection={navigate} />
-            </>
-          ) : section === 'workouts' ? (
+          {section === 'workouts' ? (
             <WorkoutHub
               profileId={profile.id}
               linkId={link.id}
-              initialPlanId={initialPlanId}
+              initialPlanId={
+                fromOverview
+                  ? data?.plans.length === 1
+                    ? data.plans[0].id
+                    : undefined
+                  : initialPlanId
+              }
+              createNew={fromOverview && data?.plans.length === 0}
               onNavigate={onNavigate}
               onBusy={(v) => {
                 setBusy(v);
