@@ -89,7 +89,11 @@ export function ProfessionalHome({
     <View style={{ gap: 20 }}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
         {[
-          { title: 'Alunos ativos', value: String(links.length), onPress: onStudents },
+          {
+            title: 'Alunos ativos',
+            value: String(links.filter((link) => !link.is_self).length),
+            onPress: onStudents,
+          },
           { title: 'Pedidos', value: String(pendingCount), onPress: onStudents },
           ...(trainer
             ? [
@@ -189,7 +193,7 @@ export function ProfessionalHome({
               key={link.id}
               accessibilityRole="button"
               accessibilityLabel={`Abrir ${link.name}`}
-              onPress={() => open(link, trainer ? 'workouts' : 'overview')}
+              onPress={() => open(link, 'overview')}
               style={{ ...card, flexDirection: 'row', alignItems: 'center' }}
             >
               <View
@@ -206,7 +210,7 @@ export function ProfessionalHome({
               </View>
               <View style={{ flex: 1 }}>
                 <Text>{link.name}</Text>
-                <Text variant="caption">{trainer ? 'Abrir treinos' : 'Abrir acompanhamento'}</Text>
+                <Text variant="caption">Abrir perfil do aluno</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color="#B7C5AC" />
             </Pressable>

@@ -218,7 +218,10 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
                 onPress={() =>
                   router.push({
                     pathname: '/aluno',
-                    params: { profile: profile!.id, link: link.id },
+                    params: {
+                      profile: profile!.id,
+                      link: link.id,
+                    },
                   })
                 }
               />
@@ -507,14 +510,20 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
             ) : null}
             {isProfessional ? (
               <StudentRoster
+                trainer={profile.specialties.includes('Treinador')}
+                nutritionist={profile.specialties.includes('Nutricionista')}
                 links={dashboard.links}
                 limit={dashboard.limit}
                 onPlans={() => setTab('plans')}
                 busy={busy}
-                onOpen={(link) =>
+                onOpen={(link, section) =>
                   router.push({
                     pathname: '/aluno',
-                    params: { profile: profile!.id, link: link.id },
+                    params: {
+                      profile: profile!.id,
+                      link: link.id,
+                      ...(section ? { section } : {}),
+                    },
                   })
                 }
                 onInvite={() => {
