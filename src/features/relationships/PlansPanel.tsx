@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Pressable, TextInput, View, useWindowDimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, Text } from '@/components/ui';
@@ -105,38 +105,75 @@ export function PlansPanel({
   pending,
   onBack,
   onNavigate,
+  onActivate,
+  onBusy,
+  onStudents,
 }: {
   count: number;
   limit: number;
   pending: number;
   onBack: () => void;
   onNavigate: () => void;
+  onActivate: (capacity: number) => Promise<void>;
+  onBusy: (busy: boolean) => void;
+  onStudents: () => void;
 }) {
   const [quantity, setQuantity] = useState(String(Math.max(count, 1)));
   const [step, setStep] = useState<'quantity' | 'plans'>('quantity');
   const [selected, setSelected] = useState<number | null>(null);
+  const lock = useRef(false);
+  const [activating, setActivating] = useState(false);
+  const [error, setError] = useState('');
   const [compare, setCompare] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const wide = useWindowDimensions().width >= 900;
   const valid = /^\d{1,5}$/.test(quantity) && Number(quantity) > 0;
   const required = Math.max(count + pending, valid ? Number(quantity) : 0);
-  const recommended = tiers.find((tier) => tier.capacity >= required)?.capacity || 0;
+  const recommended =
+    tiers.find((tier) => tier.capacity >= Math.max(required, limit))?.capacity || 0;
   const chosen = selected === null ? recommended : selected;
   const recommendation = tiers.find((tier) => tier.capacity === recommended)!;
   const choice = tiers.find((tier) => tier.capacity === chosen)!;
   const suitable = chosen === 0 || chosen >= required;
   const orderedTiers = compare ? tiers : [recommendation];
+  const targetCapacity = chosen || Math.max(101, required, limit);
+  const current = targetCapacity === limit;
+  const downgrade = targetCapacity < limit;
   const margin = chosen ? Math.max(0, chosen - required) : null;
   function update(value: string) {
+    setError('');
     setQuantity(value);
     setSelected(null);
     setConfirmed(false);
+  }
+  async function activate() {
+    if (lock.current || current || downgrade || !suitable) return;
+    lock.current = true;
+    setActivating(true);
+    onBusy(true);
+    setError('');
+    setConfirmed(false);
+    try {
+      await onActivate(targetCapacity);
+      setConfirmed(true);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível alterar o plano. Tente novamente.',
+      );
+    } finally {
+      lock.current = false;
+      setActivating(false);
+      onBusy(false);
+    }
   }
   return (
     <View style={{ gap: 22 }}>
       <Button
         title={step === 'quantity' ? 'Voltar ao painel' : 'Alterar quantidade de alunos'}
         variant="ghost"
+        disabled={activating}
         onPress={() => {
           if (step === 'quantity') onBack();
           else {
@@ -367,8 +404,10 @@ export function PlansPanel({
                       : ', capacidade personalizada') +
                     (isRecommended ? ', recomendado' : '')
                   }
-                  accessibilityState={{ checked: isChosen }}
+                  accessibilityState={{ checked: isChosen, disabled: activating }}
+                  disabled={activating}
                   onPress={() => {
+                    setError('');
                     setSelected(tier.capacity);
                     setConfirmed(false);
                   }}
@@ -455,6 +494,7 @@ export function PlansPanel({
           <Button
             title={compare ? 'Mostrar apenas a recomendação' : 'Comparar todos os planos'}
             variant="outline"
+            disabled={activating}
             onPress={() => setCompare((value) => !value)}
           />
           <View
@@ -475,7 +515,7 @@ export function PlansPanel({
             </View>
             <Text variant="title">
               {choice.name}
-              {chosen ? ' · até ' + chosen + ' alunos' : ' · capacidade personalizada'}
+              {' · até ' + targetCapacity + ' alunos'}
             </Text>
             <Text variant="caption">
               {chosen
@@ -487,19 +527,39 @@ export function PlansPanel({
                 Essa opção é pequena para seu atendimento. Escolha uma capacidade maior.
               </Text>
             ) : null}
-            <Button
-              title="Simular este plano"
-              disabled={!suitable}
-              onPress={() => setConfirmed(true)}
-            />
-            {confirmed ? (
-              <Text accessibilityLiveRegion="polite" color={accent}>
-                Plano {choice.name} simulado para seu atendimento. Você pode continuar comparando as
-                opções.
+            {downgrade ? (
+              <Text color="#FFB87A" accessibilityRole="alert">
+                Seu plano atual comporta {limit} alunos. Escolha uma capacidade maior para ampliar
+                seu atendimento.
               </Text>
             ) : null}
+            {error ? (
+              <Text color="#FFB87A" accessibilityRole="alert">
+                {error}
+              </Text>
+            ) : null}
+            <Button
+              title={
+                activating
+                  ? 'Ativando plano…'
+                  : current
+                    ? 'Plano atual'
+                    : 'Ativar ' + choice.name + ' · ' + targetCapacity + ' alunos'
+              }
+              loading={activating}
+              disabled={!suitable || current || downgrade || activating}
+              onPress={() => void activate()}
+            />
+            {confirmed ? (
+              <View style={{ gap: 10 }}>
+                <Text accessibilityLiveRegion="polite" color={accent}>
+                  Plano ativado. Agora você pode acompanhar até {limit} alunos.
+                </Text>
+                <Button title="Adicionar alunos" variant="outline" onPress={onStudents} />
+              </View>
+            ) : null}
             <Text variant="caption">
-              Valores e contratação em breve. Seu limite atual continua em {limit}{' '}
+              Ativação sem cobrança nesta fase. Seu limite atual é de {limit}{' '}
               {limit === 1 ? 'aluno' : 'alunos'}.
             </Text>
           </View>

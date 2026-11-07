@@ -342,6 +342,12 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
               pending={
                 dashboard.links.filter((link) => link.status === 'pending' && !link.is_self).length
               }
+              onStudents={() => setTab('relationships')}
+              onActivate={async (capacity) => {
+                const next = await relationshipApi<Dashboard>('set_plan', profile.id, { capacity });
+                setDashboard(next);
+              }}
+              onBusy={setBusy}
               onNavigate={() => setPlanNavigation((n) => n + 1)}
               onBack={() => setTab('home')}
             />
@@ -562,7 +568,8 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
                 {isProfessional ? (
                   <>
                     <Text variant="title">
-                      Plano gratuito · {countedActive}/{dashboard.limit} aluno ativo
+                      {dashboard.limit === 1 ? 'Plano gratuito' : 'Plano atual'} · {countedActive}/
+                      {dashboard.limit} alunos ativos
                     </Text>
                     <Text>
                       Solicitações pendentes não ocupam vaga. Cada profissional tem seu próprio
