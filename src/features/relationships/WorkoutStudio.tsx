@@ -1,8 +1,10 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { StudentWorkoutPreview } from './StudentWorkoutPreview';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Modal,
   Platform,
+  Pressable,
   ScrollView,
   View,
   useWindowDimensions,
@@ -98,9 +100,9 @@ type Studio = {
   }[];
 };
 const card = {
-  gap: 12,
-  padding: 16,
-  borderRadius: 18,
+  gap: 10,
+  padding: 12,
+  borderRadius: 16,
   backgroundColor: '#191E16',
   borderWidth: 1,
   borderColor: '#35432C',
@@ -435,8 +437,43 @@ export function WorkoutStudio({
         <Button title="Voltar às opções de treino" variant="ghost" onPress={() => onLeave?.()} />
       </View>
     );
+  const studentContext = (
+    <DetailsPanel title="Consultar aluno e histórico">
+      <FeedbackInbox profileId={profileId} linkId={linkId} />
+      <DetailsPanel title="Perfil e disponibilidade do aluno">
+        <View style={card}>
+          <Text variant="title">Contexto do aluno</Text>
+          <StudentTrainingSummary profileId={profileId} linkId={linkId} />
+          <Text>
+            Consulte objetivo, experiência, disponibilidade, equipamentos e preferências antes de
+            prescrever.
+          </Text>
+          <Button
+            title={context ? 'Recolher ficha do aluno' : 'Consultar ficha completa'}
+            variant="outline"
+            onPress={() => setContext(!context)}
+          />
+          {context ? <TrainingIntake profileId={profileId} linkId={linkId} /> : null}
+          <Text variant="caption">
+            Ficha atual:{' '}
+            {plans.find((p) => p.status === 'published')?.published?.title ?? 'Nenhuma publicada'}
+          </Text>
+        </View>
+      </DetailsPanel>
+      <Button
+        title={
+          results
+            ? 'Recolher resultados anteriores'
+            : 'Consultar cargas, frequência e feedback anteriores'
+        }
+        variant="outline"
+        onPress={() => setResults(!results)}
+      />
+      {results ? <Executions profileId={profileId} linkId={linkId} trainer /> : null}
+    </DetailsPanel>
+  );
   return (
-    <View style={{ gap: 14, paddingBottom: draft ? 90 : 0 }}>
+    <View style={{ gap: 10, paddingBottom: draft ? 82 : 0 }}>
       <View
         style={{
           ...(draft && Platform.OS === 'web'
@@ -452,19 +489,39 @@ export function WorkoutStudio({
           gap: 12,
         }}
       >
-        <View style={{ flex: 1, gap: 3 }}>
-          <Text variant="title">
+        {draft ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Voltar e manter rascunho"
+            disabled={busy}
+            onPress={() => void run(leave)}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              backgroundColor: '#24321B',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Ionicons name="arrow-back" size={20} color="#C0F568" />
+          </Pressable>
+        ) : null}
+        <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
+          <Text numberOfLines={1} style={{ fontSize: 17, fontWeight: '700' }}>
             {draft ? draft.title || 'Nova prescrição' : 'Treinos do aluno'}
           </Text>
           {draft ? (
-            <Text variant="caption" accessibilityLiveRegion="polite">
+            <Text
+              numberOfLines={2}
+              style={{ fontSize: 11 }}
+              color="#A8B59E"
+              accessibilityLiveRegion="polite"
+            >
               {saveStatus}
             </Text>
           ) : null}
         </View>
-        {draft ? (
-          <Button title="Voltar" variant="ghost" disabled={busy} onPress={() => void run(leave)} />
-        ) : null}
       </View>
 
       {studentPreview && draft ? (
@@ -499,7 +556,7 @@ export function WorkoutStudio({
             backgroundColor: '#172012',
             borderTopWidth: 1,
             borderColor: '#405333',
-            padding: 12,
+            padding: 8,
           }}
         >
           <View
@@ -513,14 +570,14 @@ export function WorkoutStudio({
           >
             <View style={{ flex: 1 }}>
               <Button
-                title="+ Exercícios"
+                title="+ Exercício"
                 variant="outline"
                 disabled={busy || !activeSession || activeSession.exercises.length >= 40}
                 onPress={() => setLibrary(true)}
               />
             </View>
             <View style={{ flex: 1 }}>
-              <Button title="Revisar treino" disabled={busy} onPress={reviewDraft} />
+              <Button title="Revisar" disabled={busy} onPress={reviewDraft} />
             </View>
           </View>
         </View>
@@ -678,40 +735,7 @@ export function WorkoutStudio({
         <Button title="Carregar área de treinos" onPress={() => void run(load)} disabled={busy} />
       ) : (
         <>
-          <DetailsPanel title="Contexto do aluno, histórico e feedbacks">
-            <FeedbackInbox profileId={profileId} linkId={linkId} />
-            <DetailsPanel title="Perfil e disponibilidade do aluno">
-              <View style={card}>
-                <Text variant="title">Contexto do aluno</Text>
-                <StudentTrainingSummary profileId={profileId} linkId={linkId} />
-                <Text>
-                  Consulte objetivo, experiência, disponibilidade, equipamentos e preferências antes
-                  de prescrever.
-                </Text>
-                <Button
-                  title={context ? 'Recolher ficha do aluno' : 'Consultar ficha completa'}
-                  variant="outline"
-                  onPress={() => setContext(!context)}
-                />
-                {context ? <TrainingIntake profileId={profileId} linkId={linkId} /> : null}
-                <Text variant="caption">
-                  Ficha atual:{' '}
-                  {plans.find((p) => p.status === 'published')?.published?.title ??
-                    'Nenhuma publicada'}
-                </Text>
-              </View>
-            </DetailsPanel>
-            <Button
-              title={
-                results
-                  ? 'Recolher resultados anteriores'
-                  : 'Consultar cargas, frequência e feedback anteriores'
-              }
-              variant="outline"
-              onPress={() => setResults(!results)}
-            />
-            {results ? <Executions profileId={profileId} linkId={linkId} trainer /> : null}
-          </DetailsPanel>
+          {!draft || reviewing ? studentContext : null}
           {draft ? (
             <>
               {error ? (
@@ -826,8 +850,9 @@ export function WorkoutStudio({
                 </>
               ) : (
                 <>
-                  <DetailsPanel title="Dados da ficha, planejamento e orientações">
+                  <DetailsPanel title="Dados e planejamento">
                     <View style={card}>
+                      {studentContext}
                       {
                         <StudioField
                           label={'Nome da ficha'}
@@ -882,25 +907,47 @@ export function WorkoutStudio({
                       </DetailsPanel>
                     </View>
                   </DetailsPanel>
-                  <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-                    {draft.sessions.map((s, i) => (
-                      <Button
-                        key={s.key}
-                        title={s.name || `Divisão ${i + 1}`}
-                        variant={selected === i ? 'primary' : 'outline'}
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 6, paddingVertical: 2 }}
+                    accessibilityLabel="Divisões do treino"
+                  >
+                    {draft.sessions.map((division, index) => (
+                      <Pressable
+                        key={division.key}
+                        accessibilityRole="tab"
+                        accessibilityLabel={division.name || 'Divisão ' + (index + 1)}
+                        accessibilityState={{ selected: selected === index, disabled: busy }}
                         disabled={busy}
                         onPress={() => {
-                          setSelected(i);
+                          setSelected(index);
                           setChecked([]);
                         }}
-                      />
+                        style={{
+                          minHeight: 44,
+                          paddingHorizontal: 14,
+                          borderRadius: 12,
+                          justifyContent: 'center',
+                          borderWidth: 1,
+                          borderColor: selected === index ? '#789B4C' : '#34432B',
+                          backgroundColor: selected === index ? '#314525' : '#192114',
+                        }}
+                      >
+                        <Text
+                          style={{ fontSize: 13, fontWeight: '600' }}
+                          color={selected === index ? '#C0F568' : '#B6C4AC'}
+                        >
+                          {division.name || 'Divisão ' + (index + 1)}
+                        </Text>
+                      </Pressable>
                     ))}
-                  </View>
+                  </ScrollView>
                   {activeSession ? (
                     <View
                       style={{
                         flexDirection: desktopEditor ? 'row' : 'column',
-                        gap: 20,
+                        gap: 12,
                         alignItems: 'flex-start',
                       }}
                     >
@@ -912,26 +959,35 @@ export function WorkoutStudio({
                           width: desktopEditor ? undefined : '100%',
                         }}
                       >
-                        <View style={{ gap: 8 }}>
-                          <StudioField
-                            label="Título da divisão"
-                            value={activeSession.name}
-                            onChange={(name) => session((s) => ({ ...s, name }))}
-                            maxLength={80}
-                            disabled={busy}
-                          />
-                          <Button
-                            title="Ver como aluno"
-                            variant="outline"
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            gap: 8,
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Text variant="caption">{activeSession.exercises.length} exercícios</Text>
+                          <Pressable
+                            accessibilityRole="button"
+                            accessibilityLabel="Ver como aluno"
                             disabled={busy}
                             onPress={() => setStudentPreview(true)}
-                          />
-                          <Text variant="caption">
-                            {activeSession.exercises.length} exercícios · toque em ⋯ para mais
-                            opções
-                          </Text>
+                            style={{
+                              minHeight: 44,
+                              flexDirection: 'row',
+                              gap: 6,
+                              alignItems: 'center',
+                              paddingHorizontal: 8,
+                            }}
+                          >
+                            <Ionicons name="eye-outline" size={17} color="#C0F568" />
+                            <Text style={{ fontSize: 12 }} color="#C0F568">
+                              Prévia
+                            </Text>
+                          </Pressable>
                         </View>
-                        <DetailsPanel title="Nome, frequência e organização da divisão">
+                        <DetailsPanel title="Configurar divisão">
                           <Button
                             title="Criar supersérie, bi-set ou circuito"
                             disabled={busy || activeSession.exercises.length < 2}
@@ -1027,16 +1083,16 @@ export function WorkoutStudio({
                               }}
                             />
                           </View>
+                          <TrainingBlocks
+                            profileId={profileId}
+                            linkId={linkId}
+                            exercises={activeSession.exercises}
+                            disabled={busy}
+                            onInsert={(items) =>
+                              session((s) => ({ ...s, exercises: [...s.exercises, ...items] }))
+                            }
+                          />
                         </DetailsPanel>
-                        <TrainingBlocks
-                          profileId={profileId}
-                          linkId={linkId}
-                          exercises={activeSession.exercises}
-                          disabled={busy}
-                          onInsert={(items) =>
-                            session((s) => ({ ...s, exercises: [...s.exercises, ...items] }))
-                          }
-                        />
                         {activeSession.exercises.map((e, i) => (
                           <ReorderExercise
                             key={e.key}
@@ -1664,7 +1720,7 @@ export function WorkoutStudio({
                     }}
                   />
                   <Button
-                    title="Salvar ficha como rascunho"
+                    title="Salvar rascunho"
                     variant="outline"
                     loading={busy}
                     onPress={() =>
@@ -1677,44 +1733,46 @@ export function WorkoutStudio({
                     }
                   />
 
-                  <Button
-                    title="Salvar como modelo reutilizável"
-                    variant="outline"
-                    disabled={busy}
-                    onPress={() =>
-                      void run(async () => {
-                        const problems = issues(draft, true);
-                        if (problems.length) throw new Error(problems.join('\n'));
-                        await rpc('workout_studio_api', 'template_save', {
-                          content: toContent(draft),
-                        });
-                        const s = await rpc<Studio>('workout_studio_api', 'read');
-                        setStudio(s);
-                        setNotice('Modelo salvo. As cópias serão independentes.');
-                      })
-                    }
-                  />
-                  {studio.students
-                    .filter((s) => s.id !== linkId)
-                    .map((s) => (
-                      <Button
-                        key={s.id}
-                        title={`Copiar rascunho para ${s.name}`}
-                        variant="outline"
-                        disabled={busy}
-                        onPress={() =>
-                          void run(async () => {
-                            const problems = issues(draft, false);
-                            if (problems.length) throw new Error(problems.join('\n'));
-                            await rpc('workout_studio_api', 'copy', {
-                              target: s.id,
-                              content: toContent(draft),
-                            });
-                            setNotice(`Cópia independente criada como rascunho para ${s.name}.`);
-                          })
-                        }
-                      />
-                    ))}
+                  <DetailsPanel title="Modelos e cópias">
+                    <Button
+                      title="Salvar como modelo reutilizável"
+                      variant="outline"
+                      disabled={busy}
+                      onPress={() =>
+                        void run(async () => {
+                          const problems = issues(draft, true);
+                          if (problems.length) throw new Error(problems.join('\n'));
+                          await rpc('workout_studio_api', 'template_save', {
+                            content: toContent(draft),
+                          });
+                          const s = await rpc<Studio>('workout_studio_api', 'read');
+                          setStudio(s);
+                          setNotice('Modelo salvo. As cópias serão independentes.');
+                        })
+                      }
+                    />
+                    {studio.students
+                      .filter((s) => s.id !== linkId)
+                      .map((s) => (
+                        <Button
+                          key={s.id}
+                          title={`Copiar rascunho para ${s.name}`}
+                          variant="outline"
+                          disabled={busy}
+                          onPress={() =>
+                            void run(async () => {
+                              const problems = issues(draft, false);
+                              if (problems.length) throw new Error(problems.join('\n'));
+                              await rpc('workout_studio_api', 'copy', {
+                                target: s.id,
+                                content: toContent(draft),
+                              });
+                              setNotice(`Cópia independente criada como rascunho para ${s.name}.`);
+                            })
+                          }
+                        />
+                      ))}
+                  </DetailsPanel>
                 </>
               )}
               <Button

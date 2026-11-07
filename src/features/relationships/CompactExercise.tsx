@@ -31,50 +31,59 @@ function QuickEffort({
   const [text, setText] = useState(value);
   const [error, setError] = useState('');
   return (
-    <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={`${label}: escolher escala ${mode.toUpperCase()}`}
-        disabled={disabled}
-        onPress={onOptions}
-        style={{ alignItems: 'center', justifyContent: 'center', minHeight: 26 }}
-      >
-        <Text style={{ fontSize: 11, fontWeight: '600' }} color="#C0F568">
-          {mode.toUpperCase()}⌄
-        </Text>
-      </Pressable>
-      <TextInput
-        accessibilityLabel={label}
-        value={text}
-        editable={!disabled}
-        placeholder="1–2"
-        placeholderTextColor="#809A6E"
-        maxLength={12}
-        onChangeText={(next) => {
-          setText(next);
-          setError('');
-        }}
-        onBlur={() => {
-          if (text === value) return;
-          try {
-            onCommit(parseQuickEffort(text, mode));
-            setError('');
-          } catch (e) {
-            setError((e as Error).message);
-          }
-        }}
+    <View style={{ flex: 1.3, minWidth: 0, gap: 3 }}>
+      <View
         style={{
-          minWidth: 0,
-          minHeight: 44,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignItems: 'center',
           borderRadius: 8,
           backgroundColor: '#2C401F',
-          color: '#C0F568',
-          textAlign: 'center',
           borderWidth: 1,
           borderColor: error ? '#FFAF71' : '#607A43',
-          fontSize: 14,
         }}
-      />
+      >
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${label}: escolher escala ${mode.toUpperCase()}`}
+          disabled={disabled}
+          onPress={onOptions}
+          style={{ alignItems: 'center', justifyContent: 'center', width: 44, minHeight: 44 }}
+        >
+          <Text style={{ fontSize: 11, fontWeight: '600' }} color="#C0F568">
+            {mode.toUpperCase()}⌄
+          </Text>
+        </Pressable>
+        <TextInput
+          accessibilityLabel={label}
+          value={text}
+          editable={!disabled}
+          placeholder="1–2"
+          placeholderTextColor="#809A6E"
+          maxLength={12}
+          onChangeText={(next) => {
+            setText(next);
+            setError('');
+          }}
+          onBlur={() => {
+            if (text === value) return;
+            try {
+              onCommit(parseQuickEffort(text, mode));
+              setError('');
+            } catch (e) {
+              setError((e as Error).message);
+            }
+          }}
+          style={{
+            flex: 1,
+            minWidth: 34,
+            minHeight: 44,
+            color: '#C0F568',
+            textAlign: 'center',
+            fontSize: 13,
+          }}
+        />
+      </View>
       {error ? (
         <Text variant="caption" color="#FFAF71" accessibilityRole="alert">
           {error}
@@ -119,7 +128,7 @@ export function PrescriptionRows({
     onChange({ prescribed_sets: rows.map((r, i) => (i === index ? { ...r, ...value } : r)) });
   }
   const inputStyle = {
-    minHeight: 42,
+    minHeight: 44,
     minWidth: 0,
     backgroundColor: '#202B1B',
     color: '#F2F3EE',
@@ -262,10 +271,10 @@ export function PrescriptionRows({
         <Text variant="caption" style={{ width: 30, textAlign: 'center' }}>
           Nº
         </Text>
-        <Text variant="caption" style={{ flex: 1, textAlign: 'center' }}>
+        <Text variant="caption" style={{ flex: 0.8, textAlign: 'center' }}>
           {e.metric === 'seconds' ? 'Tempo (s)' : e.metric === 'meters' ? 'Dist. (m)' : 'Reps'}
         </Text>
-        <Text variant="caption" color="#B7F34A" style={{ flex: 1, textAlign: 'center' }}>
+        <Text variant="caption" color="#B7F34A" style={{ flex: 1.3, textAlign: 'center' }}>
           Esforço
         </Text>
         <Text variant="caption" style={{ width: 56, textAlign: 'center' }}>
@@ -358,7 +367,7 @@ export function PrescriptionRows({
               value={r.target}
               maxLength={40}
               editable={!disabled}
-              style={{ ...inputStyle, flex: 1 }}
+              style={{ ...inputStyle, flex: 0.8 }}
               onChangeText={(target) => patch(i, { target })}
             />
             <QuickEffort
@@ -449,9 +458,9 @@ export function CompactExercise({
   return (
     <View
       style={{
-        gap: 12,
-        padding: 12,
-        borderRadius: 16,
+        gap: 8,
+        padding: 10,
+        borderRadius: 15,
         backgroundColor: '#171F13',
         borderWidth: 1,
         borderColor: '#35462B',
@@ -466,23 +475,9 @@ export function CompactExercise({
             compact
           />
         ) : null}
-        <View
-          style={{
-            width: 28,
-            height: 28,
-            borderRadius: 8,
-            backgroundColor: '#304425',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Text color="#B7F34A" style={{ fontSize: 13 }}>
-            {index + 1}
-          </Text>
-        </View>
-        <View style={{ flex: 1, gap: 3 }}>
-          <Text style={{ fontSize: 16, fontWeight: '600' }} color="#D5F7BD">
-            {exercise.name || 'Novo exercício'}
+        <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
+          <Text numberOfLines={2} style={{ fontSize: 14, fontWeight: '600' }} color="#D5F7BD">
+            {index + 1}. {exercise.name || 'Novo exercício'}
           </Text>
           <Text variant="caption">
             {exercise.muscle || 'Exercício personalizado'}
