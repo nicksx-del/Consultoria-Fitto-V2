@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Pressable, View, useWindowDimensions } from 'react-native';
+import { Pressable, TextInput, View, useWindowDimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Button, Text, TextField } from '@/components/ui';
+import { Button, Text } from '@/components/ui';
 
 const accent = '#C0F568';
 const tiers = [
@@ -73,10 +73,24 @@ export function PlanUpgradeCard({
         <Text variant="caption" color={accent}>
           SEU PRÓXIMO PASSO
         </Text>
-        <Text variant="title">Mais alunos. Novas possibilidades.</Text>
-        <Text variant="caption">
-          {count}/{limit} vagas utilizadas · Encontre o plano para sua fase.
-        </Text>
+        <Text variant="title">Seu atendimento está crescendo?</Text>
+        <Text variant="caption">Encontre espaço para seus próximos alunos.</Text>
+        <View style={{ gap: 6, marginVertical: 5 }}>
+          <View
+            style={{ height: 4, borderRadius: 4, backgroundColor: '#415432', overflow: 'hidden' }}
+          >
+            <View
+              style={{
+                width: (Math.min(1, count / Math.max(1, limit)) * 100 + '%') as `${number}%`,
+                height: 4,
+                backgroundColor: accent,
+              }}
+            />
+          </View>
+          <Text variant="caption">
+            {count} de {limit} {limit === 1 ? 'vaga utilizada' : 'vagas utilizadas'}
+          </Text>
+        </View>
         <Text color={accent} style={{ fontWeight: '700' }}>
           Melhorar meu plano →
         </Text>
@@ -101,6 +115,7 @@ export function PlansPanel({
   const [quantity, setQuantity] = useState(String(Math.max(count, 1)));
   const [step, setStep] = useState<'quantity' | 'plans'>('quantity');
   const [selected, setSelected] = useState<number | null>(null);
+  const [compare, setCompare] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const wide = useWindowDimensions().width >= 900;
   const valid = /^\d{1,5}$/.test(quantity) && Number(quantity) > 0;
@@ -110,7 +125,8 @@ export function PlansPanel({
   const recommendation = tiers.find((tier) => tier.capacity === recommended)!;
   const choice = tiers.find((tier) => tier.capacity === chosen)!;
   const suitable = chosen === 0 || chosen >= required;
-  const orderedTiers = [recommendation, ...tiers.filter((tier) => tier.capacity !== recommended)];
+  const orderedTiers = compare ? tiers : [recommendation];
+  const margin = chosen ? Math.max(0, chosen - required) : null;
   function update(value: string) {
     setQuantity(value);
     setSelected(null);
@@ -158,10 +174,10 @@ export function PlansPanel({
             width: '100%',
             maxWidth: 640,
             alignSelf: 'center',
-            padding: wide ? 36 : 22,
+            padding: wide ? 40 : 24,
             gap: 24,
             borderRadius: 28,
-            backgroundColor: '#1C2816',
+            backgroundColor: '#191F16',
             borderWidth: 1,
             borderColor: '#405532',
           }}
@@ -180,7 +196,7 @@ export function PlansPanel({
           </View>
           <View style={{ gap: 10 }}>
             <Text variant="caption" color={accent}>
-              UM PLANO QUE COMBINA COM SUA FASE
+              VAMOS CONHECER SEU ATENDIMENTO
             </Text>
             <Text
               style={{
@@ -193,17 +209,86 @@ export function PlansPanel({
               Quantos alunos você tem?
             </Text>
             <Text variant="bodyMuted">
-              Conte quem já treina com você e quem deseja trazer para o Fitto. Vamos encontrar a
-              capacidade ideal.
+              Informe o tamanho da sua carteira. Encontramos a capacidade que acompanha você.
             </Text>
           </View>
-          <TextField
-            label="Quantidade de alunos"
-            value={quantity}
-            onChangeText={update}
-            keyboardType="number-pad"
-            maxLength={5}
-          />
+          <View
+            style={{
+              padding: 18,
+              borderRadius: 22,
+              backgroundColor: '#11170E',
+              borderWidth: 1,
+              borderColor: '#3D4E30',
+              gap: 6,
+            }}
+          >
+            <Text variant="caption" style={{ textAlign: 'center' }}>
+              MEUS ALUNOS
+            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Diminuir quantidade de alunos"
+                disabled={!valid || Number(quantity) <= 1}
+                onPress={() => update(String(Number(quantity) - 1))}
+                style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: 15,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#28351F',
+                  opacity: !valid || Number(quantity) <= 1 ? 0.35 : 1,
+                }}
+              >
+                <Ionicons name="remove" size={22} color={accent} />
+              </Pressable>
+              <TextInput
+                accessibilityLabel="Quantidade de alunos"
+                value={quantity}
+                onChangeText={update}
+                keyboardType="number-pad"
+                maxLength={5}
+                selectTextOnFocus
+                onSubmitEditing={() => {
+                  if (valid) {
+                    setStep('plans');
+                    onNavigate();
+                  }
+                }}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  textAlign: 'center',
+                  fontSize: wide ? 68 : 54,
+                  lineHeight: 82,
+                  fontWeight: '700',
+                  color: '#F2F6ED',
+                  paddingVertical: 2,
+                }}
+              />
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Aumentar quantidade de alunos"
+                disabled={!valid || Number(quantity) >= 99999}
+                onPress={() => update(String(Number(quantity) + 1))}
+                style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: 15,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#28351F',
+                  opacity: !valid || Number(quantity) >= 99999 ? 0.35 : 1,
+                }}
+              >
+                <Ionicons name="add" size={22} color={accent} />
+              </Pressable>
+            </View>
+            <Text variant="caption" style={{ textAlign: 'center' }}>
+              Toque no número para editar
+            </Text>
+          </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {[10, 25, 50, 100].map((amount) => (
               <Pressable
@@ -241,17 +326,17 @@ export function PlansPanel({
             }}
           />
           <Text variant="caption" style={{ textAlign: 'center' }}>
-            Você pode comparar as opções antes de escolher.
+            Sem compromisso. Você escolhe depois de comparar.
           </Text>
         </View>
       ) : (
         <>
           <View style={{ gap: 10 }}>
             <Text variant="caption" color={accent}>
-              ESCOLHIDO PARA O SEU MOMENTO
+              SUA RECOMENDAÇÃO FITTO
             </Text>
             <Text style={{ fontSize: wide ? 34 : 28, fontWeight: '700', letterSpacing: -0.8 }}>
-              Seu atendimento merece espaço.
+              Um plano do seu tamanho.
             </Text>
             <Text variant="bodyMuted">
               Para {Number(quantity)} alunos, recomendamos o plano {recommendation.name}.
@@ -288,13 +373,13 @@ export function PlansPanel({
                     setConfirmed(false);
                   }}
                   style={{
-                    width: wide ? '48%' : '100%',
-                    padding: 22,
+                    width: wide && compare ? '48%' : '100%',
+                    padding: isRecommended ? (wide ? 32 : 24) : 22,
                     gap: 14,
                     borderRadius: 24,
                     borderWidth: 1,
                     borderColor: isChosen ? accent : '#35432C',
-                    backgroundColor: isChosen ? '#263A1C' : '#191E16',
+                    backgroundColor: isRecommended ? '#263B1B' : isChosen ? '#263A1C' : '#191E16',
                   }}
                 >
                   <View
@@ -305,8 +390,10 @@ export function PlansPanel({
                       gap: 8,
                     }}
                   >
-                    <Text variant="caption" color={accent}>
-                      {isRecommended ? '★ MELHOR PARA VOCÊ' : 'PLANO FITTO'}
+                    <Text variant="caption" color={accent} style={{ flex: 1 }}>
+                      {isRecommended
+                        ? 'RECOMENDADO PARA SEUS ' + required + ' ALUNOS'
+                        : 'PLANO FITTO'}
                     </Text>
                     <Ionicons
                       name={isChosen ? 'checkmark-circle' : 'ellipse-outline'}
@@ -315,17 +402,47 @@ export function PlansPanel({
                     />
                   </View>
                   <Text variant="title">{tier.name}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'baseline',
+                      gap: 8,
+                      flexWrap: 'wrap',
+                    }}
+                  >
                     <Text
                       style={{ fontSize: 40, lineHeight: 48, fontWeight: '700', letterSpacing: -1 }}
                     >
                       {tier.capacity || '100+'}
                     </Text>
-                    <Text variant="caption">
+                    <Text variant="caption" style={{ flexShrink: 1 }}>
                       {tier.capacity ? 'alunos · capacidade total' : 'alunos · sob medida'}
                     </Text>
                   </View>
                   <Text variant="caption">{tier.description}</Text>
+                  {isRecommended ? (
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        gap: 12,
+                        paddingVertical: 8,
+                      }}
+                    >
+                      <View style={{ flex: 1, minWidth: 110, gap: 4 }}>
+                        <Text style={{ fontSize: 24, fontWeight: '700' }}>{required}</Text>
+                        <Text variant="caption">alunos considerados</Text>
+                      </View>
+                      <View style={{ flex: 1, minWidth: 110, gap: 4 }}>
+                        <Text style={{ fontSize: 24, fontWeight: '700' }} color={accent}>
+                          {tier.capacity ? tier.capacity - required : 'Sob medida'}
+                        </Text>
+                        <Text variant="caption">
+                          {tier.capacity ? 'vagas para crescer' : 'capacidade flexível'}
+                        </Text>
+                      </View>
+                    </View>
+                  ) : null}
                   <View style={{ borderTopWidth: 1, borderTopColor: '#3A4B30', paddingTop: 12 }}>
                     <Text color={isChosen ? accent : '#CDD7C4'}>
                       {isChosen ? 'Selecionado' : 'Comparar esta opção'} →
@@ -335,6 +452,11 @@ export function PlansPanel({
               );
             })}
           </View>
+          <Button
+            title={compare ? 'Mostrar apenas a recomendação' : 'Comparar todos os planos'}
+            variant="outline"
+            onPress={() => setCompare((value) => !value)}
+          />
           <View
             style={{
               padding: 22,
@@ -345,16 +467,19 @@ export function PlansPanel({
               borderColor: '#405532',
             }}
           >
-            <Text variant="caption" color={accent}>
-              SUA ESCOLHA
-            </Text>
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+              <Ionicons name="checkmark-circle-outline" size={22} color={accent} />
+              <Text variant="caption" color={accent}>
+                RESUMO DA SUA ESCOLHA
+              </Text>
+            </View>
             <Text variant="title">
               {choice.name}
               {chosen ? ' · até ' + chosen + ' alunos' : ' · capacidade personalizada'}
             </Text>
             <Text variant="caption">
               {chosen
-                ? Math.max(0, chosen - required) + ' vagas de margem para novos acompanhamentos.'
+                ? margin + ' vagas de margem para novos acompanhamentos.'
                 : 'Uma proposta de capacidade para o tamanho do seu atendimento.'}
             </Text>
             {!suitable ? (
@@ -369,7 +494,8 @@ export function PlansPanel({
             />
             {confirmed ? (
               <Text accessibilityLiveRegion="polite" color={accent}>
-                Simulação pronta para o plano {choice.name}.
+                Plano {choice.name} simulado para seu atendimento. Você pode continuar comparando as
+                opções.
               </Text>
             ) : null}
             <Text variant="caption">
