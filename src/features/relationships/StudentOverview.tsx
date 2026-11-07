@@ -3,7 +3,8 @@ import type { Plan } from './workoutModel';
 import React from 'react';
 import { Pressable, View, useWindowDimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Button, Text } from '@/components/ui';
+import { Text } from '@/components/ui';
+
 export type StudentSection =
   'overview' | 'workouts' | 'intake' | 'history' | 'feedback' | 'nutrition';
 export type StudentOverviewData = {
@@ -12,6 +13,7 @@ export type StudentOverviewData = {
   lastWorkout: string | null;
   pendingFeedback: number;
 };
+
 export function StudentOverview({
   data,
   loading,
@@ -29,7 +31,7 @@ export function StudentOverview({
   nutrition: NutritionData | null;
   nutritionError: boolean;
   workoutError: boolean;
-  onSection: (s: StudentSection) => void;
+  onSection: (section: StudentSection) => void;
 }) {
   const wide = useWindowDimensions().width >= 900;
   const plans = data?.plans || [];
@@ -47,6 +49,7 @@ export function StudentOverview({
       ready: !loading && Boolean(data) && !workoutError,
       error: workoutError,
       publishedTitle: published?.published?.title,
+      draftTitle: plans.length === 1 ? plans[0].draft.title : undefined,
       publishedAt: published?.published_at,
       drafts: plans.filter(
         (plan) => !plan.published || JSON.stringify(plan.draft) !== JSON.stringify(plan.published),
@@ -60,21 +63,21 @@ export function StudentOverview({
     },
     {
       section: 'nutrition',
-      title: 'Alimentação',
+      title: 'Dieta',
       icon: 'restaurant-outline',
       enabled: nutritionist,
-      ready: Boolean(nutrition),
+      ready: Boolean(nutrition) && !nutritionError,
       error: nutritionError,
       publishedTitle: diet?.published?.title,
+      draftTitle: diet?.draft?.title,
       publishedAt: diet?.published_at,
       drafts: diet && (!diet.published || diet.version !== diet.published_version) ? 1 : 0,
-      action: diet ? 'Editar plano alimentar' : 'Criar plano alimentar',
+      action: diet ? 'Editar dieta' : 'Criar dieta',
     },
   ] as const;
   return (
-    <View style={{ gap: 18 }}>
-      <Text variant="title">Prescrição individual</Text>
-      <View style={{ flexDirection: wide ? 'row' : 'column', gap: 14 }}>
+    <View style={{ gap: 14 }}>
+      <View style={{ flexDirection: wide ? 'row' : 'column', gap: 10 }}>
         {cards
           .filter((card) => card.enabled)
           .map((card) => (
@@ -83,150 +86,201 @@ export function StudentOverview({
               style={{
                 flex: wide ? 1 : undefined,
                 gap: 10,
-                padding: 18,
+                padding: 14,
                 borderRadius: 18,
                 borderWidth: 1,
-                borderColor: '#35432C',
-                backgroundColor: '#191E16',
+                borderColor: '#34462A',
+                backgroundColor: '#1B2616',
               }}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                <Ionicons name={card.icon} size={22} color="#B7F34A" />
-                <Text variant="title">{card.title}</Text>
-              </View>
-              <View style={{ flexGrow: 1, gap: 4 }}>
+              <View style={{ flexDirection: 'row', gap: 9, alignItems: 'center' }}>
+                <View
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 11,
+                    backgroundColor: '#2C4021',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Ionicons name={card.icon} size={19} color="#C0F568" />
+                </View>
+                <Text style={{ flex: 1, fontSize: 15, fontWeight: '700' }}>{card.title}</Text>
                 {card.ready ? (
-                  <>
-                    <Text variant="caption" color={card.publishedTitle ? '#B7F34A' : undefined}>
-                      {card.publishedTitle ? 'Publicado' : 'Sem plano publicado'}
-                    </Text>
-                    {card.publishedTitle ? <Text>{card.publishedTitle}</Text> : null}
-                    {card.publishedTitle && card.publishedAt ? (
-                      <Text variant="caption">
-                        Publicado em {new Date(card.publishedAt).toLocaleDateString('pt-BR')}
-                      </Text>
-                    ) : null}
-                    {card.drafts > 0 ? (
-                      <Text variant="caption">
-                        {card.drafts === 1 ? '1 rascunho' : card.drafts + ' rascunhos'}
-                      </Text>
-                    ) : null}
-                  </>
-                ) : (
-                  <Text variant="caption">
-                    {card.error ? 'Não foi possível carregar o status.' : 'Carregando…'}
+                  <Text
+                    style={{ fontSize: 11 }}
+                    color={card.publishedTitle ? '#C0F568' : '#CFB983'}
+                  >
+                    {card.publishedTitle ? '● Publicado' : 'Sem publicação'}
                   </Text>
-                )}
+                ) : null}
               </View>
-              <Button
-                title={card.error ? 'Tentar novamente' : card.ready ? card.action : 'Carregando…'}
+              <View style={{ gap: 4, flexGrow: 1 }}>
+                <Text numberOfLines={2} style={{ fontSize: 14, fontWeight: '600' }}>
+                  {card.error
+                    ? 'Não foi possível atualizar'
+                    : !card.ready
+                      ? 'Carregando…'
+                      : card.publishedTitle ||
+                        card.draftTitle ||
+                        (card.drafts ? 'Prescrição em preparação' : 'Aguardando sua prescrição')}
+                </Text>
+                {card.ready ? (
+                  <Text variant="caption">
+                    {card.publishedTitle && card.publishedAt
+                      ? 'Publicado em ' + new Date(card.publishedAt).toLocaleDateString('pt-BR')
+                      : 'O aluno ainda não recebeu um plano.'}
+                    {card.drafts
+                      ? ' · ' + card.drafts + (card.drafts === 1 ? ' rascunho' : ' rascunhos')
+                      : ''}
+                  </Text>
+                ) : null}
+              </View>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={card.error ? 'Atualizar ' + card.title : card.action}
+                accessibilityState={{ disabled: !card.error && !card.ready }}
                 disabled={!card.error && !card.ready}
                 onPress={() => onSection(card.error ? 'overview' : card.section)}
-              />
+                style={({ pressed }) => ({
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  minHeight: 44,
+                  paddingHorizontal: 12,
+                  borderRadius: 12,
+                  backgroundColor: pressed ? '#405B2D' : '#304623',
+                  opacity: !card.error && !card.ready ? 0.5 : 1,
+                })}
+              >
+                <Text color="#C0F568" style={{ fontSize: 13, fontWeight: '600' }}>
+                  {card.error ? 'Tentar novamente' : card.ready ? card.action : 'Carregando…'}
+                </Text>
+                <Ionicons name="arrow-forward" size={17} color="#C0F568" />
+              </Pressable>
             </View>
           ))}
       </View>
       {trainer ? (
-        <View
-          style={{
-            gap: 10,
-            padding: 18,
-            borderRadius: 18,
-            backgroundColor: '#191E16',
-            borderWidth: 1,
-            borderColor: '#35432C',
-          }}
-        >
-          <Text variant="caption">ACOMPANHAMENTO</Text>
-          <Text variant="title">{loading ? 'Carregando o resumo…' : 'Atividade recente'}</Text>
-          <Text variant="bodyMuted">
-            {data?.lastWorkout
-              ? `Último treino: ${new Date(data.lastWorkout).toLocaleDateString('pt-BR')}`
-              : 'Acompanhe a prescrição e os próximos passos deste aluno.'}
-          </Text>
-          {data ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 18 }}>
-              <View>
-                <Text variant="title">{data.completed}</Text>
-                <Text variant="caption">Treinos recentes concluídos</Text>
-              </View>
-              <View>
-                <Text variant="title">{data.pendingFeedback}</Text>
-                <Text variant="caption">Feedbacks pendentes</Text>
-              </View>
-            </View>
-          ) : null}
-        </View>
-      ) : null}
-      <Text variant="title">Prescrição e acompanhamento</Text>
-      {(
-        [
-          {
-            section: 'intake',
-            title: 'Ficha do aluno',
-            description: 'Objetivo, experiência, disponibilidade e preferências.',
-            icon: 'clipboard-outline',
-          },
-          {
-            section: 'history',
-            title: 'Evolução e histórico',
-            description: 'Consultar cargas, frequência e treinos realizados.',
-            icon: 'stats-chart-outline',
-          },
-          {
-            section: 'feedback',
-            title: 'Feedback dos exercícios',
-            description: 'Revisar dúvidas, dificuldade e relatos de desconforto.',
-            icon: 'chatbubbles-outline',
-            badge: data?.pendingFeedback ? `${data.pendingFeedback} para revisar` : undefined,
-          },
-        ] as const
-      )
-        .filter(() => trainer)
-        .map((item) => (
-          <Pressable
-            key={item.section}
-            accessibilityRole="button"
-            accessibilityLabel={item.title}
-            onPress={() => onSection(item.section)}
+        <>
+          <View
             style={{
-              padding: 18,
-              borderWidth: 1,
-              borderColor: '#35432C',
-              backgroundColor: '#191E16',
-              borderRadius: 18,
               flexDirection: 'row',
-              alignItems: 'center',
-              gap: 14,
-              minHeight: 96,
+              gap: 1,
+              paddingVertical: 12,
+              borderRadius: 16,
+              backgroundColor: '#192114',
+              borderWidth: 1,
+              borderColor: '#303E27',
             }}
           >
+            <View style={{ flex: 1, gap: 3, paddingHorizontal: 12 }}>
+              <Text style={{ fontSize: 18, fontWeight: '700' }}>
+                {loading ? '…' : workoutError ? '—' : (data?.completed ?? '—')}
+              </Text>
+              <Text style={{ fontSize: 11 }} color="#A8B59E">
+                Treinos concluídos
+              </Text>
+            </View>
             <View
               style={{
-                width: 44,
-                height: 44,
-                borderRadius: 13,
-                backgroundColor: '#28351F',
-                alignItems: 'center',
-                justifyContent: 'center',
+                flex: 1,
+                gap: 3,
+                paddingHorizontal: 12,
+                borderLeftWidth: 1,
+                borderLeftColor: '#34432B',
               }}
             >
-              <Ionicons name={item.icon} size={24} color="#B7F34A" />
+              <Text style={{ fontSize: 18, fontWeight: '700' }}>
+                {loading
+                  ? '…'
+                  : workoutError
+                    ? '—'
+                    : data?.lastWorkout
+                      ? new Date(data.lastWorkout).toLocaleDateString('pt-BR', {
+                          day: '2-digit',
+                          month: '2-digit',
+                        })
+                      : '—'}
+              </Text>
+              <Text style={{ fontSize: 11 }} color="#A8B59E">
+                Último treino
+              </Text>
             </View>
-            <View style={{ flex: 1, gap: 5 }}>
-              <Text variant="title">{item.title}</Text>
-              <Text variant="caption">{item.description}</Text>
-              {'badge' in item && item.badge ? (
-                <Text color="#B7F34A" variant="caption">
-                  {item.badge}
-                </Text>
-              ) : null}
-            </View>
-            <Ionicons name="chevron-forward" size={18} color="#A3AD99" />
-          </Pressable>
-        ))}
-      {trainer && data ? (
-        <Text variant="caption">O resumo considera os 50 registros de execução mais recentes.</Text>
+          </View>
+          <View
+            style={{
+              borderRadius: 16,
+              borderWidth: 1,
+              borderColor: '#303E27',
+              backgroundColor: '#182014',
+              overflow: 'hidden',
+            }}
+          >
+            {(
+              [
+                {
+                  section: 'intake',
+                  title: 'Ficha do aluno',
+                  description: 'Objetivo e preferências',
+                  icon: 'clipboard-outline',
+                },
+                {
+                  section: 'history',
+                  title: 'Evolução e histórico',
+                  description: 'Cargas e sessões',
+                  icon: 'stats-chart-outline',
+                },
+                {
+                  section: 'feedback',
+                  title: 'Feedbacks',
+                  description: 'Dúvidas e relatos',
+                  icon: 'chatbubbles-outline',
+                },
+              ] as const
+            ).map((item, index) => (
+              <Pressable
+                key={item.section}
+                accessibilityRole="button"
+                accessibilityLabel={item.title}
+                onPress={() => onSection(item.section)}
+                style={({ pressed }) => ({
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 10,
+                  paddingHorizontal: 14,
+                  paddingVertical: 10,
+                  minHeight: 58,
+                  backgroundColor: pressed ? '#26351D' : 'transparent',
+                  borderTopWidth: index ? 1 : 0,
+                  borderTopColor: '#2C3A24',
+                })}
+              >
+                <Ionicons name={item.icon} size={20} color="#B7C7AB" />
+                <View style={{ flex: 1, gap: 2 }}>
+                  <Text style={{ fontSize: 13, fontWeight: '600' }}>{item.title}</Text>
+                  <Text style={{ fontSize: 11 }} color="#A8B59E">
+                    {item.description}
+                  </Text>
+                </View>
+                {item.section === 'feedback' &&
+                data &&
+                !loading &&
+                !workoutError &&
+                data.pendingFeedback > 0 ? (
+                  <Text color="#C0F568" style={{ fontSize: 12 }}>
+                    {data.pendingFeedback} pendentes
+                  </Text>
+                ) : null}
+                <Ionicons name="chevron-forward" size={15} color="#91A283" />
+              </Pressable>
+            ))}
+          </View>
+          <Text style={{ fontSize: 11 }} color="#91A283">
+            Resumo dos últimos 50 registros de treino.
+          </Text>
+        </>
       ) : null}
     </View>
   );

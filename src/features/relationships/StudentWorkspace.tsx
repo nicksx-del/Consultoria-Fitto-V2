@@ -1,9 +1,10 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { nutritionApi } from '@/features/nutrition/nutritionApi';
 import type { NutritionData } from '@/features/nutrition/nutritionModel';
 import { NutritionPanel } from '@/features/nutrition/NutritionPanel';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { Button, Text } from '@/components/ui';
+import { Pressable, View } from 'react-native';
+import { Text } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
 import { Profile, Relationship } from './api';
 import { TrainingIntake } from './TrainingIntake';
@@ -106,9 +107,9 @@ export function StudentWorkspace({
       alive = false;
     };
   }, [profile.id, link.id, nutritionist, revision, section]);
-  function navigate(next: StudentSection) {
+  function navigate(next: StudentSection, openEditor = true) {
     onNavigate?.();
-    setFromOverview(section === 'overview' && next !== 'overview');
+    setFromOverview(openEditor && section === 'overview' && next !== 'overview');
     setSection(next);
     if (next === 'overview') {
       setLoading(trainer);
@@ -119,48 +120,123 @@ export function StudentWorkspace({
     }
   }
   return (
-    <View style={{ gap: 18 }}>
+    <View style={{ gap: 14 }}>
       {!editing ? (
-        <Button
-          title={section === 'overview' ? 'Voltar para Alunos' : 'Voltar ao painel do aluno'}
-          variant="ghost"
-          disabled={busy}
-          onPress={() => (section === 'overview' ? onBack() : navigate('overview'))}
-        />
-      ) : null}
-      {!editing ? (
-        <View
-          style={{
-            padding: 16,
-            borderRadius: 20,
-            backgroundColor: '#20291A',
-            borderWidth: 1,
-            borderColor: '#3E4B31',
-            gap: 8,
-          }}
-        >
-          <Text variant="caption">PAINEL DO ALUNO</Text>
-          <Text variant="heading">{link.name}</Text>
-          <Text variant="bodyMuted">@{link.username}</Text>
-          <Text color="#B7F34A">● Acompanhamento ativo</Text>
-        </View>
+        <>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
+                section === 'overview' ? 'Voltar para Alunos' : 'Voltar ao resumo do aluno'
+              }
+              disabled={busy}
+              onPress={() => (section === 'overview' ? onBack() : navigate('overview'))}
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 13,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#202C19',
+                opacity: busy ? 0.4 : 1,
+              }}
+            >
+              <Ionicons name="arrow-back" size={21} color="#C0F568" />
+            </Pressable>
+            <View
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 14,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#304423',
+              }}
+            >
+              <Text color="#C0F568" style={{ fontSize: 14, fontWeight: '700' }}>
+                {link.name
+                  .trim()
+                  .split(/\s+/)
+                  .filter((part) => /^[\p{L}\p{N}]/u.test(part))
+                  .slice(0, 2)
+                  .map((part) => part[0])
+                  .join('')
+                  .toUpperCase()}
+              </Text>
+            </View>
+            <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
+              <Text numberOfLines={1} style={{ fontSize: 17, fontWeight: '700' }}>
+                {link.name}
+              </Text>
+              <Text numberOfLines={1} style={{ fontSize: 11 }} color="#A8B59E">
+                ● Ativo · @{link.username}
+                {link.is_self ? ' · Teste' : ''}
+              </Text>
+            </View>
+          </View>
+          <View
+            accessibilityRole="tablist"
+            style={{
+              flexDirection: 'row',
+              gap: 3,
+              padding: 3,
+              borderRadius: 14,
+              backgroundColor: '#1A2216',
+            }}
+          >
+            {(
+              [
+                { section: 'overview', label: 'Resumo', icon: 'grid-outline', enabled: true },
+                { section: 'workouts', label: 'Treino', icon: 'barbell-outline', enabled: trainer },
+                {
+                  section: 'nutrition',
+                  label: 'Dieta',
+                  icon: 'restaurant-outline',
+                  enabled: nutritionist,
+                },
+              ] as const
+            )
+              .filter((item) => item.enabled)
+              .map((item) => (
+                <Pressable
+                  key={item.section}
+                  accessibilityRole="tab"
+                  accessibilityLabel={item.label}
+                  accessibilityState={{ selected: section === item.section, disabled: busy }}
+                  disabled={busy}
+                  onPress={() => navigate(item.section, false)}
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    gap: 6,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: 44,
+                    borderRadius: 11,
+                    backgroundColor: section === item.section ? '#304325' : 'transparent',
+                    opacity: busy ? 0.5 : 1,
+                  }}
+                >
+                  <Ionicons
+                    name={item.icon}
+                    size={16}
+                    color={section === item.section ? '#C0F568' : '#A8B59E'}
+                  />
+                  <Text
+                    style={{ fontSize: 12, fontWeight: section === item.section ? '700' : '400' }}
+                    color={section === item.section ? '#C0F568' : '#A8B59E'}
+                  >
+                    {item.label}
+                  </Text>
+                </Pressable>
+              ))}
+          </View>
+        </>
       ) : (
         <Text variant="caption">PRESCRIÇÃO · {link.name}</Text>
       )}
       {section === 'overview' ? (
         <>
-          {error ? (
-            <View style={{ gap: 8 }}>
-              <Text accessibilityRole="alert" color="#FF6B5A">
-                {error}
-              </Text>
-              <Button
-                title="Atualizar resumo"
-                variant="outline"
-                onPress={() => navigate('overview')}
-              />
-            </View>
-          ) : null}
           <StudentOverview
             data={data}
             nutrition={nutrition}
