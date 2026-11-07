@@ -1,3 +1,4 @@
+import { PlansPanel } from '@/features/relationships/PlansPanel';
 import { ProfessionalHome } from '@/features/relationships/ProfessionalHome';
 import { rememberProfile } from '@/features/auth/lastProfile';
 import { NutritionDashboard } from '@/features/nutrition/NutritionDashboard';
@@ -57,7 +58,9 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
   const [tab, setTab] = useState<DashboardTab>(() =>
     pendingInvite.get()
       ? 'relationships'
-      : ['home', 'relationships', 'nutrition', 'profile', 'settings'].includes(initialTab || '')
+      : ['home', 'relationships', 'nutrition', 'profile', 'settings', 'plans'].includes(
+            initialTab || '',
+          )
         ? (initialTab as DashboardTab)
         : 'home',
   );
@@ -321,8 +324,26 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
               onBusy={setBusy}
             />
           ) : null}
+          {tab === 'plans' && isProfessional ? (
+            <PlansPanel
+              count={countedActive}
+              limit={dashboard.limit}
+              pending={
+                dashboard.links.filter((link) => link.status === 'pending' && !link.is_self).length
+              }
+              onBack={() => setTab('relationships')}
+            />
+          ) : null}
           {tab === 'settings' ? (
             <>
+              {isProfessional ? (
+                <Button
+                  title="Planos e capacidade de alunos"
+                  variant="outline"
+                  disabled={busy}
+                  onPress={() => setTab('plans')}
+                />
+              ) : null}
               <View
                 style={{
                   padding: 20,
@@ -470,6 +491,7 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
               <StudentRoster
                 links={dashboard.links}
                 limit={dashboard.limit}
+                onPlans={() => setTab('plans')}
                 busy={busy}
                 onOpen={(link) =>
                   router.push({

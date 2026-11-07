@@ -9,6 +9,7 @@ export function StudentRoster({
   links,
   limit,
   busy,
+  onPlans,
   onOpen,
   onInvite,
   onRefresh,
@@ -20,6 +21,7 @@ export function StudentRoster({
   links: Relationship[];
   limit: number;
   busy: boolean;
+  onPlans: () => void;
   onOpen: (link: Relationship) => void;
   onInvite: () => void;
   onRefresh: () => void;
@@ -101,10 +103,16 @@ export function StudentRoster({
             }}
           >
             <Text variant="caption" color="#C0F568">
-              Plano gratuito
+              {limit === 1 ? 'Plano gratuito' : 'Plano atual'}
             </Text>
           </View>
         </View>
+        <Button
+          title="Ver planos para mais alunos"
+          variant="outline"
+          disabled={busy}
+          onPress={onPlans}
+        />
         <Button title="Convidar aluno" disabled={busy} onPress={onInvite} />
         <Text variant="caption">
           {count}/{limit} vaga{limit === 1 ? '' : 's'} utilizada{limit === 1 ? '' : 's'}
@@ -208,7 +216,7 @@ export function StudentRoster({
                     {link.name
                       .trim()
                       .split(/\s+/)
-                        .filter((part) => /^[\p{L}\p{N}]/u.test(part))
+                      .filter((part) => /^[\p{L}\p{N}]/u.test(part))
                       .slice(0, 2)
                       .map((n) => n[0])
                       .join('')

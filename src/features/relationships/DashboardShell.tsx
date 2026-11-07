@@ -14,7 +14,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui';
 import { Profile } from './api';
 
-export type DashboardTab = 'home' | 'relationships' | 'nutrition' | 'profile' | 'settings';
+export type DashboardTab =
+  'home' | 'relationships' | 'nutrition' | 'profile' | 'settings' | 'plans';
 export function DashboardShell({
   profile,
   tab,
@@ -63,17 +64,19 @@ export function DashboardShell({
     { id: 'settings', label: 'Configurações', icon: 'settings-outline', activeIcon: 'settings' },
   ];
   const title =
-    tab === 'home'
-      ? 'Seu espaço Fitto'
-      : tab === 'nutrition'
-        ? 'Alimentação'
-        : tab === 'profile'
-          ? 'Meu perfil'
-          : tab === 'settings'
-            ? 'Configurações'
-            : profile?.role === 'professional'
-              ? 'Meus alunos'
-              : 'Meu acompanhamento';
+    tab === 'plans'
+      ? 'Planos'
+      : tab === 'home'
+        ? 'Seu espaço Fitto'
+        : tab === 'nutrition'
+          ? 'Alimentação'
+          : tab === 'profile'
+            ? 'Meu perfil'
+            : tab === 'settings'
+              ? 'Configurações'
+              : profile?.role === 'professional'
+                ? 'Meus alunos'
+                : 'Meu acompanhamento';
   return (
     <View
       style={[
