@@ -45,7 +45,7 @@ export function DashboardShell({
   const scroll = useRef<ScrollView>(null);
   useEffect(() => {
     scroll.current?.scrollTo({ y: 0, animated: false });
-  }, [navigationKey]);
+  }, [navigationKey, tab]);
   const tabs: {
     id: DashboardTab;
     label: string;

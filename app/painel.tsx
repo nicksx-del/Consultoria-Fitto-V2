@@ -1,4 +1,4 @@
-import { PlansPanel } from '@/features/relationships/PlansPanel';
+import { PlansPanel, PlanUpgradeCard } from '@/features/relationships/PlansPanel';
 import { ProfessionalHome } from '@/features/relationships/ProfessionalHome';
 import { rememberProfile } from '@/features/auth/lastProfile';
 import { NutritionDashboard } from '@/features/nutrition/NutritionDashboard';
@@ -55,6 +55,7 @@ export default function DashboardScreen() {
 function DashboardContent({ profileId, initialTab }: { profileId?: string; initialTab?: string }) {
   const { session, loading } = useAuth();
   const router = useRouter();
+  const [planNavigation, setPlanNavigation] = useState(0);
   const [tab, setTab] = useState<DashboardTab>(() =>
     pendingInvite.get()
       ? 'relationships'
@@ -253,8 +254,11 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
   }
   return (
     <DashboardShell
-      hideIntro={(isProfessional && tab === 'relationships') || tab === 'nutrition'}
+      hideIntro={
+        (isProfessional && (tab === 'relationships' || tab === 'plans')) || tab === 'nutrition'
+      }
       profile={profile}
+      navigationKey={planNavigation}
       tab={tab}
       onTab={(next) => {
         setTab(next);
@@ -281,12 +285,19 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
         <>
           {tab === 'home' ? (
             profile.role === 'professional' ? (
-              <ProfessionalHome
-                profile={profile}
-                links={active}
-                pendingCount={pending.length}
-                onStudents={() => setTab('relationships')}
-              />
+              <View style={{ gap: 20 }}>
+                <PlanUpgradeCard
+                  count={countedActive}
+                  limit={dashboard.limit}
+                  onPress={() => setTab('plans')}
+                />
+                <ProfessionalHome
+                  profile={profile}
+                  links={active}
+                  pendingCount={pending.length}
+                  onStudents={() => setTab('relationships')}
+                />
+              </View>
             ) : profile.role === 'student' &&
               active.some((l) => l.specialties.includes('Treinador')) ? (
               <View style={{ gap: 18 }}>
@@ -331,7 +342,8 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
               pending={
                 dashboard.links.filter((link) => link.status === 'pending' && !link.is_self).length
               }
-              onBack={() => setTab('relationships')}
+              onNavigate={() => setPlanNavigation((n) => n + 1)}
+              onBack={() => setTab('home')}
             />
           ) : null}
           {tab === 'settings' ? (
