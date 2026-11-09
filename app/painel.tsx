@@ -1,3 +1,4 @@
+import { SettingsPanel } from '@/features/relationships/SettingsPanel';
 import { PlansPanel, PlanUpgradeCard } from '@/features/relationships/PlansPanel';
 import { ProfessionalHome } from '@/features/relationships/ProfessionalHome';
 import { rememberProfile } from '@/features/auth/lastProfile';
@@ -72,6 +73,7 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [phone, setPhone] = useState('');
+  const [editingPhone, setEditingPhone] = useState(false);
   const [credential, setCredential] = useState('');
   const [preview, setPreview] = useState<Preview | null>(null);
   const [invite, setInvite] = useState<Invite | null>(null);
@@ -258,12 +260,15 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
   return (
     <DashboardShell
       hideIntro={
-        (isProfessional && (tab === 'relationships' || tab === 'plans')) || tab === 'nutrition'
+        (isProfessional && (tab === 'relationships' || tab === 'plans')) ||
+        tab === 'nutrition' ||
+        tab === 'settings'
       }
       profile={profile}
       navigationKey={planNavigation}
       tab={tab}
       onTab={(next) => {
+        setEditingPhone(false);
         setTab(next);
       }}
       pendingCount={pending.length}
@@ -356,84 +361,42 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
             />
           ) : null}
           {tab === 'settings' ? (
-            <>
-              {isProfessional ? (
-                <Button
-                  title="Planos e capacidade de alunos"
-                  variant="outline"
-                  disabled={busy}
-                  onPress={() => setTab('plans')}
-                />
-              ) : null}
-              <View
-                style={{
-                  padding: 20,
-                  borderWidth: 1,
-                  borderColor: '#30372A',
-                  borderRadius: 18,
-                  backgroundColor: '#191E16',
-                  gap: 12,
-                }}
-              >
-                <Ionicons name="person-circle-outline" size={36} color="#D3FB69" />
-                <Text variant="title">{profile.display_name}</Text>
-                <Text variant="bodyMuted">
-                  @{profile.username} · {isProfessional ? 'Profissional' : 'Aluno'}
-                </Text>
-                <Button
-                  title="Contas · trocar ou adicionar perfil"
-                  variant="outline"
-                  disabled={busy}
-                  onPress={() => router.replace('/contas')}
-                />
-              </View>
-              {isProfessional ? (
-                <View
-                  style={{
-                    gap: 16,
-                    padding: 20,
-                    borderWidth: 1,
-                    borderColor: '#30372A',
-                    borderRadius: 18,
-                    backgroundColor: '#191E16',
-                  }}
-                >
-                  <Text variant="title">Atendimento</Text>
-                  <TextField
-                    label="WhatsApp de atendimento"
-                    placeholder="5511999999999"
-                    helperText="Código do país + DDD + número. Só será mostrado aos seus alunos aprovados."
-                    value={phone}
-                    onChangeText={(v) => setPhone(v.replace(/\D/g, '').slice(0, 15))}
-                    keyboardType="phone-pad"
-                    editable={!busy}
-                  />
-                  <Button
-                    title="Salvar WhatsApp"
-                    variant="outline"
-                    disabled={busy}
-                    onPress={() => {
-                      void run(async () => {
-                        await relationshipApi('contact', profileId!, { whatsapp: phone });
-                        setNotice(phone ? 'WhatsApp salvo.' : 'WhatsApp removido.');
-                      });
-                    }}
-                  />
-                </View>
-              ) : null}
-              <Button
-                title="Sair da conta"
-                variant="ghost"
-                loading={busy}
-                onPress={() => {
-                  void run(async () => {
-                    const { error } = await supabase.auth.signOut();
-                    if (error) throw new Error('Não foi possível sair. Tente novamente.');
-                    router.replace('/entrar');
-                  });
-                }}
-              />
-            </>
+            <SettingsPanel
+              profile={profile}
+              busy={busy}
+              count={countedActive}
+              limit={dashboard.limit}
+              savedPhone={dashboard.whatsapp || ''}
+              phone={phone}
+              editingPhone={editingPhone}
+              onPhoneChange={setPhone}
+              onTogglePhone={() => {
+                setPhone(dashboard.whatsapp || '');
+                setEditingPhone(!editingPhone);
+              }}
+              onSavePhone={() => {
+                void run(async () => {
+                  await relationshipApi('contact', profile.id, { whatsapp: phone });
+                  setDashboard((current) =>
+                    current ? { ...current, whatsapp: phone || null } : current,
+                  );
+                  setEditingPhone(false);
+                  setNotice(phone ? 'WhatsApp salvo.' : 'WhatsApp removido.');
+                });
+              }}
+              onPlans={() => {
+                setEditingPhone(false);
+                setTab('plans');
+              }}
+              onAccounts={() => router.replace('/contas')}
+              onSignOut={() => {
+                void run(async () => {
+                  const { error } = await supabase.auth.signOut();
+                  if (error) throw new Error('Não foi possível sair. Tente novamente.');
+                  router.replace('/entrar');
+                });
+              }}
+            />
           ) : null}
           <View style={{ display: tab === 'relationships' ? 'flex' : 'none', gap: 16 }}>
             {confirmation ? (

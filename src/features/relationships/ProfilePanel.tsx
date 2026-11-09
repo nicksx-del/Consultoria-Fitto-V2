@@ -51,15 +51,16 @@ function CardTitle({
     </View>
   );
 }
-function Avatar({
+export function Avatar({
   profile,
   small = false,
+  size = small ? 72 : 96,
 }: {
   profile: Pick<Profile, 'display_name' | 'avatar_url'>;
   small?: boolean;
+  size?: number;
 }) {
   const [failed, setFailed] = useState(false);
-  const size = small ? 72 : 96;
   const initials =
     profile.display_name
       .trim()
@@ -92,7 +93,11 @@ function Avatar({
         />
       ) : (
         <Text
-          style={{ fontSize: small ? 24 : 30, fontWeight: '800', letterSpacing: 1 }}
+          style={{
+            fontSize: size <= 44 ? 15 : small ? 24 : 30,
+            fontWeight: '800',
+            letterSpacing: 1,
+          }}
           color={accent}
         >
           {initials}
