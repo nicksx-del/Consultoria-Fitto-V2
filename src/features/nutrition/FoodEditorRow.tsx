@@ -18,11 +18,11 @@ export function FoodEditorRow({
   onRemove: () => void;
 }) {
   return (
-    <View style={{ gap: 8, paddingVertical: 12, borderBottomWidth: 1, borderColor: '#34422B' }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-        <View style={{ flex: 1, gap: 3 }}>
+    <View style={{ gap: 4, paddingVertical: 7, borderBottomWidth: 1, borderColor: '#34422B' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
           {food.tacoId ? (
-            <Text style={{ fontSize: 15, lineHeight: 21, fontWeight: '600' }}>{food.name}</Text>
+            <Text style={{ fontSize: 14, lineHeight: 19, fontWeight: '600' }}>{food.name}</Text>
           ) : (
             <TextField
               accessibilityLabel="Nome do alimento"
@@ -39,7 +39,7 @@ export function FoodEditorRow({
             </Text>
           ) : null}
         </View>
-        <View style={{ width: 86, gap: 3 }}>
+        <View style={{ width: 78, gap: 2 }}>
           <Text variant="caption" style={{ fontSize: 11 }}>
             {food.tacoId ? 'Gramas' : 'Quantidade'}
           </Text>
@@ -58,7 +58,7 @@ export function FoodEditorRow({
             }
             style={{
               height: 44,
-              paddingHorizontal: 10,
+              paddingHorizontal: 6,
               borderRadius: 10,
               borderWidth: 1,
               borderColor: '#45543C',
