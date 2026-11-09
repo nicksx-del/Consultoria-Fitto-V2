@@ -5,7 +5,7 @@ import { readRestAlerts, setRestAlerts } from './restAlerts';
 import { TrainingProgress, StudentSessionCard } from './StudentWorkoutUI';
 import { RestTimer } from './RestTimer';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Modal } from 'react-native';
+import { View, Modal, ScrollView } from 'react-native';
 import { Button, Text, TextField, Screen } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
 import { SetLog } from './trainingRuntime';
@@ -16,6 +16,7 @@ import { Exercise, SetPrescription } from './workoutModel';
 import { WorkoutResultsSummary } from './WorkoutResultsSummary';
 import { WorkoutCompletion } from './WorkoutCompletion';
 import { executionTotals, type PublishedWorkout } from './trainingExperience';
+import { useMinimizedWorkout } from './MinimizedWorkout';
 import { DetailsPanel } from './DetailsPanel';
 
 export type Execution = {
@@ -57,6 +58,7 @@ export function Executions({
   onEntryHandled,
   onBusy,
   onNavigate,
+  onMinimize,
 }: {
   profileId: string;
   linkId: string;
@@ -66,7 +68,9 @@ export function Executions({
   onEntryHandled?: () => void;
   onBusy?: (busy: boolean) => void;
   onNavigate?: () => void;
+  onMinimize?: () => void;
 }) {
+  const minimized = useMinimizedWorkout();
   const [adjusting, setAdjusting] = useState(false);
   const adjustLock = useRef(false);
   const [focused, setFocused] = useState(false);
@@ -105,9 +109,39 @@ export function Executions({
     return data as T;
   }
   function install(row: Execution | null) {
-    if (row && !latest.current) setFocused(true);
+    if (row && !latest.current && (onMinimize || minimized.workout?.executionId !== row.id)) {
+      const stored = minimized.workout;
+      restOwner.current =
+        stored?.executionId === row.id &&
+        stored.restUntil &&
+        row.rest_until &&
+        Date.parse(stored.restUntil) === Date.parse(row.rest_until)
+          ? stored.restOwner
+          : null;
+      setFocused(true);
+      minimized.clear(profileId, linkId);
+    }
+    if (!row && !trainer) minimized.clear(profileId, linkId);
     latest.current = row;
     setCurrent(row);
+  }
+  function minimizeWorkout() {
+    const row = latest.current;
+    if (!row || busy || sending.current || pending.current || status !== 'Salvo') return;
+    const sets = row.progress.flat();
+    minimized.minimize({
+      profileId,
+      linkId,
+      executionId: row.id,
+      name: row.snapshot.session.name,
+      done: sets.filter((set) => set.done).length,
+      total: sets.length,
+      restUntil: row.rest_until,
+      restOwner: restOwner.current,
+    });
+    setFocused(false);
+    setConfirm(false);
+    onMinimize?.();
   }
   async function refresh() {
     const [data, tools] = await Promise.all([
@@ -347,130 +381,134 @@ export function Executions({
       ) : null}
       {current ? (
         <>
-          <Button title="Retomar treino em andamento" onPress={() => setFocused(true)} />
-          <Modal
-            visible={focused}
-            animationType="slide"
-            onRequestClose={() => {
-              if (!busy && status === 'Salvo') setFocused(false);
+          <Button
+            title="Retomar treino em andamento"
+            onPress={() => {
+              minimized.clear(profileId, linkId);
+              setFocused(true);
             }}
-          >
-            <Screen
-              scrollable
-              contentContainerStyle={{
-                gap: 10,
-                paddingVertical: 12,
-                maxWidth: 720,
-                width: '100%',
-                alignSelf: 'center',
-              }}
-            >
-              <Button
-                title="Recolher treino · continuar depois"
-                variant="ghost"
-                disabled={busy || status !== 'Salvo'}
-                onPress={() => setFocused(false)}
-              />
-              <TrainingProgress current={current} status={status} />
-              {error ? (
-                <Text accessibilityRole="alert" color="#FFB87A">
-                  {error}
-                </Text>
-              ) : null}
-              <Button
-                title="Editar séries · só neste treino"
-                variant="outline"
-                disabled={busy || status !== 'Salvo'}
-                onPress={() => setAdjusting(true)}
-              />
-              <SessionAdjustmentsSummary current={current} />
-              {adjusting ? (
-                <SessionAdjuster
-                  current={current}
-                  busy={busy}
-                  onApply={adjustSession}
-                  onClose={() => setAdjusting(false)}
-                />
-              ) : null}
-              <RestTimer
-                key={`${current.id}:${current.rest_until}`}
-                until={current.rest_until}
-                now={now}
-                onChange={(rest_until) => edit({ rest_until })}
-              />
-              {
-                <ExecutionWithFeedback
-                  key={current.id}
-                  profileId={profileId}
-                  linkId={linkId}
-                  current={current}
-                  history={rows}
-                  historyFeedback={feedback}
-                  onChange={changeSet}
-                />
-              }
-              <DetailsPanel title="Como foi o treino? Adicionar observações e dificuldade">
-                <TextField
-                  label="Observações do treino"
-                  multiline
-                  maxLength={1000}
-                  value={current.notes}
-                  onChangeText={(notes) => edit({ notes })}
-                />
-                <TextField
-                  label="Dificuldade percebida (1 a 10)"
-                  keyboardType="number-pad"
-                  value={current.difficulty === null ? '' : String(current.difficulty)}
-                  onChangeText={(v) => {
-                    if (!v || (/^\d+$/.test(v) && Number(v) >= 1 && Number(v) <= 10))
-                      edit({ difficulty: v ? Number(v) : null });
-                  }}
-                />
-              </DetailsPanel>
-              {status === 'Alterações não salvas' ? (
-                <Button
-                  title="Tentar salvar novamente"
-                  disabled={busy}
-                  onPress={() => void flush()}
-                />
-              ) : null}
-              <Button
-                title="Finalizar treino"
-                disabled={busy || status === 'Salvando…'}
-                onPress={() => setConfirm(true)}
-              />
-              {confirm ? (
-                <View style={{ gap: 10 }}>
-                  <Text>
-                    Finalizar com as séries registradas? Séries não marcadas ficarão como não
-                    concluídas.
-                  </Text>
-                  <Button title="Continuar treinando" onPress={() => setConfirm(false)} />
-                  <Button
-                    title="Confirmar finalização"
-                    loading={busy}
-                    onPress={() =>
-                      void run(async () => {
-                        if (!(await flush())) return;
-                        const completed = await api<Execution>('finish', latest.current!);
-                        setFinished(completed);
-                        install(null);
-                        setConfirm(false);
-                        onNavigate?.();
-                        try {
-                          await refresh();
-                        } catch {
-                          setError(
-                            'Treino finalizado. Não foi possível atualizar o histórico agora.',
-                          );
-                        }
-                      })
+          />
+          {focused ? (
+            <Modal visible animationType="slide" onRequestClose={minimizeWorkout}>
+              <Screen withPadding={false}>
+                <View style={{ flex: 1, width: '100%', maxWidth: 720, alignSelf: 'center' }}>
+                  <View style={{ paddingHorizontal: 12, paddingTop: 8, gap: 8 }}>
+                    <TrainingProgress
+                      current={current}
+                      status={status}
+                      onMinimize={minimizeWorkout}
+                      disabled={busy || status !== 'Salvo'}
+                    />
+                    <View style={{ flexDirection: 'row', gap: 8 }}>
+                      <Button
+                        title="Editar séries"
+                        variant="outline"
+                        style={{ flex: 1, minHeight: 44 }}
+                        disabled={busy || status !== 'Salvo'}
+                        onPress={() => setAdjusting(true)}
+                      />
+                      <RestTimer
+                        key={`${current.id}:${current.rest_until}`}
+                        until={current.rest_until}
+                        now={now}
+                        onChange={(rest_until) => edit({ rest_until })}
+                      />
+                    </View>
+                  </View>
+                  <ScrollView
+                    keyboardShouldPersistTaps="handled"
+                    contentContainerStyle={{ padding: 12, gap: 10 }}
+                  >
+                    {error ? (
+                      <Text accessibilityRole="alert" color="#FFB87A">
+                        {error}
+                      </Text>
+                    ) : null}
+                    <SessionAdjustmentsSummary current={current} />
+                    {adjusting ? (
+                      <SessionAdjuster
+                        current={current}
+                        busy={busy}
+                        onApply={adjustSession}
+                        onClose={() => setAdjusting(false)}
+                      />
+                    ) : null}
+                    {
+                      <ExecutionWithFeedback
+                        key={current.id}
+                        profileId={profileId}
+                        linkId={linkId}
+                        current={current}
+                        history={rows}
+                        historyFeedback={feedback}
+                        onChange={changeSet}
+                      />
                     }
-                  />
+                    <DetailsPanel title="Como foi o treino? Adicionar observações e dificuldade">
+                      <TextField
+                        label="Observações do treino"
+                        multiline
+                        maxLength={1000}
+                        value={current.notes}
+                        onChangeText={(notes) => edit({ notes })}
+                      />
+                      <TextField
+                        label="Dificuldade percebida (1 a 10)"
+                        keyboardType="number-pad"
+                        value={current.difficulty === null ? '' : String(current.difficulty)}
+                        onChangeText={(v) => {
+                          if (!v || (/^\d+$/.test(v) && Number(v) >= 1 && Number(v) <= 10))
+                            edit({ difficulty: v ? Number(v) : null });
+                        }}
+                      />
+                    </DetailsPanel>
+                    {status === 'Alterações não salvas' ? (
+                      <Button
+                        title="Tentar salvar novamente"
+                        disabled={busy}
+                        onPress={() => void flush()}
+                      />
+                    ) : null}
+                    <Button
+                      title="Finalizar treino"
+                      disabled={busy || status === 'Salvando…'}
+                      onPress={() => setConfirm(true)}
+                    />
+                    {confirm ? (
+                      <View style={{ gap: 10 }}>
+                        <Text>
+                          Finalizar com as séries registradas? Séries não marcadas ficarão como não
+                          concluídas.
+                        </Text>
+                        <Button title="Continuar treinando" onPress={() => setConfirm(false)} />
+                        <Button
+                          title="Confirmar finalização"
+                          loading={busy}
+                          onPress={() =>
+                            void run(async () => {
+                              if (!(await flush())) return;
+                              const completed = await api<Execution>('finish', latest.current!);
+                              setFinished(completed);
+                              install(null);
+                              setConfirm(false);
+                              onNavigate?.();
+                              try {
+                                await refresh();
+                              } catch {
+                                setError(
+                                  'Treino finalizado. Não foi possível atualizar o histórico agora.',
+                                );
+                              }
+                            })
+                          }
+                        />
+                      </View>
+                    ) : null}
+                  </ScrollView>
                 </View>
-              ) : null}
-            </Screen>
-          </Modal>
+              </Screen>
+            </Modal>
+          ) : null}
         </>
       ) : !trainer && ready ? (
         plans.map((p) => (

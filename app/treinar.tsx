@@ -129,6 +129,9 @@ function TrainingPageContent({
           initialStart={initialStart}
           onEntryHandled={() => router.setParams({ plan: undefined, division: undefined })}
           onBusy={setBusy}
+          onMinimize={() =>
+            router.replace({ pathname: '/painel', params: { profile: profileId, tab: 'home' } })
+          }
           onNavigate={() => setNavigationKey((n) => n + 1)}
         />
       )}

@@ -9,6 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { ThemeProvider, defaultTheme } from '@/theme';
+import { MinimizedWorkoutProvider } from '@/features/relationships/MinimizedWorkout';
 import { AuthProvider } from '@/features/auth/AuthContext';
 
 export default function RootLayout() {
@@ -30,18 +31,20 @@ export default function RootLayout() {
     <ThemeProvider>
       <AuthProvider>
         <StatusBar style="light" />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: defaultTheme.colors.bg,
-            },
-          }}
-        >
-          <Stack.Screen name="index" />
-          <Stack.Screen name="entrar" />
-          <Stack.Screen name="cadastro" />
-        </Stack>
+        <MinimizedWorkoutProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: {
+                backgroundColor: defaultTheme.colors.bg,
+              },
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen name="entrar" />
+            <Stack.Screen name="cadastro" />
+          </Stack>
+        </MinimizedWorkoutProvider>
       </AuthProvider>
     </ThemeProvider>
   );

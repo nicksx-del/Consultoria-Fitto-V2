@@ -13,15 +13,25 @@ export const trainingColors = {
   accent: '#C0F568',
   muted: '#AAB9A1',
 };
-export function TrainingProgress({ current, status }: { current: Execution; status: string }) {
+export function TrainingProgress({
+  current,
+  status,
+  onMinimize,
+  disabled,
+}: {
+  current: Execution;
+  status: string;
+  onMinimize: () => void;
+  disabled: boolean;
+}) {
   const sets = current.progress.flat(),
     done = sets.filter((s) => s.done).length;
   const percent = sets.length ? Math.round((done / sets.length) * 100) : 0;
   return (
     <View
       style={{
-        padding: 12,
-        gap: 8,
+        padding: 10,
+        gap: 5,
         borderRadius: 16,
         backgroundColor: '#26371C',
         borderWidth: 1,
@@ -35,6 +45,28 @@ export function TrainingProgress({ current, status }: { current: Execution; stat
         <Text color={trainingColors.accent}>
           {done}/{sets.length}
         </Text>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Minimizar treino"
+          disabled={disabled}
+          onPress={onMinimize}
+          style={{
+            minHeight: 44,
+            paddingHorizontal: 8,
+            flexDirection: 'row',
+            gap: 4,
+            borderRadius: 12,
+            backgroundColor: '#344A27',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: disabled ? 0.5 : 1,
+          }}
+        >
+          <Ionicons name="chevron-down" size={16} color={trainingColors.accent} />
+          <Text style={{ fontSize: 11, fontWeight: '600' }} color={trainingColors.accent}>
+            Minimizar
+          </Text>
+        </Pressable>
       </View>
       <View
         accessibilityRole="progressbar"

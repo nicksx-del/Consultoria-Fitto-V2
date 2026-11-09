@@ -13,6 +13,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui';
 import { Profile } from './api';
+import { MinimizedWorkoutBar } from './MinimizedWorkout';
 
 export type DashboardTab =
   'home' | 'relationships' | 'nutrition' | 'profile' | 'settings' | 'plans';
@@ -256,6 +257,9 @@ export function DashboardShell({
           </View>
         </ScrollView>
       </View>
+      {profile?.role === 'student' ? (
+        <MinimizedWorkoutBar profileId={profile.id} disabled={disabled} />
+      ) : null}
       {!desktop && !editorMode ? (
         <View style={[styles.bottomBar, { paddingBottom: Math.max(insets.bottom, 12) }]}>
           <View accessibilityRole="tablist" style={styles.tabs}>

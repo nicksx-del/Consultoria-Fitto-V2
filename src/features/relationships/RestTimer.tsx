@@ -44,7 +44,9 @@ export function RestTimer({
   return (
     <>
       <Button
-        title={label + ' · abrir cronômetro'}
+        title={label}
+        accessibilityLabel={label + ' · abrir cronômetro'}
+        style={{ flex: 1, minHeight: 44 }}
         variant="outline"
         onPress={() => setExpanded(true)}
       />
