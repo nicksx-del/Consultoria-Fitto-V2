@@ -13,7 +13,9 @@ export function GuidedGroup({
   progress,
   onChange,
   previous,
+  renderFeedback,
 }: {
+  renderFeedback?: (index: number) => React.ReactNode;
   exercises: Exercise[];
   indices: number[];
   progress: SetLog[][];
@@ -89,6 +91,7 @@ export function GuidedGroup({
                   onChange={(patch, rest) => onChange(ei, si, patch, rest)}
                 />
               ))}
+              {renderFeedback?.(ei)}
             </View>
           ))
         : null}

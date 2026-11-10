@@ -16,12 +16,14 @@ function FeedbackForm({
   locked,
   onSave,
   disabled,
+  inline = false,
 }: {
   exercise: Execution['snapshot']['session']['exercises'][number];
   index: number;
   row?: TrainingFeedback;
   locked: boolean;
   disabled: boolean;
+  inline?: boolean;
   onSave: (p: object) => Promise<void>;
 }) {
   const [message, setMessage] = useState(row?.message || ''),
@@ -31,7 +33,15 @@ function FeedbackForm({
     [status, setStatus] = useState(''),
     [busy, setBusy] = useState(false);
   return (
-    <DetailsPanel title={`${index + 1}. ${exercise.name}: alternativa e feedback`}>
+    <DetailsPanel
+      title={
+        inline
+          ? exercise.approved_alternatives?.length
+            ? 'Observações e alternativas'
+            : 'Observações do exercício'
+          : `${index + 1}. ${exercise.name}: alternativa e feedback`
+      }
+    >
       {exercise.approved_alternatives?.length ? (
         <>
           <Text variant="caption">
@@ -81,7 +91,11 @@ function FeedbackForm({
         onChangeText={setMessage}
       />
       <Button
-        title="Salvar alternativa e feedback"
+        title={
+          exercise.approved_alternatives?.length
+            ? 'Salvar observações e alternativa'
+            : 'Salvar observações'
+        }
         disabled={disabled || busy}
         onPress={() => {
           if (
@@ -200,15 +214,11 @@ export function ExecutionWithFeedback({
             progress={current.progress}
             previous={previous}
             onChange={onChange}
-          />
-          <DetailsPanel title="Conquistas desta sessão">
-            <TrainingAchievements records={records} />
-          </DetailsPanel>
-          <DetailsPanel title="Alternativas aprovadas e feedback por exercício">
-            {current.snapshot.session.exercises.map((e, i) => (
+            renderFeedback={(i) => (
               <FeedbackForm
                 key={i}
-                exercise={e}
+                inline
+                exercise={current.snapshot.session.exercises[i]}
                 index={i}
                 row={rows.find((r) => r.exercise_index === i)}
                 locked={current.progress[i].some(
@@ -238,7 +248,10 @@ export function ExecutionWithFeedback({
                   setRows((rs) => [...rs.filter((r) => r.exercise_index !== i), saved]);
                 }}
               />
-            ))}
+            )}
+          />
+          <DetailsPanel title="Conquistas desta sessão">
+            <TrainingAchievements records={records} />
           </DetailsPanel>
         </>
       ) : !error ? (

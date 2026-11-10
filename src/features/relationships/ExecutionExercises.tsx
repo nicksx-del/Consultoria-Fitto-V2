@@ -2,7 +2,7 @@ import { PlatePicker } from './PlatePicker';
 import { SetTableHeader, SetTableRow } from './SetTableRow';
 import type { PersonalRecord } from './trainingAchievements';
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Button, Text } from '@/components/ui';
 import { Exercise, effortLabel, setEffort, unit } from './workoutModel';
 import { SetLog } from './trainingRuntime';
@@ -19,7 +19,9 @@ export function ExecutionExercises({
   onChange,
   previous,
   achievements = [],
+  renderFeedback,
 }: {
+  renderFeedback?: (index: number) => React.ReactNode;
   achievements?: PersonalRecord[];
   exercises: Exercise[];
   progress: SetLog[][];
@@ -32,6 +34,7 @@ export function ExecutionExercises({
     <View style={{ gap: 8 }}>
       {plates ? (
         <PlatePicker
+          title={`${exercises[plates.ei].name} · Série ${plates.si + 1}`}
           onClose={() => setPlates(null)}
           onApply={(weight) => {
             onChange(plates.ei, plates.si, { weight });
@@ -55,6 +58,7 @@ export function ExecutionExercises({
               progress={progress}
               onChange={onChange}
               previous={previous}
+              renderFeedback={renderFeedback}
             />
           );
         }
@@ -80,39 +84,83 @@ export function ExecutionExercises({
             />
             {open ? (
               <View style={{ gap: 12 }}>
-                <DetailsPanel title="Detalhes do exercício e GIF">
-                  <Button
-                    title={
-                      'Anilhas · série ' +
-                      (Math.max(
-                        0,
-                        progress[i].findIndex((s) => !s.done),
-                      ) +
-                        1)
-                    }
-                    variant="outline"
-                    onPress={() =>
-                      setPlates({
-                        ei: i,
-                        si: Math.max(
-                          0,
-                          progress[i].findIndex((s) => !s.done),
-                        ),
-                      })
-                    }
-                  />
+                <DetailsPanel
+                  title="Ver prescrição"
+                  leading={<SelectedExercisePreview catalog={e.catalog} name={e.name} compact />}
+                  trailing={
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={`Calcular anilhas para ${e.name}`}
+                      onPress={() =>
+                        setPlates({
+                          ei: i,
+                          si: Math.max(
+                            0,
+                            progress[i].findIndex((s) => !s.done),
+                          ),
+                        })
+                      }
+                      style={{
+                        alignSelf: 'flex-start',
+                        width: 44,
+                        height: 44,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#2A3B21',
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 22,
+                          height: 22,
+                          borderRadius: 11,
+                          borderWidth: 3,
+                          borderColor: '#C9F78C',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <View
+                          style={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: 3,
+                            backgroundColor: '#C9F78C',
+                          }}
+                        />
+                      </View>
+                    </Pressable>
+                  }
+                >
                   {e.notes ? <Text>{e.notes}</Text> : null}
                   {progress[i].map((_, si) => {
                     const p = seriesFor(e, si);
                     return (
-                      <Text key={si} variant="caption">
-                        Série {si + 1} · {kindInfo[p.kind].label}: {p.target} {unit(e)} ·{' '}
-                        {p.load || 'carga livre'} · {p.rest}s
-                        {setEffort(e, si) ? ' · ' + effortLabel(setEffort(e, si)) : ''}
-                      </Text>
+                      <View
+                        key={si}
+                        style={{
+                          padding: 8,
+                          gap: 3,
+                          borderRadius: 8,
+                          backgroundColor: '#202B1A',
+                        }}
+                      >
+                        <Text>
+                          Série {si + 1} · {kindInfo[p.kind].label}
+                        </Text>
+                        <Text variant="caption">
+                          {p.target} {unit(e)} · {p.rest}s de descanso
+                          {setEffort(e, si) ? ' · ' + effortLabel(setEffort(e, si)) : ''}
+                          {p.load ? ' · ' + p.load : ''}
+                        </Text>
+                        {p.technique ? (
+                          <Text variant="caption">{techniqueInfo[p.technique.type].label}</Text>
+                        ) : null}
+                        {p.notes ? <Text variant="caption">{p.notes}</Text> : null}
+                      </View>
                     );
                   })}
-                  <SelectedExercisePreview catalog={e.catalog} name={e.name} />
                 </DetailsPanel>
 
                 <SetTableHeader exercise={e} />
@@ -167,6 +215,7 @@ export function ExecutionExercises({
                     />
                   ),
                 )}
+                {renderFeedback?.(i)}
                 {progress[i].every((s) => s.done) && i < exercises.length - 1 ? (
                   <Button
                     title="Próximo exercício"

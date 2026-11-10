@@ -11,11 +11,18 @@ const setBadgeColors = {
   warmup: { color: '#9CD6FF', backgroundColor: '#203847' },
   ramp: { color: '#FFD18A', backgroundColor: '#45341B' },
   work: { color: '#C9F78C', backgroundColor: '#2B4022' },
-  top: { color: '#C9F78C', backgroundColor: '#2B4022' },
-  backoff: { color: '#C9F78C', backgroundColor: '#2B4022' },
+  top: { color: '#E1B5FF', backgroundColor: '#3C2850' },
+  backoff: { color: '#A5E7DE', backgroundColor: '#203D39' },
 };
 const setBadgeWidth = 44;
-const rirOptions = [0, 1, 2, 3, 4, 5];
+const rirOptions = [
+  { value: 0, color: '#FFC4BC', background: '#512820', effort: 'Falha' },
+  { value: 1, color: '#FFC49A', background: '#4C3020', effort: 'Muito alto' },
+  { value: 2, color: '#FBE39B', background: '#443818', effort: 'Alto' },
+  { value: 3, color: '#E3EBAB', background: '#373D20', effort: 'Moderado' },
+  { value: 4, color: '#D0F3AA', background: '#2C4023', effort: 'Leve' },
+  { value: 5, color: '#A5E7DE', background: '#203D39', effort: 'Muito leve' },
+];
 
 export function SetTableHeader({ exercise }: { exercise: Exercise }) {
   return (
@@ -70,7 +77,7 @@ export function SetTableRow({
     ? '—'
     : actual.mode === 'rpe'
       ? 'RPE'
-      : actual.min === 5 && actual.max === 10
+      : actual.min >= 5
         ? '5+'
         : actual.min === actual.max
           ? String(actual.min)
@@ -247,9 +254,29 @@ export function SetTableRow({
                 borderTopRightRadius: 20,
               }}
             >
-              <Text variant="caption">
-                {exercise.name} · Série {index + 1}
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <View style={{ flex: 1, gap: 4 }}>
+                  <Text variant="caption">
+                    {exercise.name} · Série {index + 1}
+                  </Text>
+                  {panel === 'rir' ? <Text variant="title">RIR realizado</Text> : null}
+                </View>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Fechar"
+                  onPress={() => setPanel(null)}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    backgroundColor: '#26351F',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Ionicons name="close" size={20} color="#D6E5C9" />
+                </Pressable>
+              </View>
               {panel === 'type' ? (
                 <>
                   <Text variant="title" color={badgeColors.color}>
@@ -259,52 +286,50 @@ export function SetTableRow({
                 </>
               ) : panel === 'rir' ? (
                 <>
-                  <Text variant="title">RIR realizado</Text>
                   <Text>Quantas repetições ainda conseguiria fazer?</Text>
                   {target ? (
                     <Text variant="caption">Meta do treinador · {effortLabel(target)}</Text>
                   ) : null}
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-                    {rirOptions.map((value) => (
-                      <Pressable
-                        key={value}
-                        accessibilityRole="button"
-                        accessibilityLabel={value === 5 ? 'RIR 5 ou mais' : `RIR ${value}`}
-                        accessibilityState={{
-                          selected:
-                            actual?.mode === 'rir' &&
-                            rirDisplay === (value === 5 ? '5+' : String(value)),
-                        }}
-                        onPress={() => {
-                          onChange({
-                            actual_effort: {
-                              mode: 'rir',
-                              min: value,
-                              max: value === 5 ? 10 : value,
-                            },
-                          });
-                          setPanel(null);
-                        }}
-                        style={{
-                          ...base,
-                          minWidth: 44,
-                          flexGrow: 1,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Text
-                          color={
-                            actual?.mode === 'rir' &&
-                            rirDisplay === (value === 5 ? '5+' : String(value))
-                              ? '#C9F78C'
-                              : undefined
-                          }
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                    {rirOptions.map(({ value, color, background, effort }) => {
+                      const label = value === 5 ? '5+' : String(value);
+                      const selected = actual?.mode === 'rir' && rirDisplay === label;
+                      return (
+                        <Pressable
+                          key={value}
+                          accessibilityRole="button"
+                          accessibilityLabel={`RIR ${value === 5 ? '5 ou mais' : value}, esforço ${effort}`}
+                          accessibilityState={{ selected }}
+                          onPress={() => {
+                            onChange({
+                              actual_effort: {
+                                mode: 'rir',
+                                min: value,
+                                max: value,
+                              },
+                            });
+                            setPanel(null);
+                          }}
+                          style={{
+                            ...base,
+                            flexBasis: '29%',
+                            flexGrow: 1,
+                            minHeight: 62,
+                            borderColor: selected ? color : background,
+                            backgroundColor: background,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
                         >
-                          {value === 5 ? '5+' : value}
-                        </Text>
-                      </Pressable>
-                    ))}
+                          <Text color={color} style={{ fontSize: 19, fontWeight: '700' }}>
+                            {label}
+                          </Text>
+                          <Text color={color} style={{ fontSize: 11 }}>
+                            {effort}
+                          </Text>
+                        </Pressable>
+                      );
+                    })}
                   </View>
                   {actual ? (
                     <Button
@@ -340,7 +365,6 @@ export function SetTableRow({
                   ))}
                 </>
               )}
-              <Button title="Fechar" variant="ghost" onPress={() => setPanel(null)} />
             </View>
           </View>
         </Modal>
