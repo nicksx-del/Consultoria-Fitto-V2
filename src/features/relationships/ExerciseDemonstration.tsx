@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Image, Linking, View } from 'react-native';
+import { Image, Linking, View, useWindowDimensions } from 'react-native';
 import { Button, Text } from '@/components/ui';
+import { DetailsPanel } from './DetailsPanel';
+import { exerciseGuides } from './exerciseGuides';
 import {
   CATALOG_SOURCE,
   LEGACY_CATALOG_SOURCE,
@@ -8,7 +10,15 @@ import {
   imageUrl,
   resolveCatalogReference,
 } from './exerciseCatalog';
-export function CatalogImage({ path, name }: { path: string; name: string }) {
+export function CatalogImage({
+  path,
+  name,
+  height = 160,
+}: {
+  path: string;
+  name: string;
+  height?: number;
+}) {
   const [failed, setFailed] = useState(false);
   const url = imageUrl(path);
   return !url || failed ? (
@@ -18,7 +28,7 @@ export function CatalogImage({ path, name }: { path: string; name: string }) {
       source={{ uri: url }}
       accessibilityLabel={`Demonstração de ${name}`}
       resizeMode="contain"
-      style={{ height: 160, width: '100%', backgroundColor: '#F4F4F1', borderRadius: 12 }}
+      style={{ height, width: '100%', backgroundColor: '#F4F4F1', borderRadius: 12 }}
       onError={() => setFailed(true)}
     />
   );
@@ -26,54 +36,62 @@ export function CatalogImage({ path, name }: { path: string; name: string }) {
 export function ExerciseDemonstration({
   catalog: storedCatalog,
   name,
-  initiallyOpen = false,
 }: {
   catalog?: CatalogReference;
   name: string;
-  initiallyOpen?: boolean;
 }) {
   const catalog = resolveCatalogReference(storedCatalog);
-  const [open, setOpen] = useState(initiallyOpen);
+  const { width } = useWindowDimensions();
   if (!catalog || !['free-exercise-db', 'exercisedb'].includes(catalog.provider)) return null;
   const animated = catalog.provider === 'exercisedb';
+  const guide = exerciseGuides[catalog.id];
+  const original = catalog.instructions?.trim();
+  const images = (Array.isArray(catalog.images) ? catalog.images : [])
+    .filter((path) => typeof path === 'string')
+    .slice(0, animated ? 1 : 2);
   return (
-    <View style={{ gap: 8 }}>
+    <View style={{ gap: 14 }}>
+      {images.map((path) => (
+        <CatalogImage
+          key={path}
+          path={path}
+          name={name}
+          height={animated ? Math.min(320, width - 48) : 220}
+        />
+      ))}
+      <View style={{ gap: 10, padding: 14, borderRadius: 14, backgroundColor: '#1C2717' }}>
+        <Text variant="title">Como fazer</Text>
+        {guide?.map((step, index) => (
+          <View key={step} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10 }}>
+            <View
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 8,
+                backgroundColor: '#2B4022',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text color="#C9F78C">{index + 1}</Text>
+            </View>
+            <Text style={{ flex: 1 }}>{step}</Text>
+          </View>
+        ))}
+        {!guide && !original ? (
+          <Text variant="caption">Este exercício ainda está sem instruções no catálogo.</Text>
+        ) : null}
+        {original ? (
+          <DetailsPanel title="Instruções originais do catálogo">
+            <Text>{original}</Text>
+          </DetailsPanel>
+        ) : null}
+      </View>
       <Button
-        title={
-          open
-            ? 'Recolher demonstração'
-            : animated
-              ? 'Ver movimento animado e instruções'
-              : 'Ver imagens e instruções do exercício'
-        }
-        variant="outline"
-        onPress={() => setOpen(!open)}
+        title={animated ? 'Fonte · ExerciseDB' : 'Fonte · Free Exercise DB'}
+        variant="ghost"
+        onPress={() => void Linking.openURL(animated ? CATALOG_SOURCE : LEGACY_CATALOG_SOURCE)}
       />
-      {open ? (
-        <>
-          {(Array.isArray(catalog.images) ? catalog.images : [])
-            .slice(0, 2)
-            .filter((path) => typeof path === 'string')
-            .map((path) => (
-              <CatalogImage key={path} path={path} name={name} />
-            ))}
-          <Text variant="caption">
-            {animated
-              ? 'GIF 180p e instruções em inglês · ExerciseDB / AscendAPI'
-              : 'Instruções originais em inglês · Free Exercise DB'}
-          </Text>
-          {typeof catalog.instructions === 'string' && catalog.instructions ? (
-            <Text>{catalog.instructions}</Text>
-          ) : (
-            <Text>Sem instruções disponíveis.</Text>
-          )}
-          <Button
-            title="Consultar fonte do catálogo"
-            variant="ghost"
-            onPress={() => void Linking.openURL(animated ? CATALOG_SOURCE : LEGACY_CATALOG_SOURCE)}
-          />
-        </>
-      ) : null}
     </View>
   );
 }

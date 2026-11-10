@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Modal, Pressable, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Button, Screen, Text } from '@/components/ui';
+import { Screen, Text } from '@/components/ui';
 import { CatalogReference, imageUrl, resolveCatalogReference } from './exerciseCatalog';
 import { ExerciseDemonstration } from './ExerciseDemonstration';
 export function SelectedExercisePreview({
@@ -27,16 +27,16 @@ export function SelectedExercisePreview({
         accessibilityHint="Abre a demonstração do exercício"
         onPress={() => setOpen(true)}
         style={{
-          flexDirection: 'row',
+          flexDirection: compact ? 'column' : 'row',
           alignItems: 'center',
-          gap: 12,
+          gap: compact ? 2 : 12,
           padding: compact ? 0 : 10,
           borderRadius: 12,
           borderWidth: 1,
           borderColor: '#35462B',
           backgroundColor: '#20291A',
           minHeight: compact ? 44 : 76,
-          width: compact ? 44 : undefined,
+          width: compact ? 48 : undefined,
         }}
       >
         <View
@@ -62,6 +62,11 @@ export function SelectedExercisePreview({
             <Ionicons name="play-circle-outline" size={28} color="#35462B" />
           )}
         </View>
+        {compact ? (
+          <Text color="#C9F78C" style={{ fontSize: 10, lineHeight: 14 }}>
+            {animated ? 'GIF' : 'Ver'}
+          </Text>
+        ) : null}
         {!compact ? (
           <>
             <View style={{ flex: 1, gap: 4 }}>
@@ -78,11 +83,27 @@ export function SelectedExercisePreview({
         <Modal visible animationType="slide" onRequestClose={() => setOpen(false)}>
           <Screen scrollable contentContainerStyle={{ paddingVertical: 24 }}>
             <View style={{ width: '100%', maxWidth: 600, alignSelf: 'center', gap: 18 }}>
-              <Button title="Voltar à montagem" variant="ghost" onPress={() => setOpen(false)} />
-              <Text variant="heading">{name}</Text>
-              <Text variant="bodyMuted">Confira a demonstração antes de ajustar a prescrição.</Text>
-              <ExerciseDemonstration key={catalog.id} catalog={catalog} name={name} initiallyOpen />
-              <Button title="Concluir visualização" onPress={() => setOpen(false)} />
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Voltar ao exercício"
+                  onPress={() => setOpen(false)}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    backgroundColor: '#26351F',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Ionicons name="arrow-back" size={22} color="#C9F78C" />
+                </Pressable>
+                <Text variant="title" style={{ flex: 1 }}>
+                  {name}
+                </Text>
+              </View>
+              <ExerciseDemonstration key={catalog.id} catalog={catalog} name={name} />
             </View>
           </Screen>
         </Modal>

@@ -15,6 +15,29 @@ const setBadgeColors = {
   backoff: { color: '#A5E7DE', backgroundColor: '#203D39' },
 };
 const setBadgeWidth = 44;
+const qualityOptions = {
+  good: {
+    label: 'Boa',
+    detail: 'Controle e amplitude',
+    icon: 'checkmark-circle-outline',
+    color: '#C9F78C',
+    background: '#2B4022',
+  },
+  fair: {
+    label: 'Regular',
+    detail: 'Alguma compensação',
+    icon: 'remove-circle-outline',
+    color: '#FFD18A',
+    background: '#45341B',
+  },
+  poor: {
+    label: 'Ruim',
+    detail: 'Perdi o controle',
+    icon: 'alert-circle-outline',
+    color: '#FFC4BC',
+    background: '#512820',
+  },
+} as const;
 const rirOptions = [
   { value: 0, color: '#FFC4BC', background: '#512820', effort: 'Falha' },
   { value: 1, color: '#FFC49A', background: '#4C3020', effort: 'Muito alto' },
@@ -73,6 +96,7 @@ export function SetTableRow({
   const badgeColors = setBadgeColors[p.kind];
   const target = setEffort(exercise, index);
   const actual = log.actual_effort;
+  const quality = log.rep_quality ? qualityOptions[log.rep_quality] : undefined;
   const rirDisplay = !actual
     ? '—'
     : actual.mode === 'rpe'
@@ -180,20 +204,18 @@ export function SetTableRow({
         </Pressable>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={
-            'Qualidade das repetições, série ' + (index + 1) + ', ' + exercise.name
-          }
+          accessibilityLabel={`Técnica, série ${index + 1}, ${exercise.name}, ${quality?.label ?? 'não registrada'}`}
           onPress={() => setPanel('quality')}
-          style={{ ...base, flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            ...base,
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: quality?.background ?? base.backgroundColor,
+          }}
         >
-          <Text style={{ fontSize: 12 }}>
-            {log.rep_quality === 'good'
-              ? 'Boa'
-              : log.rep_quality === 'fair'
-                ? 'Regular'
-                : log.rep_quality === 'poor'
-                  ? 'Ruim'
-                  : '—'}
+          <Text color={quality?.color} style={{ fontSize: 12 }}>
+            {quality?.label ?? '—'}
           </Text>
         </Pressable>
         <Pressable
@@ -260,6 +282,7 @@ export function SetTableRow({
                     {exercise.name} · Série {index + 1}
                   </Text>
                   {panel === 'rir' ? <Text variant="title">RIR realizado</Text> : null}
+                  {panel === 'quality' ? <Text variant="title">Técnica da série</Text> : null}
                 </View>
                 <Pressable
                   accessibilityRole="button"
@@ -344,25 +367,55 @@ export function SetTableRow({
                 </>
               ) : (
                 <>
-                  <Text variant="title">Qualidade das repetições</Text>
-                  {(
-                    [
-                      ['good', 'Boa · controle e amplitude'],
-                      ['fair', 'Regular · algumas compensações'],
-                      ['poor', 'Ruim · técnica comprometida'],
-                      [null, 'Não informar'],
-                    ] as const
-                  ).map(([value, label]) => (
+                  <Text>Como foi a execução das repetições?</Text>
+                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                    {(['good', 'fair', 'poor'] as const).map((value) => {
+                      const { label, detail, icon, color, background } = qualityOptions[value];
+                      const selected = log.rep_quality === value;
+                      return (
+                        <Pressable
+                          key={value}
+                          accessibilityRole="button"
+                          accessibilityLabel={`${label}, ${detail}`}
+                          accessibilityState={{ selected }}
+                          onPress={() => {
+                            onChange({ rep_quality: value });
+                            setPanel(null);
+                          }}
+                          style={{
+                            flex: 1,
+                            minHeight: 90,
+                            gap: 3,
+                            padding: 6,
+                            borderRadius: 12,
+                            borderWidth: 1,
+                            borderColor: selected ? color : background,
+                            backgroundColor: background,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <Ionicons name={icon} size={21} color={color} />
+                          <Text color={color} style={{ fontWeight: '700' }}>
+                            {label}
+                          </Text>
+                          <Text color={color} align="center" style={{ fontSize: 11 }}>
+                            {detail}
+                          </Text>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
+                  {quality ? (
                     <Button
-                      key={String(value)}
-                      title={label}
-                      variant={log.rep_quality === value ? 'primary' : 'outline'}
+                      title="Limpar avaliação"
+                      variant="ghost"
                       onPress={() => {
-                        onChange({ rep_quality: value });
+                        onChange({ rep_quality: null });
                         setPanel(null);
                       }}
                     />
-                  ))}
+                  ) : null}
                 </>
               )}
             </View>
