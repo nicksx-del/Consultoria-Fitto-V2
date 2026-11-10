@@ -2,10 +2,21 @@ import React, { useState } from 'react';
 import { Modal, View, TextInput, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, Text } from '@/components/ui';
-import type { Exercise } from './workoutModel';
+import { effortLabel, setEffort, type Exercise } from './workoutModel';
 import type { SetLog } from './trainingRuntime';
 import { seriesFor, kindInfo } from './trainingMethods';
 import { quickSuggestions } from './quickSet';
+
+const setBadgeColors = {
+  warmup: { color: '#9CD6FF', backgroundColor: '#203847' },
+  ramp: { color: '#FFD18A', backgroundColor: '#45341B' },
+  work: { color: '#C9F78C', backgroundColor: '#2B4022' },
+  top: { color: '#C9F78C', backgroundColor: '#2B4022' },
+  backoff: { color: '#C9F78C', backgroundColor: '#2B4022' },
+};
+const setBadgeWidth = 44;
+const rirOptions = [0, 1, 2, 3, 4, 5];
+
 export function SetTableHeader({ exercise }: { exercise: Exercise }) {
   return (
     <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center', paddingHorizontal: 4 }}>
@@ -23,7 +34,7 @@ export function SetTableHeader({ exercise }: { exercise: Exercise }) {
           style={{
             fontSize: 11,
             textAlign: 'center',
-            width: i === 0 ? 24 : undefined,
+            width: i === 0 ? setBadgeWidth : undefined,
             flex: i === 0 ? undefined : i === 1 ? 1.2 : 1,
           }}
         >
@@ -46,32 +57,39 @@ export function SetTableRow({
   previous?: SetLog;
   onChange: (patch: Partial<SetLog>, rest?: number) => void;
 }) {
-  const [quality, setQuality] = useState(false);
+  const [panel, setPanel] = useState<'quality' | 'rir' | 'type' | null>(null);
   const [editing, setEditing] = useState<{ field: string; value: string } | null>(null);
   const suggested = quickSuggestions(exercise, index, previous),
     p = seriesFor(exercise, index);
+  const kind = kindInfo[p.kind];
+  const kindLabel = p.kind === 'ramp' ? 'Preparatória (aproximação)' : kind.label;
+  const badgeColors = setBadgeColors[p.kind];
+  const target = setEffort(exercise, index);
+  const actual = log.actual_effort;
+  const rirDisplay = !actual
+    ? '—'
+    : actual.mode === 'rpe'
+      ? 'RPE'
+      : actual.min === 5 && actual.max === 10
+        ? '5+'
+        : actual.min === actual.max
+          ? String(actual.min)
+          : `${actual.min}–${actual.max}`;
   const metric =
     exercise.metric === 'seconds'
       ? 'segundos'
       : exercise.metric === 'meters'
         ? 'metros'
         : 'repetições';
-  function input(field: 'weight' | 'reps' | 'rir', text: string) {
+  function input(field: 'weight' | 'reps', text: string) {
     if (!(field === 'weight' ? /^\d*(?:[.,]\d*)?$/ : /^\d*$/).test(text)) return;
     const n = Number(text.replace(',', '.')),
       max =
-        field === 'weight'
-          ? 2000
-          : field === 'rir'
-            ? 10
-            : exercise.metric && exercise.metric !== 'reps'
-              ? 1000000
-              : 1000;
+        field === 'weight' ? 2000 : exercise.metric && exercise.metric !== 'reps' ? 1000000 : 1000;
     if (text && text !== '.' && text !== ',' && (!Number.isFinite(n) || n > max)) return;
     setEditing({ field, value: text });
     if (text === '.' || text === ',') return;
-    if (field === 'rir') onChange({ actual_effort: text ? { mode: 'rir', min: n, max: n } : null });
-    else onChange({ [field]: text ? n : null });
+    onChange({ [field]: text ? n : null });
   }
   const base = {
     minWidth: 0,
@@ -100,44 +118,41 @@ export function SetTableRow({
           backgroundColor: log.done ? '#1E2C17' : 'transparent',
         }}
       >
-        <Text
-          accessibilityLabel={'Série ' + (index + 1) + ' · ' + kindInfo[p.kind].label}
-          style={{ width: 24, textAlign: 'center', fontSize: 13 }}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Tipo da série ${index + 1}, ${kindLabel}`}
+          onPress={() => setPanel('type')}
+          style={{
+            width: setBadgeWidth,
+            minHeight: 44,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: badgeColors.backgroundColor,
+            borderRadius: 8,
+          }}
         >
-          {kindInfo[p.kind].badge || index + 1}
-        </Text>
-        {(['weight', 'reps', 'rir'] as const).map((field) => (
+          <Text color={badgeColors.color} style={{ fontWeight: '700' }}>
+            {kind.badge || index + 1}
+          </Text>
+        </Pressable>
+        {(['weight', 'reps'] as const).map((field) => (
           <TextInput
             key={field}
             accessibilityLabel={
-              (field === 'weight'
-                ? 'Carga em kg'
-                : field === 'reps'
-                  ? 'Realizado em ' + metric
-                  : log.actual_effort?.mode === 'rpe'
-                    ? 'RPE registrado, digite para substituir por RIR'
-                    : 'RIR realizado') +
+              (field === 'weight' ? 'Carga em kg' : 'Realizado em ' + metric) +
               ', série ' +
               (index + 1) +
               ', ' +
               exercise.name
             }
-            placeholder={
-              field === 'rir'
-                ? '—'
-                : String((field === 'weight' ? suggested.weight : suggested.reps) ?? '—')
-            }
+            placeholder={String((field === 'weight' ? suggested.weight : suggested.reps) ?? '—')}
             placeholderTextColor="#87947C"
             value={
               editing?.field === field
                 ? editing.value
-                : field === 'rir'
-                  ? log.actual_effort
-                    ? String(log.actual_effort.min)
-                    : ''
-                  : log[field] == null
-                    ? ''
-                    : String(log[field])
+                : log[field] == null
+                  ? ''
+                  : String(log[field])
             }
             keyboardType={field === 'weight' ? 'decimal-pad' : 'number-pad'}
             maxLength={8}
@@ -148,10 +163,20 @@ export function SetTableRow({
         ))}
         <Pressable
           accessibilityRole="button"
+          accessibilityLabel={`RIR realizado, série ${index + 1}, ${exercise.name}, ${actual ? (rirDisplay === '5+' ? '5 ou mais' : effortLabel(actual)) : 'não informado'}`}
+          onPress={() => setPanel('rir')}
+          style={{ ...base, flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text color={actual ? '#C9F78C' : '#A7B59B'} style={{ fontSize: 13 }}>
+            {rirDisplay}
+          </Text>
+        </Pressable>
+        <Pressable
+          accessibilityRole="button"
           accessibilityLabel={
             'Qualidade das repetições, série ' + (index + 1) + ', ' + exercise.name
           }
-          onPress={() => setQuality(true)}
+          onPress={() => setPanel('quality')}
           style={{ ...base, flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <Text style={{ fontSize: 12 }}>
@@ -207,39 +232,115 @@ export function SetTableRow({
           Série {index + 1}: esforço registrado em RPE ({log.actual_effort.min}).
         </Text>
       ) : null}
-      {quality ? (
-        <Modal visible transparent animationType="fade" onRequestClose={() => setQuality(false)}>
+      {panel ? (
+        <Modal visible transparent animationType="fade" onRequestClose={() => setPanel(null)}>
           <View style={{ flex: 1, backgroundColor: '#0009', justifyContent: 'flex-end' }}>
             <View
               style={{
                 gap: 10,
                 padding: 20,
+                width: '100%',
+                maxWidth: 560,
+                alignSelf: 'center',
                 backgroundColor: '#172111',
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
               }}
             >
-              <Text variant="title">Qualidade das repetições</Text>
-              <Text variant="caption">Sua avaliação da execução · série {index + 1}</Text>
-              {(
-                [
-                  ['good', 'Boa · controle e amplitude'],
-                  ['fair', 'Regular · algumas compensações'],
-                  ['poor', 'Ruim · técnica comprometida'],
-                  [null, 'Não informar'],
-                ] as const
-              ).map(([value, label]) => (
-                <Button
-                  key={String(value)}
-                  title={label}
-                  variant={log.rep_quality === value ? 'primary' : 'outline'}
-                  onPress={() => {
-                    onChange({ rep_quality: value });
-                    setQuality(false);
-                  }}
-                />
-              ))}
-              <Button title="Voltar" variant="ghost" onPress={() => setQuality(false)} />
+              <Text variant="caption">
+                {exercise.name} · Série {index + 1}
+              </Text>
+              {panel === 'type' ? (
+                <>
+                  <Text variant="title" color={badgeColors.color}>
+                    {kindLabel}
+                  </Text>
+                  <Text>{kind.description}</Text>
+                </>
+              ) : panel === 'rir' ? (
+                <>
+                  <Text variant="title">RIR realizado</Text>
+                  <Text>Quantas repetições ainda conseguiria fazer?</Text>
+                  {target ? (
+                    <Text variant="caption">Meta do treinador · {effortLabel(target)}</Text>
+                  ) : null}
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                    {rirOptions.map((value) => (
+                      <Pressable
+                        key={value}
+                        accessibilityRole="button"
+                        accessibilityLabel={value === 5 ? 'RIR 5 ou mais' : `RIR ${value}`}
+                        accessibilityState={{
+                          selected:
+                            actual?.mode === 'rir' &&
+                            rirDisplay === (value === 5 ? '5+' : String(value)),
+                        }}
+                        onPress={() => {
+                          onChange({
+                            actual_effort: {
+                              mode: 'rir',
+                              min: value,
+                              max: value === 5 ? 10 : value,
+                            },
+                          });
+                          setPanel(null);
+                        }}
+                        style={{
+                          ...base,
+                          minWidth: 44,
+                          flexGrow: 1,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Text
+                          color={
+                            actual?.mode === 'rir' &&
+                            rirDisplay === (value === 5 ? '5+' : String(value))
+                              ? '#C9F78C'
+                              : undefined
+                          }
+                        >
+                          {value === 5 ? '5+' : value}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </View>
+                  {actual ? (
+                    <Button
+                      title="Limpar esforço registrado"
+                      variant="outline"
+                      onPress={() => {
+                        onChange({ actual_effort: null });
+                        setPanel(null);
+                      }}
+                    />
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  <Text variant="title">Qualidade das repetições</Text>
+                  {(
+                    [
+                      ['good', 'Boa · controle e amplitude'],
+                      ['fair', 'Regular · algumas compensações'],
+                      ['poor', 'Ruim · técnica comprometida'],
+                      [null, 'Não informar'],
+                    ] as const
+                  ).map(([value, label]) => (
+                    <Button
+                      key={String(value)}
+                      title={label}
+                      variant={log.rep_quality === value ? 'primary' : 'outline'}
+                      onPress={() => {
+                        onChange({ rep_quality: value });
+                        setPanel(null);
+                      }}
+                    />
+                  ))}
+                </>
+              )}
+              <Button title="Fechar" variant="ghost" onPress={() => setPanel(null)} />
             </View>
           </View>
         </Modal>
