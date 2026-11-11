@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const api = require('./load-feature.cjs')('./trainingAchievements');
+const { exercisePerformance } = require('./load-feature.cjs')('./exercisePerformance');
 const e = {
   name: 'Supino',
   sets: 1,
@@ -18,6 +19,18 @@ const row = (id, date, weight, reps, status = 'completed') => ({
 const before = row('old', '2026-11-01T12:00:00Z', 20, 10),
   now = row('now', '2026-11-02T12:00:00Z', 22, 10);
 assert.equal(api.personalRecords(now, [before])[0].type, 'load');
+const multiple = structuredClone(now);
+multiple.progress[0] = [
+  { weight: 22, reps: 10, done: true },
+  { weight: 24, reps: 10, done: true },
+  { weight: 24, reps: 10, done: true },
+];
+assert.deepEqual(
+  api
+    .personalRecords(multiple, [before])
+    .map(({ exerciseIndex, setIndex }) => [exerciseIndex, setIndex]),
+  [[0, 1]],
+);
 assert.equal(
   api.personalRecords({ ...now, progress: [[{ weight: 20, reps: 12, done: true }]] }, [before])[0]
     .type,
@@ -83,6 +96,20 @@ assert.equal(
   ),
   5,
 );
+const data = exercisePerformance(e, multiple, [before, other], []);
+assert.equal(data.bestLoad.weight, 24);
+assert.equal(data.bestEstimate.estimate, 32);
+assert.equal(data.targetBest.weight, 24);
+assert.deepEqual(
+  data.byReps.map(({ reps, weight }) => [reps, weight]),
+  [[10, 24]],
+);
+assert.deepEqual(
+  data.recent.map(({ id }) => id),
+  ['old', 'now'],
+);
+assert.equal(data.last.sets[0].weight, 20);
+assert.equal(exercisePerformance(e, warmup, [], []).bestLoad, undefined);
 console.log(
   'PASS: load/repetition records, baseline, incomplete/missing logs, units, warmups, identity, alternatives, future sessions and milestone history limits',
 );

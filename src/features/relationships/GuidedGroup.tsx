@@ -7,6 +7,7 @@ import { TrainingSet } from './TrainingSet';
 import { SetLog, nextGroupSet } from './trainingRuntime';
 import { TrainingHelp } from './TrainingHelp';
 import type { PreviousSet } from './trainingExperience';
+import { PerformanceButton } from './ExercisePerformancePanel';
 export function GuidedGroup({
   exercises,
   indices,
@@ -14,7 +15,11 @@ export function GuidedGroup({
   onChange,
   previous,
   renderFeedback,
+  recordSets,
+  onViewPerformance,
 }: {
+  onViewPerformance?: (exerciseIndex: number, setIndex?: number) => void;
+  recordSets: ReadonlySet<string>;
   renderFeedback?: (index: number) => React.ReactNode;
   exercises: Exercise[];
   indices: number[];
@@ -46,6 +51,9 @@ export function GuidedGroup({
             Volta {next.round + 1}/{group.rounds} · movimento {next.member + 1}/{indices.length}
           </Text>
           <Text variant="title">{exercises[next.exerciseIndex].name}</Text>
+          {onViewPerformance ? (
+            <PerformanceButton onPress={() => onViewPerformance(next.exerciseIndex)} />
+          ) : null}
           {exercises[next.exerciseIndex].notes ? (
             <Text>{exercises[next.exerciseIndex].notes}</Text>
           ) : null}
@@ -54,6 +62,12 @@ export function GuidedGroup({
             exercise={exercises[next.exerciseIndex]}
             index={next.round}
             log={progress[next.exerciseIndex][next.round]}
+            hasRecord={recordSets.has(`${next.exerciseIndex}:${next.round}`)}
+            onViewRecord={
+              onViewPerformance
+                ? () => onViewPerformance(next.exerciseIndex, next.round)
+                : undefined
+            }
             previous={previous?.[next.exerciseIndex]?.[next.round]}
             preceding={
               next.round > 0 &&
@@ -80,12 +94,17 @@ export function GuidedGroup({
         ? indices.map((ei) => (
             <View key={ei} style={{ gap: 10 }}>
               <Text variant="title">{exercises[ei].name}</Text>
+              {onViewPerformance ? (
+                <PerformanceButton onPress={() => onViewPerformance(ei)} />
+              ) : null}
               {progress[ei].map((s, si) => (
                 <TrainingSet
                   key={si}
                   exercise={exercises[ei]}
                   index={si}
                   log={s}
+                  hasRecord={recordSets.has(`${ei}:${si}`)}
+                  onViewRecord={onViewPerformance ? () => onViewPerformance(ei, si) : undefined}
                   previous={previous?.[ei]?.[si]}
                   finalRest={ei === indices[indices.length - 1] ? group.rest_seconds : 0}
                   onChange={(patch, rest) => onChange(ei, si, patch, rest)}

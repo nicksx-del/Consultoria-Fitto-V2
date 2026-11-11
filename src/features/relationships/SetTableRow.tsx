@@ -79,12 +79,16 @@ export function SetTableRow({
   index,
   log,
   previous,
+  hasRecord = false,
+  onViewRecord,
   onChange,
 }: {
   exercise: Exercise;
   index: number;
   log: SetLog;
   previous?: SetLog;
+  hasRecord?: boolean;
+  onViewRecord?: () => void;
   onChange: (patch: Partial<SetLog>, rest?: number) => void;
 }) {
   const [panel, setPanel] = useState<'quality' | 'rir' | 'type' | null>(null);
@@ -97,6 +101,7 @@ export function SetTableRow({
   const target = setEffort(exercise, index);
   const actual = log.actual_effort;
   const quality = log.rep_quality ? qualityOptions[log.rep_quality] : undefined;
+  const record = log.done && hasRecord;
   const rirDisplay = !actual
     ? '—'
     : actual.mode === 'rpe'
@@ -127,8 +132,8 @@ export function SetTableRow({
     minHeight: 44,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: log.done ? '#456332' : '#34412D',
-    backgroundColor: log.done ? '#24371C' : '#151D11',
+    borderColor: record ? '#8A6C2C' : log.done ? '#456332' : '#34412D',
+    backgroundColor: record ? '#43351A' : log.done ? '#24371C' : '#151D11',
     color: '#F2F4EE',
     fontSize: 16,
     textAlign: 'center' as const,
@@ -146,7 +151,7 @@ export function SetTableRow({
           paddingVertical: 3,
           paddingHorizontal: 4,
           borderRadius: 10,
-          backgroundColor: log.done ? '#1E2C17' : 'transparent',
+          backgroundColor: record ? '#32270F' : log.done ? '#1E2C17' : 'transparent',
         }}
       >
         <Pressable
@@ -233,7 +238,8 @@ export function SetTableRow({
             ', série ' +
             (index + 1) +
             ', ' +
-            exercise.name
+            exercise.name +
+            (record ? ', recorde pessoal' : '')
           }
           disabled={!log.done && reps == null}
           onPress={() =>
@@ -250,12 +256,36 @@ export function SetTableRow({
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 8,
-            backgroundColor: log.done ? '#B7F34A' : '#293620',
+            backgroundColor: record ? '#F7CC6A' : log.done ? '#B7F34A' : '#293620',
           }}
         >
-          <Ionicons name="checkmark" size={21} color={log.done ? '#172111' : '#A7B59B'} />
+          <Ionicons
+            name="checkmark"
+            size={21}
+            color={record ? '#34260B' : log.done ? '#172111' : '#A7B59B'}
+          />
         </Pressable>
       </View>
+      {record && onViewRecord ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Ver recorde da série ${index + 1}, ${exercise.name}`}
+          onPress={onViewRecord}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignSelf: 'flex-start',
+            gap: 6,
+            minHeight: 44,
+            paddingHorizontal: 10,
+          }}
+        >
+          <Ionicons name="trophy-outline" size={17} color="#F7CC6A" />
+          <Text color="#F7CC6A" style={{ fontSize: 12 }}>
+            Ver recorde
+          </Text>
+        </Pressable>
+      ) : null}
       {log.actual_effort?.mode === 'rpe' ? (
         <Text variant="caption">
           Série {index + 1}: esforço registrado em RPE ({log.actual_effort.min}).

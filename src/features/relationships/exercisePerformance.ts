@@ -1,0 +1,82 @@
+import type { Execution } from './Executions';
+import type { Exercise } from './workoutModel';
+import type { TrainingFeedback } from './trainingToolsApi';
+import { effectiveExercises, sameExercise } from './trainingExperience';
+import { isWorking, seriesFor } from './trainingMethods';
+
+type PerformanceSet = { weight: number; reps: number; date: string };
+
+export function exercisePerformance(
+  exercise: Exercise,
+  current: Execution,
+  history: Execution[],
+  feedback: TrainingFeedback[],
+  setIndex?: number,
+) {
+  const past = history.filter(
+    (row) =>
+      row.status === 'completed' && row.id !== current.id && row.started_at < current.started_at,
+  );
+  const sessions = [...past, current]
+    .sort((a, b) => a.started_at.localeCompare(b.started_at))
+    .flatMap((row) => {
+      const sets = effectiveExercises(row, feedback).flatMap((candidate, ei) => {
+        if (
+          (exercise.metric || 'reps') !== 'reps' ||
+          !sameExercise(exercise, candidate) ||
+          exercise.group_rule?.type !== candidate.group_rule?.type
+        )
+          return [];
+        return (row.progress[ei] ?? []).flatMap((log, si) => {
+          const p = seriesFor(candidate, si);
+          return log.done &&
+            isWorking(p.kind) &&
+            !p.technique &&
+            log.weight != null &&
+            Number.isFinite(log.weight) &&
+            log.weight >= 0 &&
+            log.reps != null &&
+            Number.isInteger(log.reps) &&
+            log.reps > 0
+            ? [{ weight: log.weight, reps: log.reps, date: row.started_at }]
+            : [];
+        });
+      });
+      return sets.length
+        ? [{ id: row.id, date: row.started_at, sets, peak: Math.max(...sets.map((s) => s.weight)) }]
+        : [];
+    });
+  const byReps = new Map<number, PerformanceSet>();
+  let bestLoad: PerformanceSet | undefined;
+  let bestEstimate: (PerformanceSet & { estimate: number }) | undefined;
+  for (const set of sessions.flatMap((session) => session.sets)) {
+    if (
+      !bestLoad ||
+      set.weight > bestLoad.weight ||
+      (set.weight === bestLoad.weight && set.reps > bestLoad.reps)
+    )
+      bestLoad = set;
+    if (set.weight > (byReps.get(set.reps)?.weight ?? -1)) byReps.set(set.reps, set);
+    if (set.weight <= 0 || set.reps > 10) continue;
+    const estimate = set.reps === 1 ? set.weight : set.weight * (1 + set.reps / 30);
+    if (!bestEstimate || estimate > bestEstimate.estimate) bestEstimate = { ...set, estimate };
+  }
+  const workIndex =
+    exercise.prescribed_sets?.findIndex((p) => isWorking(p.kind) && !p.technique) ?? -1;
+  const target = seriesFor(exercise, setIndex ?? Math.max(0, workIndex)).target.trim();
+  const range = /^(\d+)\s*(?:[-–—]\s*(\d+))?$/.exec(target);
+  const targetBest = range
+    ? [...byReps.values()]
+        .filter((s) => s.reps >= Number(range[1]) && s.reps <= Number(range[2] ?? range[1]))
+        .sort((a, b) => b.weight - a.weight || b.reps - a.reps)[0]
+    : undefined;
+  return {
+    bestLoad,
+    bestEstimate,
+    byReps: [...byReps.values()].sort((a, b) => a.reps - b.reps),
+    target: range ? target : undefined,
+    targetBest,
+    last: sessions.filter((session) => session.id !== current.id).at(-1),
+    recent: sessions.slice(-6),
+  };
+}

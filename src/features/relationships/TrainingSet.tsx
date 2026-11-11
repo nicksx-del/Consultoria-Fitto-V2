@@ -202,7 +202,6 @@ function TrainingSetDetails({
   finalRest,
   previous,
   preceding,
-  achievement,
 }: {
   exercise: Exercise;
   index: number;
@@ -211,7 +210,6 @@ function TrainingSetDetails({
   finalRest?: number;
   previous?: PreviousSet;
   preceding?: SetLog;
-  achievement?: string;
 }) {
   const p = seriesFor(exercise, index);
   const [feedback, setFeedback] = useState(false);
@@ -230,7 +228,6 @@ function TrainingSetDetails({
         }}
       >
         <Text color="#C0F568">✓ Série {index + 1} concluída</Text>
-        {achievement ? <Text color="#F7CC6A">{achievement}</Text> : null}
         <Text variant="caption">
           {log.weight ?? '—'} kg ·{' '}
           {p.technique?.type === 'isometric'
@@ -386,7 +383,11 @@ function TrainingSetDetails({
 }
 
 export function TrainingSet(
-  props: React.ComponentProps<typeof TrainingSetDetails> & { defaultOpen?: boolean },
+  props: React.ComponentProps<typeof TrainingSetDetails> & {
+    defaultOpen?: boolean;
+    hasRecord?: boolean;
+    onViewRecord?: () => void;
+  },
 ) {
   const [opened, setOpened] = useState<boolean | null>(null);
   const open = opened ?? (!props.log.done && (props.defaultOpen ?? true));
@@ -399,6 +400,8 @@ export function TrainingSet(
           exercise={props.exercise}
           index={props.index}
           log={props.log}
+          hasRecord={props.hasRecord}
+          onViewRecord={props.onViewRecord}
           previous={props.preceding ?? props.previous?.log}
           onChange={props.onChange}
         />

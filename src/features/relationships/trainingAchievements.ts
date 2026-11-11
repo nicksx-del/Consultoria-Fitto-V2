@@ -7,6 +7,8 @@ export type PersonalRecord = {
   key: string;
   kind: string;
   exercise: string;
+  exerciseIndex: number;
+  setIndex: number;
   type: 'load' | 'reps';
   value: number;
   before: number;
@@ -65,6 +67,8 @@ export function personalRecords(
           key: `${e.catalog?.provider}:${e.catalog?.id || e.name.toLowerCase()}:${p.kind}:load`,
           kind: p.kind,
           exercise: e.name,
+          exerciseIndex: ei,
+          setIndex: si,
           type: 'load',
           value: log.weight,
           before: bestWeight,
@@ -76,6 +80,8 @@ export function personalRecords(
           key: `${e.catalog?.provider}:${e.catalog?.id || e.name.toLowerCase()}:${p.kind}:reps:${log.weight}`,
           kind: p.kind,
           exercise: e.name,
+          exerciseIndex: ei,
+          setIndex: si,
           type: 'reps',
           value: log.reps,
           before: bestReps,

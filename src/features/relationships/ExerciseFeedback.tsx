@@ -7,6 +7,8 @@ import { DetailsPanel } from './DetailsPanel';
 import type { Execution } from './Executions';
 import { TrainingFeedback, trainingTools } from './trainingToolsApi';
 import { ExecutionExercises } from './ExecutionExercises';
+import { ExercisePerformance } from './ExercisePerformancePanel';
+import { exercisePerformance } from './exercisePerformance';
 import { previousSets } from './trainingExperience';
 import type { SetLog } from './trainingRuntime';
 function FeedbackForm({
@@ -138,6 +140,10 @@ export function ExecutionWithFeedback({
   history?: Execution[];
   historyFeedback?: TrainingFeedback[];
 }) {
+  const [performance, setPerformance] = useState<{
+    exerciseIndex: number;
+    setIndex?: number;
+  } | null>(null);
   const [rows, setRows] = useState<TrainingFeedback[]>([]),
     [ready, setReady] = useState(false),
     [error, setError] = useState('');
@@ -179,10 +185,12 @@ export function ExecutionWithFeedback({
       ),
     [effective, history, current.id, current.started_at, historyFeedback],
   );
-  const records = personalRecords(current, history, [
+  const sessionFeedback = [
     ...historyFeedback.filter((f) => f.execution_id !== current.id),
     ...rows,
-  ]);
+  ];
+  const records = personalRecords(current, history, sessionFeedback);
+  const performanceExercise = performance ? effective[performance.exerciseIndex] : undefined;
   return (
     <View style={{ gap: 14 }}>
       {error ? (
@@ -214,6 +222,9 @@ export function ExecutionWithFeedback({
             progress={current.progress}
             previous={previous}
             onChange={onChange}
+            onViewPerformance={(exerciseIndex, setIndex) =>
+              setPerformance({ exerciseIndex, setIndex })
+            }
             renderFeedback={(i) => (
               <FeedbackForm
                 key={i}
@@ -253,6 +264,25 @@ export function ExecutionWithFeedback({
           <DetailsPanel title="Conquistas desta sessão">
             <TrainingAchievements records={records} />
           </DetailsPanel>
+          {performance && performanceExercise ? (
+            <ExercisePerformance
+              key={`${performance.exerciseIndex}:${performance.setIndex ?? 'all'}`}
+              exercise={performanceExercise}
+              data={exercisePerformance(
+                performanceExercise,
+                current,
+                history,
+                sessionFeedback,
+                performance.setIndex,
+              )}
+              records={records.filter(
+                (record) =>
+                  record.exerciseIndex === performance.exerciseIndex &&
+                  (performance.setIndex === undefined || record.setIndex === performance.setIndex),
+              )}
+              onClose={() => setPerformance(null)}
+            />
+          ) : null}
         </>
       ) : !error ? (
         <Text>Carregando alternativas e feedback…</Text>

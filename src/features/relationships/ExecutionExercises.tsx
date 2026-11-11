@@ -13,6 +13,7 @@ import { SelectedExercisePreview } from './SelectedExercisePreview';
 import { DetailsPanel } from './DetailsPanel';
 import { ExerciseHeading, trainingColors } from './StudentWorkoutUI';
 import type { PreviousSet } from './trainingExperience';
+import { PerformanceButton } from './ExercisePerformancePanel';
 export function ExecutionExercises({
   exercises,
   progress,
@@ -20,7 +21,9 @@ export function ExecutionExercises({
   previous,
   achievements = [],
   renderFeedback,
+  onViewPerformance,
 }: {
+  onViewPerformance?: (exerciseIndex: number, setIndex?: number) => void;
   renderFeedback?: (index: number) => React.ReactNode;
   achievements?: PersonalRecord[];
   exercises: Exercise[];
@@ -30,6 +33,9 @@ export function ExecutionExercises({
 }) {
   const [plates, setPlates] = useState<{ ei: number; si: number } | null>(null);
   const [folded, setFolded] = useState<Record<number, boolean>>({});
+  const recordSets = new Set(
+    achievements.map((record) => `${record.exerciseIndex}:${record.setIndex}`),
+  );
   return (
     <View style={{ gap: 8 }}>
       {plates ? (
@@ -44,7 +50,10 @@ export function ExecutionExercises({
       ) : null}
       <Text variant="caption">Cinza = sugestão · ✓ confirma os valores da linha</Text>
       {exercises.map((e, i) => {
-        const open = folded[i] === undefined ? !progress[i].every((s) => s.done) : !folded[i];
+        const open =
+          folded[i] === undefined
+            ? progress[i].some((s, si) => !s.done || recordSets.has(`${i}:${si}`))
+            : !folded[i];
         if (e.group_rule) {
           const indices = exercises.flatMap((x, n) =>
             x.group_rule?.id === e.group_rule!.id ? [n] : [],
@@ -59,6 +68,8 @@ export function ExecutionExercises({
               onChange={onChange}
               previous={previous}
               renderFeedback={renderFeedback}
+              recordSets={recordSets}
+              onViewPerformance={onViewPerformance}
             />
           );
         }
@@ -74,14 +85,21 @@ export function ExecutionExercises({
               borderColor: open ? '#607A43' : trainingColors.border,
             }}
           >
-            <ExerciseHeading
-              exercise={e}
-              index={i}
-              done={progress[i].filter((s) => s.done).length}
-              total={progress[i].length}
-              open={open}
-              onPress={() => setFolded((value) => ({ ...value, [i]: open }))}
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <View style={{ flex: 1 }}>
+                <ExerciseHeading
+                  exercise={e}
+                  index={i}
+                  done={progress[i].filter((s) => s.done).length}
+                  total={progress[i].length}
+                  open={open}
+                  onPress={() => setFolded((value) => ({ ...value, [i]: open }))}
+                />
+              </View>
+              {onViewPerformance ? (
+                <PerformanceButton onPress={() => onViewPerformance(i)} />
+              ) : null}
+            </View>
             {open ? (
               <View style={{ gap: 12 }}>
                 <DetailsPanel
@@ -172,20 +190,6 @@ export function ExecutionExercises({
                       exercise={e}
                       index={si}
                       log={s}
-                      achievement={
-                        s.done &&
-                        achievements.some(
-                          (record) =>
-                            record.exercise === e.name &&
-                            record.kind === seriesFor(e, si).kind &&
-                            !seriesFor(e, si).technique &&
-                            (record.type === 'load'
-                              ? record.value === s.weight
-                              : record.value === s.reps && record.weight === s.weight),
-                        )
-                          ? '🏆 Nova marca no histórico recente!'
-                          : undefined
-                      }
                       previous={previous?.[i]?.[si]}
                       preceding={
                         si > 0 &&
@@ -203,6 +207,8 @@ export function ExecutionExercises({
                       exercise={e}
                       index={si}
                       log={s}
+                      hasRecord={recordSets.has(`${i}:${si}`)}
+                      onViewRecord={onViewPerformance ? () => onViewPerformance(i, si) : undefined}
                       previous={
                         si > 0 &&
                         progress[i][si - 1].done &&
