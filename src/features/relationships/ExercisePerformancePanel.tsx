@@ -1,42 +1,136 @@
 import React, { useState } from 'react';
-import { Modal, Pressable, ScrollView, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen, Text } from '@/components/ui';
+import { DetailsPanel } from './DetailsPanel';
 import type { Exercise } from './workoutModel';
 import type { PersonalRecord } from './trainingAchievements';
 import type { exercisePerformance } from './exercisePerformance';
 
-const accent = '#C9F78C';
+const lime = '#C9F78C';
+const teal = '#9BE4D5';
 const gold = '#F7CC6A';
-const surface = { padding: 12, gap: 6, borderRadius: 14, backgroundColor: '#1D2818' };
+const muted = '#B2C0AA';
 const formatWeight = (weight: number) =>
   weight.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
-const formatDate = (date: string) =>
+const shortDate = (date: string) =>
   new Date(date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+const fullDate = (date: string) => new Date(date).toLocaleDateString('pt-BR');
 const seriesLabel = (set: { weight: number; reps: number }) =>
   `${formatWeight(set.weight)} kg × ${set.reps} reps`;
 
+type PerformanceData = ReturnType<typeof exercisePerformance>;
+
 export function PerformanceButton({ onPress }: { onPress: () => void }) {
   return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={onPress}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'flex-start',
-        gap: 6,
-        minHeight: 44,
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        backgroundColor: '#27371F',
-      }}
-    >
-      <Ionicons name="stats-chart-outline" size={16} color={accent} />
-      <Text color={accent} style={{ fontSize: 12 }}>
+    <Pressable accessibilityRole="button" onPress={onPress} style={styles.shortcut}>
+      <Ionicons name="stats-chart-outline" size={16} color={lime} />
+      <Text color={lime} style={{ fontSize: 12 }}>
         Meu desempenho
       </Text>
     </Pressable>
+  );
+}
+
+function MarkCard({
+  title,
+  value,
+  detail,
+  color,
+  icon,
+}: {
+  title: string;
+  value?: number;
+  detail: string;
+  color: string;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
+}) {
+  return (
+    <View style={[styles.mark, { borderTopColor: color }]}>
+      <Ionicons name={icon} size={17} color={color} />
+      <Text variant="caption" color={muted}>
+        {title}
+      </Text>
+      <Text color={color} style={styles.number}>
+        {value === undefined ? '—' : `${formatWeight(value)} kg`}
+      </Text>
+      <Text variant="caption">{detail}</Text>
+    </View>
+  );
+}
+
+function LoadHistory({ sessions }: { sessions: PerformanceData['recent'] }) {
+  const [selectedId, setSelectedId] = useState<string | undefined>();
+  const latest = sessions.at(-1);
+  const selected = sessions.find((session) => session.id === selectedId) ?? latest;
+  if (!selected || !latest) return null;
+  const max = Math.max(1, ...sessions.map((session) => session.peak));
+  const previous = sessions.at(-2);
+  const delta = previous ? latest.peak - previous.peak : null;
+  return (
+    <View style={styles.card}>
+      <View style={styles.headingRow}>
+        <Text variant="title">Evolução</Text>
+        {delta !== null ? (
+          <Text
+            variant="caption"
+            color={delta > 0 ? lime : delta < 0 ? gold : muted}
+            style={styles.pill}
+          >
+            {delta > 0 ? '+' : ''}
+            {formatWeight(delta)} kg na última sessão
+          </Text>
+        ) : null}
+      </View>
+      <Text variant="caption" color={muted}>
+        Maior carga por sessão
+      </Text>
+      <View style={styles.chart}>
+        {sessions.map((session, index) => {
+          const active = session.id === selected.id;
+          return (
+            <Pressable
+              key={session.id}
+              accessibilityRole="button"
+              accessibilityLabel={`Sessão ${index + 1}, ${fullDate(session.date)}, ${formatWeight(session.peak)} kg`}
+              accessibilityState={{ selected: active }}
+              onPress={() => setSelectedId(session.id)}
+              style={styles.chartItem}
+            >
+              <Text variant="caption" color={active ? lime : muted} style={styles.chartLabel}>
+                {formatWeight(session.peak)}
+              </Text>
+              <View style={styles.chartTrack}>
+                <View
+                  style={[
+                    styles.chartBar,
+                    {
+                      height: Math.max(3, (62 * session.peak) / max),
+                      backgroundColor: active ? lime : '#528C77',
+                    },
+                  ]}
+                />
+              </View>
+              <Text variant="caption" color={active ? lime : muted} style={styles.chartLabel}>
+                {shortDate(session.date)}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+      <View style={styles.inset}>
+        <Text variant="caption" color={muted}>
+          {fullDate(selected.date)} ·{' '}
+          {new Date(selected.date).toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </Text>
+        <Text color={lime} style={{ fontWeight: '700' }}>
+          {formatWeight(selected.peak)} kg
+        </Text>
+      </View>
+    </View>
   );
 }
 
@@ -47,198 +141,263 @@ export function ExercisePerformance({
   onClose,
 }: {
   exercise: Exercise;
-  data: ReturnType<typeof exercisePerformance>;
+  data: PerformanceData;
   records: PersonalRecord[];
   onClose: () => void;
 }) {
-  const [selectedReps, setSelectedReps] = useState<number | null>(
+  const [reps, setReps] = useState<number | null>(
     data.target ? null : (data.byReps[0]?.reps ?? null),
   );
-  const selected =
-    selectedReps === null ? data.targetBest : data.byReps.find((set) => set.reps === selectedReps);
-  const chartMax = Math.max(1, ...data.recent.map((session) => session.peak));
+  const mark = reps === null ? data.targetBest : data.byReps.find((set) => set.reps === reps);
+  const { bestLoad, bestEstimate, last } = data;
+
   return (
     <Modal visible animationType="slide" onRequestClose={onClose}>
-      <Screen scrollable contentContainerStyle={{ paddingVertical: 16 }}>
-        <View style={{ width: '100%', maxWidth: 560, alignSelf: 'center', gap: 12 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Voltar ao treino"
-              onPress={onClose}
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: 12,
-                backgroundColor: '#26351F',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Ionicons name="arrow-back" size={22} color={accent} />
-            </Pressable>
-            <View style={{ flex: 1 }}>
-              <Text variant="caption" color={accent}>
-                Meu desempenho
-              </Text>
-              <Text variant="title">{exercise.name}</Text>
-            </View>
+      <Screen withPadding={false} style={styles.screen}>
+        <View style={styles.header}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Voltar ao treino"
+            onPress={onClose}
+            style={styles.back}
+          >
+            <Ionicons name="arrow-back" size={21} color={lime} />
+          </Pressable>
+          <View style={{ flex: 1 }}>
+            <Text variant="caption" color={lime}>
+              Meu desempenho
+            </Text>
+            <Text variant="title">{exercise.name}</Text>
           </View>
-          {records.map((record) => (
-            <View
-              key={record.key}
-              style={{
-                ...surface,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 10,
-                backgroundColor: '#3D2F15',
-              }}
-            >
-              <Ionicons name="trophy" size={20} color={gold} />
-              <View style={{ flex: 1 }}>
-                <Text color={gold}>
-                  Recorde de {record.type === 'load' ? 'carga' : 'repetições'}
-                </Text>
-                <Text variant="caption">
-                  {formatWeight(record.before)} → {formatWeight(record.value)}
-                  {record.type === 'load'
-                    ? ' kg'
-                    : ` reps com ${formatWeight(record.weight ?? 0)} kg`}
-                  {' · série '}
-                  {record.setIndex + 1}
-                </Text>
-              </View>
-            </View>
-          ))}
-          {data.bestLoad ? (
-            <>
-              <View style={{ flexDirection: 'row', gap: 8 }}>
-                <View style={{ ...surface, flex: 1 }}>
-                  <Text variant="caption">Maior carga</Text>
-                  <Text variant="title" color={accent}>
-                    {formatWeight(data.bestLoad.weight)} kg
+        </View>
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          <View style={styles.column}>
+            {records.map((record) => (
+              <View key={record.key} style={[styles.card, styles.record]}>
+                <Ionicons name="trophy" size={22} color={gold} />
+                <View style={{ flex: 1 }}>
+                  <Text color={gold}>
+                    Recorde de {record.type === 'load' ? 'carga' : 'repetições'} · série{' '}
+                    {record.setIndex + 1}
                   </Text>
                   <Text variant="caption">
-                    {data.bestLoad.reps} reps · {formatDate(data.bestLoad.date)}
-                  </Text>
-                </View>
-                <View style={{ ...surface, flex: 1 }}>
-                  <Text variant="caption">Melhor 1RM estimado</Text>
-                  <Text variant="title" color={accent}>
-                    {data.bestEstimate ? `${formatWeight(data.bestEstimate.estimate)} kg` : '—'}
-                  </Text>
-                  <Text variant="caption">
-                    {data.bestEstimate
-                      ? `${seriesLabel(data.bestEstimate)} · ${formatDate(data.bestEstimate.date)}`
-                      : 'Requer uma série de 1 a 10 reps com carga.'}
+                    {formatWeight(record.before)} → {formatWeight(record.value)}
+                    {record.type === 'load'
+                      ? ' kg'
+                      : ` reps com ${formatWeight(record.weight ?? 0)} kg`}
                   </Text>
                 </View>
               </View>
-              <View style={surface}>
-                <Text variant="title">Melhor carga por reps</Text>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{ gap: 6 }}
-                >
-                  {[...(data.target ? [null] : []), ...data.byReps.map((set) => set.reps)].map(
-                    (reps) => {
-                      const active = selectedReps === reps;
-                      return (
+            ))}
+            {bestLoad ? (
+              <>
+                <View style={styles.marks}>
+                  <MarkCard
+                    title="Maior carga"
+                    value={bestLoad.weight}
+                    detail={`${bestLoad.reps} reps · ${fullDate(bestLoad.date)}`}
+                    color={lime}
+                    icon="barbell-outline"
+                  />
+                  <MarkCard
+                    title="Melhor 1RM estimado"
+                    value={bestEstimate?.estimate}
+                    detail={
+                      bestEstimate
+                        ? `${seriesLabel(bestEstimate)} · ${fullDate(bestEstimate.date)}`
+                        : 'Disponível com séries de 1 a 10 reps.'
+                    }
+                    color={teal}
+                    icon="flash-outline"
+                  />
+                </View>
+                <LoadHistory sessions={data.recent} />
+                <View style={styles.card}>
+                  <Text variant="title">Melhor carga por reps</Text>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.filters}
+                  >
+                    {[...(data.target ? [null] : []), ...data.byReps.map((set) => set.reps)].map(
+                      (option) => (
                         <Pressable
-                          key={reps ?? 'target'}
+                          key={option ?? 'target'}
                           accessibilityRole="button"
-                          accessibilityState={{ selected: active }}
-                          onPress={() => setSelectedReps(reps)}
-                          style={{
-                            minHeight: 44,
-                            minWidth: 44,
-                            paddingHorizontal: 10,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 10,
-                            backgroundColor: active ? accent : '#2A3823',
-                          }}
+                          accessibilityState={{ selected: reps === option }}
+                          onPress={() => setReps(option)}
+                          style={[styles.filter, reps === option && styles.activeFilter]}
                         >
-                          <Text color={active ? '#172111' : '#DFE9D7'}>
-                            {reps === null ? 'Meta de hoje' : `${reps} reps`}
+                          <Text
+                            color={reps === option ? '#14200E' : muted}
+                            style={{ fontSize: 12 }}
+                          >
+                            {option === null ? `Meta · ${data.target} reps` : `${option} reps`}
                           </Text>
                         </Pressable>
-                      );
-                    },
+                      ),
+                    )}
+                  </ScrollView>
+                  <View style={styles.inset} accessibilityLiveRegion="polite">
+                    {mark ? (
+                      <>
+                        <Text color={lime} style={{ fontWeight: '700' }}>
+                          {seriesLabel(mark)}
+                        </Text>
+                        <Text variant="caption">{fullDate(mark.date)}</Text>
+                      </>
+                    ) : (
+                      <Text variant="caption">Sem marca para esta meta.</Text>
+                    )}
+                  </View>
+                </View>
+                <View style={styles.card}>
+                  <View style={styles.headingRow}>
+                    <Text variant="title">Sessão anterior</Text>
+                    {last ? (
+                      <Text variant="caption" color={muted}>
+                        {fullDate(last.date)}
+                      </Text>
+                    ) : null}
+                  </View>
+                  {last ? (
+                    <View style={styles.series}>
+                      {last.sets.map((set, index) => (
+                        <View key={index} style={styles.seriesPill}>
+                          <Text variant="caption" color={teal}>
+                            {seriesLabel(set)}
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
+                  ) : (
+                    <Text variant="caption">Primeira sessão com registro comparável.</Text>
                   )}
-                </ScrollView>
-                {selectedReps === null && data.target ? (
-                  <Text variant="caption">Meta · {data.target} reps</Text>
-                ) : null}
-                <Text>
-                  {selected
-                    ? `${seriesLabel(selected)} · ${formatDate(selected.date)}`
-                    : 'Sem marca para esta meta.'}
+                </View>
+                <DetailsPanel title="Como as marcas são calculadas">
+                  <Text variant="caption">
+                    O painel usa séries de trabalho do histórico disponível e a carga em kg conforme
+                    o registro. O 1RM é estimado pela fórmula de Epley para séries de até 10
+                    repetições.
+                  </Text>
+                </DetailsPanel>
+              </>
+            ) : (
+              <View style={styles.card}>
+                <Text variant="title">Sem séries comparáveis</Text>
+                <Text variant="caption">
+                  {exercise.metric && exercise.metric !== 'reps'
+                    ? 'Essas marcas usam exercícios registrados em carga e repetições.'
+                    : 'Conclua uma série de trabalho com carga e repetições para criar sua primeira marca.'}
                 </Text>
               </View>
-              <View style={surface}>
-                <Text variant="title">Última vez</Text>
-                {data.last ? (
-                  <Text>
-                    {formatDate(data.last.date)} · {data.last.sets.map(seriesLabel).join('  /  ')}
-                  </Text>
-                ) : (
-                  <Text variant="caption">Primeira sessão com registro comparável.</Text>
-                )}
-              </View>
-              <View style={surface}>
-                <Text variant="title">Evolução</Text>
-                <Text variant="caption">Maior carga nas últimas sessões registradas</Text>
-                <View style={{ flexDirection: 'row', gap: 5 }}>
-                  {data.recent.map((session) => (
-                    <View key={session.id} style={{ flex: 1, alignItems: 'center', gap: 4 }}>
-                      <Text variant="caption" style={{ fontSize: 10 }}>
-                        {formatWeight(session.peak)} kg
-                      </Text>
-                      <View
-                        style={{
-                          height: 64,
-                          width: '100%',
-                          justifyContent: 'flex-end',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <View
-                          style={{
-                            width: '64%',
-                            maxWidth: 42,
-                            height: Math.max(2, (64 * session.peak) / chartMax),
-                            backgroundColor: accent,
-                            borderRadius: 5,
-                          }}
-                        />
-                      </View>
-                      <Text variant="caption" style={{ fontSize: 10 }}>
-                        {formatDate(session.date)}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-              <Text variant="caption">
-                Séries de trabalho do histórico disponível. Carga em kg conforme o registro.
-                Estimativa de 1RM por Epley, até 10 reps.
-              </Text>
-            </>
-          ) : (
-            <View style={surface}>
-              <Text variant="title">Sem séries comparáveis</Text>
-              <Text variant="caption">
-                {exercise.metric && exercise.metric !== 'reps'
-                  ? 'Essas marcas usam exercícios registrados em carga e repetições.'
-                  : 'Conclua uma série de trabalho com carga e repetições para criar sua primeira marca.'}
-              </Text>
-            </View>
-          )}
-        </View>
+            )}
+          </View>
+        </ScrollView>
       </Screen>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  screen: { backgroundColor: '#10150F' },
+  header: {
+    width: '100%',
+    maxWidth: 592,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#293528',
+  },
+  back: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#253421',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shortcut: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 6,
+    minHeight: 44,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: '#27371F',
+  },
+  content: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 20 },
+  column: { width: '100%', maxWidth: 560, alignSelf: 'center', gap: 9 },
+  card: {
+    padding: 12,
+    gap: 7,
+    borderRadius: 15,
+    backgroundColor: '#192219',
+    borderWidth: 1,
+    borderColor: '#2B382A',
+  },
+  marks: { flexDirection: 'row', gap: 8 },
+  mark: {
+    flex: 1,
+    minWidth: 0,
+    padding: 11,
+    gap: 4,
+    borderRadius: 15,
+    backgroundColor: '#1D2A20',
+    borderWidth: 1,
+    borderTopWidth: 2,
+    borderColor: '#334536',
+  },
+  number: { fontSize: 24, fontWeight: '800', lineHeight: 29 },
+  record: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    borderColor: '#66512C',
+    backgroundColor: '#342A17',
+  },
+  headingRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 4,
+  },
+  pill: { backgroundColor: '#273426', paddingHorizontal: 7, paddingVertical: 3, borderRadius: 7 },
+  chart: { flexDirection: 'row', gap: 4, paddingTop: 2 },
+  chartItem: { flex: 1, minWidth: 0, alignItems: 'center', gap: 3 },
+  chartLabel: { fontSize: 10, textAlign: 'center' },
+  chartTrack: { height: 62, width: '100%', justifyContent: 'flex-end', alignItems: 'center' },
+  chartBar: { width: '66%', maxWidth: 45, borderRadius: 5 },
+  inset: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 6,
+    padding: 8,
+    backgroundColor: '#111A13',
+    borderRadius: 9,
+  },
+  filters: { gap: 6 },
+  filter: {
+    minHeight: 44,
+    paddingHorizontal: 10,
+    borderRadius: 9,
+    justifyContent: 'center',
+    backgroundColor: '#273426',
+  },
+  activeFilter: { backgroundColor: lime },
+  series: { flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
+  seriesPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 8,
+    backgroundColor: '#22362E',
+  },
+});
