@@ -97,6 +97,14 @@ assert.equal(
   5,
 );
 const data = exercisePerformance(e, multiple, [before, other], []);
+const fromDashboard = exercisePerformance(
+  e,
+  undefined,
+  [before, multiple, { ...now, id: 'active', status: 'active' }],
+  [],
+);
+assert.equal(fromDashboard.last.id, multiple.id);
+assert.equal(fromDashboard.sessions.length, 2);
 assert.equal(data.bestLoad.weight, 24);
 assert.equal(data.bestEstimate.estimate, 32);
 assert.equal(data.sessions[1].volume, 700);

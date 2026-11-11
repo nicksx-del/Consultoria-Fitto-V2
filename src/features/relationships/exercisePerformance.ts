@@ -21,16 +21,17 @@ function estimate1RM(set: PerformanceSet) {
 
 export function exercisePerformance(
   exercise: Exercise,
-  current: Execution,
+  current: Execution | undefined,
   history: Execution[],
   feedback: TrainingFeedback[],
   setIndex?: number,
 ) {
   const past = history.filter(
     (row) =>
-      row.status === 'completed' && row.id !== current.id && row.started_at < current.started_at,
+      row.status === 'completed' &&
+      (!current || (row.id !== current.id && row.started_at < current.started_at)),
   );
-  const sessions = [...past, current]
+  const sessions = (current ? [...past, current] : past)
     .sort((a, b) => a.started_at.localeCompare(b.started_at))
     .flatMap((row) => {
       const sets = effectiveExercises(row, feedback).flatMap((candidate, ei) => {
@@ -115,7 +116,7 @@ export function exercisePerformance(
     targetEffort: setEffort(exercise, targetIndex),
     targetRange: range ? [Number(range[1]), Number(range[2] ?? range[1])] : undefined,
     targetBest,
-    last: sessions.filter((session) => session.id !== current.id).at(-1),
+    last: sessions.filter((session) => session.id !== current?.id).at(-1),
     recent: sessions.slice(-6),
     sessions,
   };

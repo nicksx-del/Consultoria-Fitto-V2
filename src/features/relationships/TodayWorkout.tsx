@@ -5,6 +5,7 @@ import { Button, Text } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
 import type { Execution } from './Executions';
 import { PublishedWorkout, suggestedWorkout, estimatedMinutes } from './trainingExperience';
+import { StudentPerformanceSearch } from './StudentPerformanceSearch';
 export function TodayWorkoutCard({
   plans,
   rows,
@@ -96,6 +97,7 @@ export function TodayWorkout({
     [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
     [revision, setRevision] = useState(0);
+  const [performanceOpen, setPerformanceOpen] = useState(false);
   useEffect(() => {
     let alive = true;
     async function read<T>(name: string): Promise<T> {
@@ -149,6 +151,21 @@ export function TodayWorkout({
           })
         }
       />
+      <Button
+        title="Buscar exercício · Meu desempenho"
+        variant="outline"
+        disabled={loading || !!error}
+        onPress={() => setPerformanceOpen(true)}
+      />
+      {performanceOpen ? (
+        <StudentPerformanceSearch
+          profileId={profileId}
+          linkId={linkId}
+          plans={plans}
+          rows={rows}
+          onClose={() => setPerformanceOpen(false)}
+        />
+      ) : null}
     </View>
   );
 }

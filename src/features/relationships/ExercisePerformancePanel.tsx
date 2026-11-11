@@ -240,14 +240,16 @@ export function ExercisePerformance({
   previousWeight,
   nextSeries,
   onUseWeight,
+  browsing = false,
 }: {
   exercise: Exercise;
   data: PerformanceData;
   records: PersonalRecord[];
   onClose: () => void;
   previousWeight?: number;
-  nextSeries: number;
-  onUseWeight: (weight: number) => void;
+  nextSeries?: number;
+  onUseWeight?: (weight: number) => void;
+  browsing?: boolean;
 }) {
   const [tab, setTab] = useState<'Resumo' | 'Histórico'>('Resumo');
   const { bestLoad, bestEstimate, last, targetRange } = data;
@@ -259,7 +261,7 @@ export function ExercisePerformance({
         <View style={styles.header}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Voltar ao treino"
+            accessibilityLabel={browsing ? 'Voltar à busca de exercícios' : 'Voltar ao treino'}
             onPress={onClose}
             style={styles.back}
           >
@@ -293,17 +295,19 @@ export function ExercisePerformance({
             ) : (
               <>
                 <View style={styles.marks}>
-                  <View style={[styles.card, { flex: 1 }]}>
-                    <Text variant="caption" color={lime}>
-                      Meta de hoje
-                    </Text>
-                    <Text>
-                      {data.target ? `${data.target} ${unit(exercise)}` : 'Consulte a prescrição'}
-                    </Text>
-                    {data.targetEffort ? (
-                      <Text variant="caption">{effortLabel(data.targetEffort)}</Text>
-                    ) : null}
-                  </View>
+                  {!browsing ? (
+                    <View style={[styles.card, { flex: 1 }]}>
+                      <Text variant="caption" color={lime}>
+                        Meta de hoje
+                      </Text>
+                      <Text>
+                        {data.target ? `${data.target} ${unit(exercise)}` : 'Consulte a prescrição'}
+                      </Text>
+                      {data.targetEffort ? (
+                        <Text variant="caption">{effortLabel(data.targetEffort)}</Text>
+                      ) : null}
+                    </View>
+                  ) : null}
                   <View style={[styles.card, { flex: 1 }]}>
                     <Text variant="caption" color={teal}>
                       Última série
@@ -317,7 +321,7 @@ export function ExercisePerformance({
                     ) : null}
                   </View>
                 </View>
-                {previousWeight !== undefined ? (
+                {previousWeight !== undefined && onUseWeight ? (
                   <Filter
                     label={`Usar ${formatWeight(previousWeight)} kg na série ${nextSeries}`}
                     selected={false}
