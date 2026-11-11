@@ -99,6 +99,10 @@ assert.equal(
 const data = exercisePerformance(e, multiple, [before, other], []);
 assert.equal(data.bestLoad.weight, 24);
 assert.equal(data.bestEstimate.estimate, 32);
+assert.equal(data.sessions[1].volume, 700);
+assert.equal(data.sessions[1].reps, 30);
+assert.equal(data.sessions[1].estimate, 32);
+assert.deepEqual(data.targetRange, [10, 10]);
 assert.equal(data.targetBest.weight, 24);
 assert.deepEqual(
   data.byReps.map(({ reps, weight }) => [reps, weight]),

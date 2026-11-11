@@ -10,6 +10,7 @@ import { ExecutionExercises } from './ExecutionExercises';
 import { ExercisePerformance } from './ExercisePerformancePanel';
 import { exercisePerformance } from './exercisePerformance';
 import { previousSets } from './trainingExperience';
+import { isWorking, seriesFor } from './trainingMethods';
 import type { SetLog } from './trainingRuntime';
 function FeedbackForm({
   exercise,
@@ -191,6 +192,22 @@ export function ExecutionWithFeedback({
   ];
   const records = personalRecords(current, history, sessionFeedback);
   const performanceExercise = performance ? effective[performance.exerciseIndex] : undefined;
+  const pendingSet =
+    performance && performanceExercise
+      ? current.progress[performance.exerciseIndex].findIndex((log, index) => {
+          const prescription = seriesFor(performanceExercise, index);
+          return !log.done && isWorking(prescription.kind) && !prescription.technique;
+        })
+      : -1;
+  const previousWeight =
+    performance &&
+    performanceExercise &&
+    !performanceExercise.group_rule &&
+    pendingSet >= 0 &&
+    performance.setIndex === undefined &&
+    current.progress[performance.exerciseIndex][pendingSet].weight == null
+      ? previous[performance.exerciseIndex]?.[pendingSet]?.log.weight
+      : null;
   return (
     <View style={{ gap: 14 }}>
       {error ? (
@@ -273,7 +290,7 @@ export function ExecutionWithFeedback({
                 current,
                 history,
                 sessionFeedback,
-                performance.setIndex,
+                performance.setIndex ?? (pendingSet >= 0 ? pendingSet : undefined),
               )}
               records={records.filter(
                 (record) =>
@@ -281,6 +298,12 @@ export function ExecutionWithFeedback({
                   (performance.setIndex === undefined || record.setIndex === performance.setIndex),
               )}
               onClose={() => setPerformance(null)}
+              previousWeight={previousWeight ?? undefined}
+              nextSeries={pendingSet + 1}
+              onUseWeight={(weight) => {
+                onChange(performance.exerciseIndex, pendingSet, { weight });
+                setPerformance(null);
+              }}
             />
           ) : null}
         </>
