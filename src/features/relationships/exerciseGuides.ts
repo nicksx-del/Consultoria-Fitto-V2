@@ -1,9 +1,29 @@
+import { localizedSupplementalCatalog } from './supplementalCatalog';
+
 // Keep the instructions tied to the catalog movement, even when a trainer renames it.
 export const exerciseGuides: Readonly<Partial<Record<string, readonly string[]>>> = {
+  ...Object.fromEntries(
+    localizedSupplementalCatalog.map(({ id, instructions }) => [id, instructions]),
+  ),
   edb_DsgkuIt: [
     'Em pé, segure os halteres ao lado do corpo, com os cotovelos levemente dobrados.',
     'Eleve os braços para os lados até perto da altura dos ombros. Mantenha o tronco firme e os ombros longe das orelhas.',
     'Desça devagar pelo mesmo caminho, sem balançar o corpo.',
+  ],
+  edb_eYnzaCm: [
+    'Sente de frente para a polia alta e segure a barra com o tronco firme.',
+    'Puxe a barra em direção à parte alta do peito, guiando o movimento pelos cotovelos.',
+    'Deixe a barra subir com controle até estender os braços.',
+  ],
+  edb_goJ6ezq: [
+    'Segure o puxador da polia baixa com o cotovelo levemente dobrado.',
+    'Eleve o braço para o lado até perto da altura do ombro, sem inclinar o tronco.',
+    'Baixe o braço devagar, mantendo a tensão no cabo.',
+  ],
+  edb_2NpxjC1: [
+    'Segure os halteres ao lado do corpo com as palmas voltadas uma para a outra.',
+    'Dobre os cotovelos mantendo os punhos alinhados e os braços próximos ao tronco.',
+    'Baixe os halteres com controle, sem balançar o corpo.',
   ],
   edb_SpYC0Kp: [
     'Deite no banco reto com os pés apoiados. Posicione os halteres acima do peito.',

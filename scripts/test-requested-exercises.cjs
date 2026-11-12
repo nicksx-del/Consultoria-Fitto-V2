@@ -14,6 +14,15 @@ const assert = require('node:assert/strict'),
     ['Agachamento Rack', 'Hack_Squat'],
     ['Stiff com barra', 'edb_hrVQWvE'],
     ['Cadeira Extensora', 'Leg_Extensions'],
+    ['Crossover polia alta', 'edb_7saC5zz'],
+    ['Paralela maquina', 'edb_PAgTVaK'],
+    ['Paralela maquina', 'edb_BRImeP8'],
+    ['Agachamento livre', 'edb_qXTaZnJ'],
+    ['Panturillha', 'edb_ykUOVze'],
+    ['Elevação lateral', 'edb_DsgkuIt'],
+    ['Elevação lateral na polia', 'edb_goJ6ezq'],
+    ['Puxada alta', 'edb_eYnzaCm'],
+    ['Rosca martelo', 'edb_2NpxjC1'],
   ];
   for (const [q, id] of expected) {
     const found = rows.filter((e) => api.matchesExercise(e, q));
@@ -35,7 +44,12 @@ const assert = require('node:assert/strict'),
   );
   for (const [, id] of expected) {
     if (id.startsWith('edb_')) continue;
-    const upgraded = api.resolveCatalogReference({ provider: 'free-exercise-db', id, images: [id + '/0.jpg'], instructions: 'Original' });
+    const upgraded = api.resolveCatalogReference({
+      provider: 'free-exercise-db',
+      id,
+      images: [id + '/0.jpg'],
+      instructions: 'Original',
+    });
     assert.equal(upgraded.provider, 'exercisedb');
     assert.equal(upgraded.id, api.animatedCatalogId(id));
     assert(upgraded.images[0].endsWith('.gif'));

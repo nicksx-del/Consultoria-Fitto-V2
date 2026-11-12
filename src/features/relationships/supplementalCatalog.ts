@@ -10,7 +10,7 @@ export const legacyAnimatedIds: Record<string, string> = {
   Hack_Squat: 'edb_Qa55kX1',
   Leg_Extensions: 'edb_my33uHU',
 };
-export const supplementalCatalog = [
+const originalSupplementalCatalog = [
   {
     provider: 'exercisedb',
     id: 'edb_B3Rxp6L',
@@ -182,4 +182,92 @@ export const supplementalCatalog = [
     level: '',
     category: 'strength',
   },
+];
+
+export const localizedSupplementalCatalog = [
+  {
+    provider: 'exercisedb',
+    id: 'edb_7saC5zz',
+    name: 'cable decline fly',
+    equipment: 'cable',
+    primaryMuscles: ['chest'],
+    secondaryMuscles: ['shoulders'],
+    instructions: [
+      'Posicione os puxadores nas polias altas e dê um passo à frente.',
+      'Com os cotovelos levemente dobrados, traga os puxadores para frente e para baixo, em direção à linha do abdômen.',
+      'Volte pelo mesmo arco com controle.',
+    ],
+    images: ['https://static.exercisedb.dev/media/7saC5zz.gif'],
+    level: '',
+    category: 'strength',
+  },
+  {
+    provider: 'exercisedb',
+    id: 'edb_PAgTVaK',
+    name: 'assisted chest dip (kneeling)',
+    equipment: 'machine',
+    primaryMuscles: ['chest'],
+    secondaryMuscles: ['triceps', 'shoulders'],
+    instructions: [
+      'Ajuste o contrapeso e apoie os joelhos na plataforma.',
+      'Segure as barras e dobre os cotovelos para descer com controle.',
+      'Empurre as barras para voltar, mantendo os ombros firmes.',
+    ],
+    images: ['https://static.exercisedb.dev/media/PAgTVaK.gif'],
+    level: '',
+    category: 'strength',
+  },
+  {
+    provider: 'exercisedb',
+    id: 'edb_BRImeP8',
+    name: 'lever seated dip',
+    equipment: 'machine',
+    primaryMuscles: ['triceps'],
+    secondaryMuscles: ['chest', 'shoulders'],
+    instructions: [
+      'Ajuste o assento e apoie os pés no chão.',
+      'Segure as alças e empurre para baixo estendendo os cotovelos.',
+      'Retorne com controle, mantendo o tronco apoiado.',
+    ],
+    images: ['https://static.exercisedb.dev/media/BRImeP8.gif'],
+    level: '',
+    category: 'strength',
+  },
+  {
+    provider: 'exercisedb',
+    id: 'edb_qXTaZnJ',
+    name: 'barbell full squat',
+    equipment: 'barbell',
+    primaryMuscles: ['quadriceps'],
+    secondaryMuscles: ['glutes', 'hamstrings'],
+    instructions: [
+      'Apoie a barra na parte alta das costas e firme os pés no chão.',
+      'Dobre quadris e joelhos para descer, mantendo os joelhos na direção dos pés.',
+      'Empurre o chão para subir com controle.',
+    ],
+    images: ['https://static.exercisedb.dev/media/qXTaZnJ.gif'],
+    level: '',
+    category: 'strength',
+  },
+  {
+    provider: 'exercisedb',
+    id: 'edb_ykUOVze',
+    name: 'lever standing calf raise',
+    equipment: 'machine',
+    primaryMuscles: ['calves'],
+    secondaryMuscles: [],
+    instructions: [
+      'Apoie a parte da frente dos pés na plataforma e posicione os ombros sob as almofadas.',
+      'Eleve os calcanhares com controle, mantendo o tronco estável.',
+      'Desça devagar até a posição inicial.',
+    ],
+    images: ['https://static.exercisedb.dev/media/ykUOVze.gif'],
+    level: '',
+    category: 'strength',
+  },
+];
+
+export const supplementalCatalog = [
+  ...originalSupplementalCatalog,
+  ...localizedSupplementalCatalog,
 ];
