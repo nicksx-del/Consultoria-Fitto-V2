@@ -6,9 +6,9 @@ import { NutritionDashboard } from '@/features/nutrition/NutritionDashboard';
 import { StudentRoster } from '@/features/relationships/StudentRoster';
 import { Redirect, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Linking, Modal, View } from 'react-native';
+import { Linking, Modal, Pressable, View } from 'react-native';
 import * as ExpoLinking from 'expo-linking';
-import { Button, Text, TextField } from '@/components/ui';
+import { Button, Screen, Text, TextField } from '@/components/ui';
 import { useAuth } from '@/features/auth/AuthContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {
@@ -30,6 +30,7 @@ import { InviteQr } from '@/features/relationships/InviteQr';
 import { ProfilePanel } from '@/features/relationships/ProfilePanel';
 import { QrScanner } from '@/features/relationships/QrScanner';
 import { Workouts } from '@/features/relationships/Workouts';
+import { DetailsPanel } from '@/features/relationships/DetailsPanel';
 import { TodayWorkout } from '@/features/relationships/TodayWorkout';
 import { supabase } from '@/lib/supabase';
 
@@ -75,6 +76,7 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
   const [phone, setPhone] = useState('');
   const [editingPhone, setEditingPhone] = useState(false);
   const [credential, setCredential] = useState('');
+  const [inviteOpen, setInviteOpen] = useState(false);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [invite, setInvite] = useState<Invite | null>(null);
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
@@ -108,7 +110,10 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
         setPhone(next.whatsapp || '');
         setBlockedUntil(next.blocked_until);
         const pending = pendingInvite.get();
-        if (data.role === 'student' && pending) setCredential(pending);
+        if (data.role === 'student' && pending) {
+          setCredential(pending);
+          setInviteOpen(true);
+        }
       } catch (e) {
         if (id === request.current) setError(e instanceof Error ? e.message : 'Falha ao carregar.');
       } finally {
@@ -176,82 +181,83 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
   const countedActive = active.filter((link) => !link.is_self).length;
   const pending = dashboard?.links.filter((l) => l.status === 'pending') || [];
   function card(link: Relationship) {
+    const activeLink = link.status === 'active';
     return (
       <View
         key={link.id}
-        style={{ gap: 10, padding: 16, borderWidth: 1, borderColor: '#343434', borderRadius: 12 }}
+        style={{
+          gap: 6,
+          padding: 12,
+          backgroundColor: '#192219',
+          borderWidth: 1,
+          borderColor: '#34432D',
+          borderRadius: 14,
+        }}
       >
-        <Text variant="title">
-          {link.name}
-          {link.is_self ? ' · Seu próprio perfil' : ''}
-        </Text>
-        <Text variant="bodyMuted">@{link.username}</Text>
-        {link.specialties.length ? <Text>{link.specialties.join(' · ')}</Text> : null}
-        <Text>{labels[link.status]}</Text>
-        <Text variant="caption">
-          Solicitação: {new Date(link.created_at).toLocaleDateString('pt-BR')}
-        </Text>
-        {isProfessional && link.status === 'pending' ? (
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <View
+            style={{
+              width: 42,
+              height: 42,
+              borderRadius: 12,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#293A22',
+            }}
+          >
+            <Ionicons name="person-outline" size={19} color="#C9F78C" />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text variant="title">{link.name}</Text>
+            <Text variant="caption">{link.specialties.join(' · ') || '@' + link.username}</Text>
+          </View>
+        </View>
+        {!activeLink ? <Text variant="caption">{labels[link.status]}</Text> : null}
+        {activeLink && profile ? (
           <>
-            <Button
-              title="Aprovar aluno"
-              disabled={busy || (!link.is_self && countedActive >= (dashboard?.limit || 1))}
-              onPress={() => {
-                void run(() => mutate('approve', link));
-              }}
-            />
-            {!link.is_self && countedActive >= (dashboard?.limit || 1) ? (
-              <Text>Limite do plano atingido. A solicitação continuará pendente.</Text>
+            {link.specialties.includes('Treinador') ? (
+              <DetailsPanel
+                title="Treinos e histórico"
+                leading={<Ionicons name="barbell-outline" size={18} color="#C9F78C" />}
+              >
+                <Workouts profileId={profile.id} linkId={link.id} trainer={false} />
+              </DetailsPanel>
             ) : null}
-            <Button
-              title="Recusar solicitação"
-              variant="outline"
-              disabled={busy}
-              onPress={() => setConfirmation({ action: 'reject', link })}
-            />
-          </>
-        ) : null}
-        {link.status === 'active' ? (
-          <>
-            {isProfessional ? (
+            {link.whatsapp || link.specialties.includes('Nutricionista') ? (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                {link.specialties.includes('Nutricionista') ? (
+                  <StudentAction
+                    title="Alimentação"
+                    icon="restaurant-outline"
+                    disabled={busy}
+                    onPress={() => setTab('nutrition')}
+                  />
+                ) : null}
+                {link.whatsapp ? (
+                  <StudentAction
+                    title="WhatsApp"
+                    icon="logo-whatsapp"
+                    disabled={busy}
+                    onPress={() => {
+                      void run(async () => {
+                        await Linking.openURL(
+                          `https://wa.me/${link.whatsapp}?text=${encodeURIComponent('Olá! Sou seu aluno no Fitto.')}`,
+                        );
+                      });
+                    }}
+                  />
+                ) : null}
+              </View>
+            ) : null}
+            <DetailsPanel title="Gerenciar vínculo">
+              <Text variant="caption">@{link.username}</Text>
               <Button
-                title="Abrir painel do aluno →"
+                title="Encerrar vínculo"
+                variant="outline"
                 disabled={busy}
-                onPress={() =>
-                  router.push({
-                    pathname: '/aluno',
-                    params: {
-                      profile: profile!.id,
-                      link: link.id,
-                    },
-                  })
-                }
+                onPress={() => setConfirmation({ action: 'end', link })}
               />
-            ) : profile && link.specialties.includes('Treinador') ? (
-              <Workouts profileId={profile.id} linkId={link.id} trainer={false} />
-            ) : null}
-            {!isProfessional && link.whatsapp ? (
-              <Button
-                title="Falar pelo WhatsApp"
-                disabled={busy}
-                onPress={() => {
-                  void run(async () => {
-                    await Linking.openURL(
-                      `https://wa.me/${link.whatsapp}?text=${encodeURIComponent('Olá! Sou seu aluno no Fitto.')}`,
-                    );
-                  });
-                }}
-              />
-            ) : null}
-            {!isProfessional && !link.whatsapp ? (
-              <Text variant="caption">O profissional ainda não cadastrou o WhatsApp.</Text>
-            ) : null}
-            <Button
-              title="Encerrar vínculo"
-              variant="outline"
-              disabled={busy}
-              onPress={() => setConfirmation({ action: 'end', link })}
-            />
+            </DetailsPanel>
           </>
         ) : null}
       </View>
@@ -516,178 +522,180 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
               />
             ) : (
               <>
-                <Text variant="heading">
-                  {isProfessional ? 'Meus alunos' : 'Meus profissionais'}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 8,
+                  }}
+                >
+                  <Text variant="title">Meus profissionais</Text>
+                  <Button
+                    title="Atualizar"
+                    variant="ghost"
+                    disabled={busy}
+                    onPress={() => void run(refresh)}
+                  />
+                </View>
                 {active.length ? (
                   active.map(card)
                 ) : (
-                  <Text>
-                    {isProfessional
-                      ? 'Você ainda não tem alunos ativos. Gere um convite para começar.'
-                      : 'Você ainda não tem profissionais vinculados.'}
-                  </Text>
+                  <Text variant="caption">Você ainda não tem profissionais vinculados.</Text>
                 )}
-
-                <Button
-                  title="Atualizar acompanhamentos"
-                  variant="outline"
+                <StudentAction
+                  title="Adicionar profissional"
+                  icon="person-add-outline"
                   disabled={busy}
                   onPress={() => {
-                    void run(refresh);
+                    setError('');
+                    setNotice('');
+                    setInviteOpen(true);
                   }}
                 />
-                {isProfessional ? (
-                  <>
-                    <Text variant="title">
-                      {dashboard.limit === 1 ? 'Plano gratuito' : 'Plano atual'} · {countedActive}/
-                      {dashboard.limit} alunos ativos
-                    </Text>
-                    <Text>
-                      Solicitações pendentes não ocupam vaga. Cada profissional tem seu próprio
-                      limite.
-                    </Text>
-                    <Button
-                      title={invite ? 'Gerar outro convite' : 'Gerar convite de aluno'}
-                      disabled={busy}
-                      onPress={() => {
-                        if (invite && !expired) setConfirmation({ action: 'invite' });
-                        else void run(createInvite);
-                      }}
-                    />
-                    {invite ? (
-                      <View style={{ gap: 12 }}>
-                        <Text variant="heading" style={{ textAlign: 'center' }}>
-                          {invite.code.slice(0, 3)} {invite.code.slice(3)}
-                        </Text>
-                        {!expired ? <InviteQr value={inviteUrl} /> : null}
-                        <Text>
-                          {expired
-                            ? 'Convite expirado. Gere outro para continuar.'
-                            : `Válido até ${new Date(invite.expires_at).toLocaleString('pt-BR')}. Uso único. Gerar outro invalida este.`}
-                        </Text>
-                        {!expired ? <Text selectable>{inviteUrl}</Text> : null}
-                      </View>
-                    ) : null}
-                  </>
-                ) : (
-                  <>
-                    <Text variant="title">Adicionar profissional</Text>
-                    <QrScanner
-                      disabled={busy || remaining > 0}
-                      onScan={(value) => {
-                        setCredential(value);
-                        setPreview(null);
-                        setError('');
-                        setNotice(
-                          'QR Code lido. Consulte o convite para conferir o profissional e confirmar o vínculo.',
-                        );
-                      }}
-                    />
-                    <Text>
-                      Use o QR Code do profissional pela câmera do celular ou digite os seis dígitos
-                      abaixo.
-                    </Text>
-                    <TextField
-                      label={
-                        credential.length === 64
-                          ? 'Convite recebido por QR Code'
-                          : 'Código do convite'
-                      }
-                      value={
-                        credential.length === 64
-                          ? 'Convite recebido por QR Code'
-                          : credential.length > 3
-                            ? `${credential.slice(0, 3)} ${credential.slice(3)}`
-                            : credential
-                      }
-                      placeholder="123 456"
-                      editable={!busy && remaining === 0}
-                      keyboardType="number-pad"
-                      onChangeText={(v) => {
-                        setCredential(v.replace(/\D/g, '').slice(0, 6));
-                        setPreview(null);
-                      }}
-                    />
-                    {credential.length === 64 ? (
-                      <Button
-                        title="Usar outro código"
-                        variant="ghost"
-                        disabled={busy}
-                        onPress={() => {
-                          setCredential('');
-                          setPreview(null);
-                          pendingInvite.clear();
-                        }}
-                      />
-                    ) : null}
-                    {remaining > 0 ? (
-                      <Text accessibilityRole="alert">
-                        Novas tentativas em {Math.floor(remaining / 60)}:
-                        {String(remaining % 60).padStart(2, '0')}
-                      </Text>
-                    ) : null}
-                    <Button
-                      title="Consultar convite"
-                      loading={busy}
-                      disabled={remaining > 0 || ![6, 64].includes(credential.length)}
-                      onPress={() => {
-                        void run(async () => {
-                          setPreview(null);
-                          setPreview(
-                            await relationshipApi<Preview>('preview', profileId!, { credential }),
-                          );
-                        });
-                      }}
-                    />
-                    {preview ? (
-                      <View
-                        style={{
-                          gap: 12,
-                          padding: 16,
-                          borderWidth: 1,
-                          borderColor: '#343434',
-                          borderRadius: 12,
-                        }}
-                      >
-                        <Text variant="title">{preview.name}</Text>
-                        <Text>@{preview.username}</Text>
-                        <Text>{preview.specialties.join(' · ')}</Text>
-                        <Text>
-                          Confirme se este é o profissional que você deseja vincular. Ele precisará
-                          aprovar sua solicitação.
-                        </Text>
-                        <Button
-                          title="Confirmar solicitação de vínculo"
+                {inviteOpen && tab === 'relationships' ? (
+                  <Modal
+                    visible
+                    animationType="slide"
+                    onRequestClose={() => {
+                      if (!busy) setInviteOpen(false);
+                    }}
+                  >
+                    <Screen scrollable contentContainerStyle={{ paddingVertical: 16 }}>
+                      <View style={{ width: '100%', maxWidth: 480, alignSelf: 'center', gap: 12 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                          <StudentAction
+                            title="Voltar"
+                            icon="arrow-back"
+                            disabled={busy}
+                            onPress={() => setInviteOpen(false)}
+                          />
+                          <Text variant="title" style={{ flex: 1 }}>
+                            Adicionar profissional
+                          </Text>
+                        </View>
+                        {error ? (
+                          <Text accessibilityRole="alert" color="#FF6B5A">
+                            {error}
+                          </Text>
+                        ) : null}
+                        {notice ? <Text accessibilityLiveRegion="polite">{notice}</Text> : null}
+                        <QrScanner
                           disabled={busy || remaining > 0}
+                          onScan={(value) => {
+                            setCredential(value);
+                            setPreview(null);
+                            setError('');
+                            setNotice(
+                              'QR Code lido. Consulte o convite para conferir o profissional e confirmar o vínculo.',
+                            );
+                          }}
+                        />
+                        <TextField
+                          label={
+                            credential.length === 64
+                              ? 'Convite recebido por QR Code'
+                              : 'Código do convite'
+                          }
+                          value={
+                            credential.length === 64
+                              ? 'Convite recebido por QR Code'
+                              : credential.length > 3
+                                ? `${credential.slice(0, 3)} ${credential.slice(3)}`
+                                : credential
+                          }
+                          placeholder="123 456"
+                          editable={!busy && remaining === 0}
+                          keyboardType="number-pad"
+                          onChangeText={(v) => {
+                            setCredential(v.replace(/\D/g, '').slice(0, 6));
+                            setPreview(null);
+                          }}
+                        />
+                        {credential.length === 64 ? (
+                          <Button
+                            title="Usar outro código"
+                            variant="ghost"
+                            disabled={busy}
+                            onPress={() => {
+                              setCredential('');
+                              setPreview(null);
+                              pendingInvite.clear();
+                            }}
+                          />
+                        ) : null}
+                        {remaining > 0 ? (
+                          <Text accessibilityRole="alert">
+                            Novas tentativas em {Math.floor(remaining / 60)}:
+                            {String(remaining % 60).padStart(2, '0')}
+                          </Text>
+                        ) : null}
+                        <Button
+                          title="Consultar convite"
+                          loading={busy}
+                          disabled={remaining > 0 || ![6, 64].includes(credential.length)}
                           onPress={() => {
                             void run(async () => {
-                              await relationshipApi('request', profileId!, { credential });
-                              pendingInvite.clear();
                               setPreview(null);
-                              setCredential('');
-                              await refresh();
-                              setNotice(
-                                'Solicitação enviada. Aguarde a aprovação do profissional.',
+                              setPreview(
+                                await relationshipApi<Preview>('preview', profileId!, {
+                                  credential,
+                                }),
                               );
                             });
                           }}
                         />
+                        {preview ? (
+                          <View
+                            style={{
+                              gap: 12,
+                              padding: 16,
+                              borderWidth: 1,
+                              borderColor: '#343434',
+                              borderRadius: 12,
+                            }}
+                          >
+                            <Text variant="title">{preview.name}</Text>
+                            <Text>@{preview.username}</Text>
+                            <Text>{preview.specialties.join(' · ')}</Text>
+                            <Text>
+                              Confirme se este é o profissional que você deseja vincular. Ele
+                              precisará aprovar sua solicitação.
+                            </Text>
+                            <Button
+                              title="Confirmar solicitação de vínculo"
+                              disabled={busy || remaining > 0}
+                              onPress={() => {
+                                void run(async () => {
+                                  await relationshipApi('request', profileId!, { credential });
+                                  pendingInvite.clear();
+                                  setPreview(null);
+                                  setCredential('');
+                                  setInviteOpen(false);
+                                  await refresh();
+                                  setNotice(
+                                    'Solicitação enviada. Aguarde a aprovação do profissional.',
+                                  );
+                                });
+                              }}
+                            />
+                          </View>
+                        ) : null}
                       </View>
-                    ) : null}
-                  </>
-                )}
-                <Text variant="heading">
-                  {isProfessional ? 'Solicitações de vínculo' : 'Solicitações pendentes'}
-                </Text>
-                {pending.length ? pending.map(card) : <Text>Nenhuma solicitação pendente.</Text>}
+                    </Screen>
+                  </Modal>
+                ) : null}
+                {pending.length ? (
+                  <DetailsPanel title={`Solicitações pendentes · ${pending.length}`}>
+                    {pending.map(card)}
+                  </DetailsPanel>
+                ) : null}
                 {dashboard.links.some((l) => l.status === 'rejected' || l.status === 'ended') ? (
-                  <>
-                    <Text variant="heading">Histórico de vínculos</Text>
+                  <DetailsPanel title="Histórico de vínculos">
                     {dashboard.links
                       .filter((l) => l.status === 'rejected' || l.status === 'ended')
                       .map(card)}
-                  </>
+                  </DetailsPanel>
                 ) : null}
               </>
             )}
@@ -695,5 +703,41 @@ function DashboardContent({ profileId, initialTab }: { profileId?: string; initi
         </>
       )}
     </DashboardShell>
+  );
+}
+
+function StudentAction({
+  title,
+  icon,
+  disabled,
+  onPress,
+}: {
+  title: string;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
+  disabled: boolean;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      disabled={disabled}
+      onPress={onPress}
+      style={{
+        minHeight: 44,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 7,
+        alignSelf: 'flex-start',
+        paddingHorizontal: 12,
+        borderRadius: 10,
+        opacity: disabled ? 0.55 : 1,
+        backgroundColor: '#293A22',
+      }}
+    >
+      <Ionicons name={icon} size={17} color="#C9F78C" />
+      <Text color="#D9E7D0" style={{ fontSize: 13 }}>
+        {title}
+      </Text>
+    </Pressable>
   );
 }
